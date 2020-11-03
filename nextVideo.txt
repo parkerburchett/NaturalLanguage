@@ -1,0 +1,8 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Oct 29 20:44:53 2020
+
+@author: parke
+"""
+
+https://www.youtube.com/watch?v=imPpT2Qo2sk
