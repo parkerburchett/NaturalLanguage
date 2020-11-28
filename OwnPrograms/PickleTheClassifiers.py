@@ -93,17 +93,19 @@ start = datetime.datetime.now()
 print('you have started')
 untrainedClassifier = [SGDClassifier()]
 
-shortPos = open("short_reviews/shortPositive.txt","r").read()
-shortNeg = open("short_reviews/shortNegative.txt","r").read()
+# shortPos = open("short_reviews/shortPositive.txt","r").read()
+# shortNeg = open("short_reviews/shortNegative.txt","r").read()
 
-LabeledReviews = create_Labeled_Data(shortPos, shortNeg)
+# LabeledReviews = create_Labeled_Data(shortPos, shortNeg)
+# random.shuffle(LabeledReviews)
+
+# cleanedReviews = open("cleanedReviews.pickle", "wb")
+# pickle.dump(LabeledReviews, cleanedReviews)
+# cleanedReviews.close()
+
+unPickleReviews = open("cleanedReviews.pickle", "rb")
+LabeledReviews =  pickle.load(unPickleReviews)
 random.shuffle(LabeledReviews)
-
-cleanedReviews = open("cleanedReviews.pickle", "wb")
-pickle.dump(LabeledReviews, cleanedReviews)
-cleanedReviews.close()
-
-
 TrainingData = LabeledReviews[:9000]
 TestingData = LabeledReviews[9000:]
 
@@ -112,11 +114,6 @@ NBClassifer = nltk.NaiveBayesClassifier.train(TrainingData)
 NBClassifer.show_most_informative_features(10)
 
 print(nltk.classify.accuracy(NBClassifer, TestingData)*100)
-
-
-
-
-
 
 
 print("the program took this long: ")
