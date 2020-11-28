@@ -6,7 +6,8 @@ I am creating a list of Classifer objects and
 am pickling that to save time using the programs in the future. 
 
 
-
+https://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html
+This is a beautiful way of looking at it. 
 
     
 """
@@ -51,7 +52,7 @@ def find_Features(document, word_features):
     return features  
 
 
-def getTrainTestSplit(PositiveExamples, NegExamples):
+def create_Labeled_Data(PositiveExamples, NegExamples):
     documents = [] # document is a tuple of (review, classifcation)
     for r in PositiveExamples.split('\n'):
         documents.append((r,"pos"))
@@ -76,22 +77,8 @@ def getTrainTestSplit(PositiveExamples, NegExamples):
     
     feature_sets = [(find_Features(rev, word_features), category) 
                     for (rev, category) in documents]
-    
-    
-    random.shuffle(feature_sets)
-    sizeOfData = len(feature_sets)
-    TrainingSet = feature_sets[:10000]
-    TestingSet = feature_sets[10000:]
-    
-    sizeOfTrain =  int(sizeOfData*.9) # split with a random 90% of the data. 
-    TrainingSet = feature_sets[:sizeOfTrain]
-    TestingSet = feature_sets[sizeOfTrain:]
-    
-    Train_Test_Split = [TrainingSet, TestingSet]
-    return Train_Test_Split
+    return feature_sets
         
-
-
     # only works with SklearnClassifier
 def createClassiferList(*untrainedClassifier, TrainingSet):
     classifiers = []
@@ -104,14 +91,32 @@ def createClassiferList(*untrainedClassifier, TrainingSet):
 start = datetime.datetime.now()
 
 print('you have started')
+untrainedClassifier = [SGDClassifier()]
 
 shortPos = open("short_reviews/shortPositive.txt","r").read()
 shortNeg = open("short_reviews/shortNegative.txt","r").read()
 
-SplitLabeledData = getTrainTestSplit(shortPos, shortNeg)
-classiferList = []
+LabeledReviews = create_Labeled_Data(shortPos, shortNeg)
+random.shuffle(LabeledReviews)
 
-untrainedClassifier = [SGDClassifier()]
+cleanedReviews = open("cleanedReviews.pickle", "wb")
+pickle.dump(LabeledReviews, cleanedReviews)
+cleanedReviews.close()
+
+
+TrainingData = LabeledReviews[:9000]
+TestingData = LabeledReviews[9000:]
+
+
+NBClassifer = nltk.NaiveBayesClassifier.train(TrainingData)
+NBClassifer.show_most_informative_features(10)
+
+print(nltk.classify.accuracy(NBClassifer, TestingData)*100)
+
+
+
+
+
 
 
 print("the program took this long: ")
