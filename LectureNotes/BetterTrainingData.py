@@ -106,30 +106,30 @@ TrainingSet = feature_sets[:10000]
 TestingSet = feature_sets[10000:]
 
 
-classifier_NaiveBayes = nltk.NaiveBayesClassifier.train(TrainingSet)
-print("Original Accuracy of Naive Bays in Percentage:", 
-      (nltk.classify.accuracy(classifier_NaiveBayes, TestingSet)*100))
+# classifier_NaiveBayes = nltk.NaiveBayesClassifier.train(TrainingSet)
+# print("Original Accuracy of Naive Bays in Percentage:", 
+#       (nltk.classify.accuracy(classifier_NaiveBayes, TestingSet)*100))
 
-MNB_classifier = SklearnClassifier(MultinomialNB())
-MNB_classifier.train(TrainingSet)
-print("Accuracy of MNB_classifier in Percentage:", 
-      (nltk.classify.accuracy(MNB_classifier, TestingSet)*100))
+# MNB_classifier = SklearnClassifier(MultinomialNB())
+# MNB_classifier.train(TrainingSet)
+# print("Accuracy of MNB_classifier in Percentage:", 
+#       (nltk.classify.accuracy(MNB_classifier, TestingSet)*100))
 
-BernoulliNB_classifier = SklearnClassifier(BernoulliNB())
-BernoulliNB_classifier.train(TrainingSet)
-print("Accuracy of BernoulliNB_classifier in Percentage:", 
-      (nltk.classify.accuracy(BernoulliNB_classifier, TestingSet)*100))
+# BernoulliNB_classifier = SklearnClassifier(BernoulliNB())
+# BernoulliNB_classifier.train(TrainingSet)
+# print("Accuracy of BernoulliNB_classifier in Percentage:", 
+#       (nltk.classify.accuracy(BernoulliNB_classifier, TestingSet)*100))
 
-SGDClassifier_classifier = SklearnClassifier(SGDClassifier())
-SGDClassifier_classifier.train(TrainingSet)
-print("Accuracy of SGDClassifier_classifier in Percentage:", 
-      (nltk.classify.accuracy(SGDClassifier_classifier, TestingSet)*100))
+# SGDClassifier_classifier = SklearnClassifier(SGDClassifier())
+# SGDClassifier_classifier.train(TrainingSet)
+# print("Accuracy of SGDClassifier_classifier in Percentage:", 
+#       (nltk.classify.accuracy(SGDClassifier_classifier, TestingSet)*100))
 
 
-LinearSVC_classifier = SklearnClassifier(LinearSVC())
-LinearSVC_classifier.train(TrainingSet)
-print("Accuracy of LinearSVC_classifier in Percentage:", 
-      (nltk.classify.accuracy(LinearSVC_classifier, TestingSet)*100))
+# LinearSVC_classifier = SklearnClassifier(LinearSVC())
+# LinearSVC_classifier.train(TrainingSet)
+# print("Accuracy of LinearSVC_classifier in Percentage:", 
+#       (nltk.classify.accuracy(LinearSVC_classifier, TestingSet)*100))
 
 NuSVC_classifier = SklearnClassifier(NuSVC())
 NuSVC_classifier.train(TrainingSet)
@@ -138,15 +138,15 @@ print("Accuracy of NuSVC_classifier in Percentage:",
 
 
 
-voted_classifier = VoteClassifier(classifier_NaiveBayes,
-                                  MNB_classifier,
-                                  BernoulliNB_classifier,
-                                  SGDClassifier_classifier,
-                                  LinearSVC_classifier)
+# voted_classifier = VoteClassifier(classifier_NaiveBayes,
+#                                   MNB_classifier,
+#                                   BernoulliNB_classifier,
+#                                   SGDClassifier_classifier,
+#                                   LinearSVC_classifier)
 
-print("Accuracy of voted_classifier in Percentage :", (nltk.classify.accuracy
-                                                       (voted_classifier, 
-                                                        TestingSet)*100))
+# print("Accuracy of voted_classifier in Percentage :", (nltk.classify.accuracy
+#                                                        (voted_classifier, 
+#                                                         TestingSet)*100))
 
 
 
