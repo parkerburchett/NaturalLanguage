@@ -1,30 +1,30 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Nov 26 12:14:47 2020
-Created on Thrusday Nov 26 09:39:00 2020
-@author: parke
+Better Trainging Data
 
 Source:
-https://www.youtube.com/watch?v=h44hI7lr8w4&list=PLQVvvaa0QuDf2JswnfiGkliBInZnIC4HL&index=17
-
-This is the last lecture that looks at historical data about movie reviews
-
-This is how you see how accurate this is at false positives and false negatives.
-
-Looking deeper at the avg accuracy rates. 
-
-It does not look like there is a significatn difference between the accuracy of classifying 
-negative and positive reviews. 
-
-In the lecture there were significant differnces between the true postitive and true negative
+https://www.youtube.com/watch?v=UF-RyxOAHQw&list=PLQVvvaa0QuDf2JswnfiGkliBInZnIC4HL&index=18
 
 
+Before you finish you finish this lecture you need to pickle all of the following:
+    
+    documents, all_words, feature_sets,
+    
+    ALl of the classifiers,
+    
+    importantn to note the program stopped started running very slowly at NuSVC_classifier.
+    
+    You should get rid of that infavor of another binary classifier.
+    
+    
+    Look at the notes on pickling to see the accuracy of that. 
+    
 
-You should write a way to look at if a there is a patten in the rates of false positive and false negatives
 
 
 
 
+    
 """
 
 import random, pickle, nltk
@@ -58,72 +58,67 @@ class VoteClassifier(ClassifierI):
         conf =  choice_votes / len(votes)
         return conf
 
-def find_Features(document):
-    words = set(document) 
+def find_Features(document, word_features):
+    words = nltk.word_tokenize(document) 
     features = {}
     for w in word_features:
         features[w] = (w in words) # this a boolean
     return features  
 
+
+
 start = datetime.datetime.now()
 
-
-documents = [(list(movie_reviews.words(fileid)), category)
-             for category in movie_reviews.categories()
-             for fileid in movie_reviews.fileids(category)]
+print('you have started')
 
 
+shortPos = open("short_reviews/shortPositive.txt","r").read()
 
+shortNeg = open("short_reviews/shortNegative.txt","r").read()
 
+documents = [] # document is a tuple of (review, classifcation)
+# all words is a list of every word. 
+# documents is a list of review objects
+for r in shortPos.split('\n'):
+    documents.append((r,"pos"))
+    
+for r in shortNeg.split('\n'):
+    documents.append((r,"neg"))
+    
+all_words = []
 
+short_pos_words = nltk.word_tokenize(shortPos)
+short_neg_words = nltk.word_tokenize(shortNeg)
 
-
-
-
-'''
-
-first thousand are negative, 
-next thousand are positive
-'''
-
-#random.shuffle(documents)
-all_words =[]
-for w in movie_reviews.words():
-    all_words.append(w.lower())   
+for w in short_pos_words:
+    all_words.append(w.lower())
+    
+for w in short_neg_words:
+    all_words.append(w.lower())
+    
 all_words = nltk.FreqDist(all_words) 
 word_features = list(all_words.keys())[:3000]
+feature_sets = [(find_Features(rev, word_features), category) for (rev, category) in documents]
 
+random.shuffle(feature_sets)
 
-feature_sets = [(find_Features(rev), category) 
-                for (rev, category) in documents]
+TrainingSet = feature_sets[:10000]
+TestingSet = feature_sets[10000:]
 
-#this is the positive training set. 
-TrainingSet = feature_sets[:1900]
-TestingSet = feature_sets[1900:]
-
-# this is the negative training set
-TrainingSet = feature_sets[100:]
-TestingSet = feature_sets[:100]
 
 classifier_NaiveBayes = nltk.NaiveBayesClassifier.train(TrainingSet)
 print("Original Accuracy of Naive Bays in Percentage:", 
       (nltk.classify.accuracy(classifier_NaiveBayes, TestingSet)*100))
-
-
 
 MNB_classifier = SklearnClassifier(MultinomialNB())
 MNB_classifier.train(TrainingSet)
 print("Accuracy of MNB_classifier in Percentage:", 
       (nltk.classify.accuracy(MNB_classifier, TestingSet)*100))
 
-
-
 BernoulliNB_classifier = SklearnClassifier(BernoulliNB())
 BernoulliNB_classifier.train(TrainingSet)
 print("Accuracy of BernoulliNB_classifier in Percentage:", 
       (nltk.classify.accuracy(BernoulliNB_classifier, TestingSet)*100))
-
-
 
 SGDClassifier_classifier = SklearnClassifier(SGDClassifier())
 SGDClassifier_classifier.train(TrainingSet)
@@ -141,8 +136,7 @@ NuSVC_classifier.train(TrainingSet)
 print("Accuracy of NuSVC_classifier in Percentage:", 
       (nltk.classify.accuracy(NuSVC_classifier, TestingSet)*100))
 
-# pass the voted classifer any number of classifer objects and it will be another 
-# classifer object that classifes based on what the other classifers vote for.
+
 
 voted_classifier = VoteClassifier(classifier_NaiveBayes,
                                   MNB_classifier,
@@ -154,8 +148,10 @@ print("Accuracy of voted_classifier in Percentage :", (nltk.classify.accuracy
                                                        (voted_classifier, 
                                                         TestingSet)*100))
 
-end = datetime.datetime.now()
+
+
 
 print("the program took this long: ")
+end = datetime.datetime.now()
 print(end-start)
 
