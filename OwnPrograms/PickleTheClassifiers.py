@@ -60,8 +60,8 @@ def create_Labeled_Data(PositiveExamples, NegExamples):
         documents.append((r,"neg"))
         
     all_words = []
-    short_pos_words = nltk.word_tokenize(shortPos)
-    short_neg_words = nltk.word_tokenize(shortNeg)
+    short_pos_words = nltk.word_tokenize(PositiveExamples)
+    short_neg_words = nltk.word_tokenize(NegExamples)
     for w in short_pos_words:
         all_words.append(w.lower()) 
     for w in short_neg_words:
@@ -79,8 +79,10 @@ def create_Labeled_Data(PositiveExamples, NegExamples):
                     for (rev, category) in documents]
     return feature_sets
         
+
+
     # only works with SklearnClassifier
-def createClassiferList(*untrainedClassifier, TrainingSet):
+def createClassiferList(untrainedClassifier, TrainingSet):
     classifiers = []
     for c in untrainedClassifier:
         cur  = SklearnClassifier(c())
@@ -91,7 +93,7 @@ def createClassiferList(*untrainedClassifier, TrainingSet):
 start = datetime.datetime.now()
 
 print('you have started')
-untrainedClassifier = [SGDClassifier()]
+
 
 # shortPos = open("short_reviews/shortPositive.txt","r").read()
 # shortNeg = open("short_reviews/shortNegative.txt","r").read()
@@ -109,15 +111,72 @@ random.shuffle(LabeledReviews)
 TrainingData = LabeledReviews[:9000]
 TestingData = LabeledReviews[9000:]
 
+TrainedClassifierList = []
+NBClassifer = nltk.NaiveBayesClassifier.train(TrainingData)
+
+# untrainedClassifier = [SGDClassifier(),
+#                        GaussianNB(), 
+#                        BernoulliNB(),
+#                        LinearSVC(), 
+#                        LogisticRegression()]
+
+
+
+
+
+"""
+You need to write this method as a for loop in a function right 
+
+I don't know how to do that but should be able to do it in the future. 
+
+
+
+"""
+
+
 
 NBClassifer = nltk.NaiveBayesClassifier.train(TrainingData)
-NBClassifer.show_most_informative_features(10)
+TrainedClassifierList.append(NBClassifer)
+print(datetime.datetime.now() -start)
 
-print(nltk.classify.accuracy(NBClassifer, TestingData)*100)
+c = SklearnClassifier(NuSVC())
+c.train(TrainingData)
+TrainedClassifierList.append(c)
+print(datetime.datetime.now() -start)
+
+c = SklearnClassifier(GaussianNB())
+c.train(TrainingData)
+TrainedClassifierList.append(c)
+print(datetime.datetime.now() -start)
+
+c = SklearnClassifier(SGDClassifier())
+c.train(TrainingData)
+TrainedClassifierList.append(c)
+print(datetime.datetime.now() -start)
+
+c = SklearnClassifier(BernoulliNB())
+c.train(TrainingData)
+TrainedClassifierList.append(c)
+print(datetime.datetime.now() -start)
+
+c = SklearnClassifier(LinearSVC())
+c.train(TrainingData)
+TrainedClassifierList.append(c)
+print(datetime.datetime.now() -start)
+
+c = SklearnClassifier(LogisticRegression())
+c.train(TrainingData)
+TrainedClassifierList.append(c)
+print(datetime.datetime.now() -start)
+
+TrainedClassifers = open("trainedClassifier.pickle", "wb")
+pickle.dump(TrainedClassifierList,TrainedClassifers);
+TrainedClassifers.close();
+print(datetime.datetime.now -start)
+
 
 
 print("the program took this long: ")
 end = datetime.datetime.now()
 print(end-start)
-
 
