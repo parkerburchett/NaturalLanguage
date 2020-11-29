@@ -7,8 +7,9 @@ Created on Sun Nov 29 14:16:55 2020
 
 import pickle
 
-
-loadData = open("pickled_thingToPickle.pickle", "rb")
+print("started")
+loadData = open("pickled_all_words.pickle", "rb")
 myData = pickle.load(loadData)
-
+loadData.close()
 print(type(myData))
+print("ended")
