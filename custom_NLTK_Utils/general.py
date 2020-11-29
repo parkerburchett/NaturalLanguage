@@ -2,7 +2,8 @@ import random, pickle, nltk
 from nltk.classify import ClassifierI
 from statistics import mode
 from nltk.corpus import stopwords
-from varname import nameof # https://stackoverflow.com/questions/18425225/getting-the-name-of-a-variable-as-a-string
+from varname import nameof 
+# https://stackoverflow.com/questions/18425225/getting-the-name-of-a-variable-as-a-string
                 
 """
 These are both methods that I have written and methods from the sentdex NLTK lecture series
@@ -42,10 +43,10 @@ def find_Features(document, word_features):
     return features  
 
 
-def customPickle(thingToPickle):
+def customPickle(thingToPickle): 
     """
         Pass this an Object and it will create a pickled instance of it
-        It will be save in this format "pickled_"+ name +".pickle"
+        it will be save in this format "pickled_"+ name +".pickle"
         
         eg You want to pickle a list called myList
         
@@ -58,30 +59,84 @@ def customPickle(thingToPickle):
     pickle.dump(thingToPickle, outLocation)
     outLocation.close()
     
-
-
-def create_feature_sets(PositiveExamples, NegExamples):
+    
+def create_feature_sets(PositiveExamples, NegativeExamples):
     documents = [] # document is a tuple of (review, classifcation)
     for r in PositiveExamples.split('\n'):
         documents.append((r,"pos"))
-    for r in NegExamples.split('\n'):
+    for r in NegativeExamples.split('\n'):
         documents.append((r,"neg"))
     all_words = []
+    
     short_pos_words = nltk.word_tokenize(PositiveExamples)
-    short_neg_words = nltk.word_tokenize(NegExamples)
+    short_neg_words = nltk.word_tokenize(NegativeExamples)
+    
     for w in short_pos_words:
         all_words.append(w.lower()) 
     for w in short_neg_words:
         all_words.append(w.lower())
-        
-    stop_words = set(stopwords.words('english')) # I added this to remove all the stop words
 
+    stop_words = set(stopwords.words('english')) # I added this to remove all the stop words
     all_words = [w for w in all_words if (not w in stop_words)] 
-    print("after removing stopwords")
-    print(len(all_words))
     all_words = nltk.FreqDist(all_words)
     word_features = list(all_words.keys())[:3000]
     
     feature_sets = [(find_Features(rev, word_features), category) 
                     for (rev, category) in documents]
+    
     return random.shuffle(feature_sets)
+
+def pickle_Intermediate_Steps(PositiveExamples, NegativeExamples):
+    """
+    Parameters
+    ----------
+    PositiveExamples : All the Positive Reviews
+        DESCRIPTION.
+    NegativeExamples : All the Negative Reviews
+        
+    This is very similar to the create_feature_sets() but instead of returning
+    a feature_set it pickles the following:
+        
+        documents
+        all_words
+        word_features
+        feature_sets
+        
+        
+    Returns Nothing
+
+
+    """
+    documents = [] # document is a tuple of (review, classifcation)
+    for r in PositiveExamples.split('\n'):
+        documents.append((r,"pos"))
+    for r in NegativeExamples.split('\n'):
+        documents.append((r,"neg"))
+        
+    customPickle(documents)
+    
+    all_words = []
+    short_pos_words = nltk.word_tokenize(PositiveExamples)
+    short_neg_words = nltk.word_tokenize(NegativeExamples)
+    
+    for w in short_pos_words:
+        all_words.append(w.lower()) 
+    for w in short_neg_words:
+        all_words.append(w.lower())
+    
+ 
+    stop_words = set(stopwords.words('english')) # I added this to remove all the stop words
+    all_words = [w for w in all_words if (not w in stop_words)] 
+    all_words = nltk.FreqDist(all_words)
+    customPickle(all_words)
+    
+    word_features = list(all_words.keys())[:5000] # 5000 is an arbritary choice
+    
+    customPickle(word_features)
+    
+    feature_sets = [(find_Features(rev, word_features), category) 
+                    for (rev, category) in documents]
+    
+    random.shuffle(feature_sets)
+    customPickle(feature_sets)
+    
