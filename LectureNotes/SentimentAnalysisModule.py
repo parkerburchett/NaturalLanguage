@@ -11,6 +11,10 @@ I am going to ignore that and just use the algos I have now
 
 
 
+Using the lookatAccuracy Method you can see when it is right about the classification
+
+important to note its accuracy is only 76% when it says it is 100% confident
+
 
 Source:
     https://www.youtube.com/watch?v=eObouMO2qSE&list=PLQVvvaa0QuDf2JswnfiGkliBInZnIC4HL&index=19
@@ -77,9 +81,7 @@ voted_classifier = general.VoteClassifier(classifiers[0],classifiers[1],
                                           classifiers[4])
 
  
-def sentiment(text):
-    feats = general.find_Features(text)
-    return voted_classifier.classify(feats), voted_classifier.confidence(feats)
+
     
 # print(sentiment("a masterpiece four years in the making ."))
 
@@ -88,8 +90,11 @@ def sentiment(text):
 #                                                        (voted_classifier, 
 #                                                         TestingSet)*100))
 
+def sentiment(text):
+    feats = general.find_Features(text)
+    print(voted_classifier.classify(feats), voted_classifier.confidence(feats))
 
-lookatAccuracy(1000)
+
 
 print('end')
 
