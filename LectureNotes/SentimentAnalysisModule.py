@@ -55,5 +55,25 @@ voted_classifier = general.VoteClassifier(classifiers[0],classifiers[1],
 
 
 def sentiment(text):
+    """
+    
+
+    Parameters
+    ----------
+    text : String
+        A plain string test that you are attempting to find the sentiment of
+
+    Returns
+    -------
+    The voted_classifers guess of if the text is positive or negative,
+    and how confident it is
+    
+    example
+       sentiment("The movie was bad and awful")
+           -> neg 1.0
+           
+    This can be interperated as the algo is 100% confident that sentiment is negative
+    
+    """
     feats = general.find_Features(text)
-    print(voted_classifier.classify(feats), voted_classifier.confidence(feats))
+    return voted_classifier.classify(feats), voted_classifier.confidence(feats)
