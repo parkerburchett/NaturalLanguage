@@ -139,7 +139,7 @@ def create_feature_sets(PositiveExamples, NegativeExamples):
 
 
 
-def lookatAccuracy(sample):
+def lookAtAccuracy(sample):
     numCorrect =0
     HighConfidenceCorrect =0
     numHighConfidence =0
