@@ -34,9 +34,13 @@ class VoteClassifier(ClassifierI):
         return conf
 
 
-def find_Features(document, word_features):
-    words = nltk.word_tokenize(document) 
+def find_Features(document):
+    words = set(document) 
     features = {}
+    word_featuresIN = open("C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/OwnPrograms/pickled_word_features.pickle", "rb")
+    word_features = pickle.load(word_featuresIN)
+    word_featuresIN.close()
+
     for w in word_features:
         features[w] = (w in words) # this a boolean
     return features  
