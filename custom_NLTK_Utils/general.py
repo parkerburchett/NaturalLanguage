@@ -52,8 +52,6 @@ def customPickle(thingToPickle, objectName):
         this will create a file called 
         pickled_myList.pickle
     """
-    
-    # PROBLEM: it does not do the names correctly
 
     objectName = "pickled_"+ objectName +".pickle"
     outLocation = open(objectName, "wb")
