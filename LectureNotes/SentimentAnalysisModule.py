@@ -28,6 +28,32 @@ from statistics import mode;
 from sklearn.svm import SVC, LinearSVC, NuSVC
 
 
+def lookatAccuracy(sample):
+    numCorrect =0
+    HighConfidenceCorrect =0
+    numHighConfidence =0
+    sample =1000
+    for i in range(sample):
+    # print("Classification: ", voted_classifier.classify(TestingSet[i][0]),
+    #       "Correct:",TestingSet[i][1],
+    #       "Confidence %: ", voted_classifier.confidence(TestingSet[i][0])*100 
+    #       )
+        print(i)
+        if TestingSet[i][1] == voted_classifier.classify(TestingSet[i][0]):
+           numCorrect= numCorrect+1
+           
+        if TestingSet[i][1] == voted_classifier.classify(TestingSet[i][0]):
+           if voted_classifier.confidence(TestingSet[i][0]) == 1:
+                HighConfidenceCorrect = HighConfidenceCorrect+1
+                
+        if voted_classifier.confidence(TestingSet[i][0]) ==1:
+            numHighConfidence= numHighConfidence+1
+    print(numCorrect/sample)
+    print(HighConfidenceCorrect/sample)
+    print(HighConfidenceCorrect/numHighConfidence)
+
+
+print("start")
 classifierList = open("C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/OwnPrograms/pickled_TrainedClassifierList.pickle", "rb")
 classifiers = pickle.load(classifierList)
 classifierList.close()
@@ -46,14 +72,25 @@ documents = pickle.load(documentsIN)
 documentsIN.close()
 
 
-voted_classifier = general.VoteClassifier(classifiers)
+voted_classifier = general.VoteClassifier(classifiers[0],classifiers[1],
+                                          classifiers[2],classifiers[3],
+                                          classifiers[4])
 
-
+ 
 def sentiment(text):
-    feats = general.find_Features(documents, word_features)
-    print(voted_classifier.classify(feats))
-    return voted_classifier.classify(feats)
+    feats = general.find_Features(text)
+    return voted_classifier.classify(feats), voted_classifier.confidence(feats)
+    
+# print(sentiment("a masterpiece four years in the making ."))
 
 
+# print("Accuracy of voted_classifier in Percentage :", (nltk.classify.accuracy
+#                                                        (voted_classifier, 
+#                                                         TestingSet)*100))
 
-sentiment("I thought the movie was bad and boring")
+
+lookatAccuracy(1000)
+
+print('end')
+
+
