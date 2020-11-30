@@ -58,7 +58,7 @@ classifierList = open("C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLa
 classifiers = pickle.load(classifierList)
 classifierList.close()
 
-
+ 
 testingSetIn = open("C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/OwnPrograms/pickled_TestingData.pickle", "rb")
 TestingSet = pickle.load(testingSetIn)
 testingSetIn.close()
