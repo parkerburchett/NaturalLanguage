@@ -105,8 +105,7 @@ def pickle_Intermediate_Steps(PositiveExamples, NegativeExamples):
     
     random.shuffle(feature_sets)
     customPickle(feature_sets,"feature_sets")
-    
-    
+
     
     
 def create_feature_sets(PositiveExamples, NegativeExamples):
