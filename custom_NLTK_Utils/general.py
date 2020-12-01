@@ -1,5 +1,5 @@
 import VoteClassifier
-
+import dataLabeling
 import random, pickle, nltk
 from nltk.classify import ClassifierI
 from statistics import mode
@@ -105,7 +105,7 @@ def pickle_Intermediate_Steps(PositiveExamples, NegativeExamples):
     
     customPickle(word_features,"word_features")
     
-    feature_sets = [(find_Features(rev, word_features), category) 
+    feature_sets = [(dataLabeling.find_Features(rev, word_features), category) 
                     for (rev, category) in documents]
     
     random.shuffle(feature_sets)

@@ -1,4 +1,3 @@
-
 from nltk.corpus import stopwords
 import nltk
 import random
@@ -9,7 +8,6 @@ def find_Features(document,word_features):
         
         word Featuers is the list of tuples? that are most frequent in each of the different 
         positive or negative sentimet texts
-        
         
         Later you pass this a tweet and it will parse out the features from it.
         and be passed into the Voted Classifer
