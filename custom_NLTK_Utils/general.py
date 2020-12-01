@@ -12,26 +12,26 @@ Source: https://www.youtube.com/watch?v=eObouMO2qSE&list=PLQVvvaa0QuDf2JswnfiGkl
 
 """
 
-class VoteClassifier(ClassifierI):
-    def __init__(self, *classifiers):
-        # the init method will always run in a class
-        self._classifiers = classifiers
+# class VoteClassifier(ClassifierI):
+#     def __init__(self, *classifiers):
+#         # the init method will always run in a class
+#         self._classifiers = classifiers
 
-    def classify(self, features):
-        votes = []
-        for c in self._classifiers:
-            v = c.classify(features)
-            votes.append(v)
-        return mode(votes)
+#     def classify(self, features):
+#         votes = []
+#         for c in self._classifiers:
+#             v = c.classify(features)
+#             votes.append(v)
+#         return mode(votes)
     
-    def confidence(self, features):
-        votes = []
-        for c in self._classifiers:
-            v = c.classify(features)
-            votes.append(v)
-        choice_votes = votes.count(mode(votes))
-        conf =  choice_votes / len(votes)
-        return conf
+#     def confidence(self, features):
+#         votes = []
+#         for c in self._classifiers:
+#             v = c.classify(features)
+#             votes.append(v)
+#         choice_votes = votes.count(mode(votes))
+#         conf =  choice_votes / len(votes)
+#         return conf
 
 
 def find_Features(document):
