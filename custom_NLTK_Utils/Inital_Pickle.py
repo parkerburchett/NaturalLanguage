@@ -37,5 +37,6 @@ def pickle_Training_Params(PositiveExamples, NegativeExamples):
     customPickle(feature_sets,"feature_sets")
     
 
+def pickle_Algos(ListOfTrainedAlgos):
     
     

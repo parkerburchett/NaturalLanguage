@@ -49,78 +49,44 @@ Source: https://www.youtube.com/watch?v=eObouMO2qSE&list=PLQVvvaa0QuDf2JswnfiGkl
     # return features  
 
 
-def customPickle(thingToPickle, objectName): 
-    """
-        Pass this an Object and it will create a pickled instance of it
-        it will be save in this format "pickled_"+ name +".pickle"
+# def customPickle(thingToPickle, objectName): 
+#     """
+#         Pass this an Object and it will create a pickled instance of it
+#         it will be save in this format "pickled_"+ name +".pickle"
         
-        eg You want to pickle a list called myList
+#         eg You want to pickle a list called myList
         
-        this will create a file called 
-        pickled_myList.pickle
-    """
+#         this will create a file called 
+#         pickled_myList.pickle
+#     """
 
-    objectName = "pickled_"+ objectName +".pickle"
-    outLocation = open(objectName, "wb")
-    pickle.dump(thingToPickle, outLocation)
-    outLocation.close()
+#     objectName = "pickled_"+ objectName +".pickle"
+#     outLocation = open(objectName, "wb")
+#     pickle.dump(thingToPickle, outLocation)
+#     outLocation.close()
     
     
 
 
-def pickle_Intermediate_Steps(PositiveExamples, NegativeExamples):
-    """
-    This is very similar to the create_feature_sets() but instead of returning
-    a feature_set it pickles the following:
-        documents
-        all_words
-        word_features
-        feature_sets
+# def pickle_Intermediate_Steps(PositiveExamples, NegativeExamples):
+#     """
+#     This is very similar to the create_feature_sets() but instead of returning
+#     a feature_set it pickles the following:
+#         documents
+#         all_words
+#         word_features
+#         feature_sets
         
-    """
-    documents = [] # document is a tuple of (review, classifcation)
-    for r in PositiveExamples.split('\n'):
-        documents.append((r,"pos"))
-    for r in NegativeExamples.split('\n'):
-        documents.append((r,"neg"))
-        
-    customPickle(documents,"documents")
-    
-    all_words = []
-    short_pos_words = nltk.word_tokenize(PositiveExamples)
-    short_neg_words = nltk.word_tokenize(NegativeExamples)
-    
-    for w in short_pos_words:
-        all_words.append(w.lower()) 
-    for w in short_neg_words:
-        all_words.append(w.lower())
-    
- 
-    stop_words = set(stopwords.words('english')) # I added this to remove all the stop words
-    all_words = [w for w in all_words if (not w in stop_words)] 
-    all_words = nltk.FreqDist(all_words)
-    customPickle(all_words,"all_words")
-    
-    word_features = list(all_words.keys())[:5000] # 5000 is an arbritary choice
-    
-    customPickle(word_features,"word_features")
-    
-    feature_sets = [(dataLabeling.find_Features(rev, word_features), category) 
-                    for (rev, category) in documents]
-    
-    random.shuffle(feature_sets)
-    customPickle(feature_sets,"feature_sets")
-
-    
-    
-# def create_feature_sets(PositiveExamples, NegativeExamples):
+#     """
 #     documents = [] # document is a tuple of (review, classifcation)
 #     for r in PositiveExamples.split('\n'):
 #         documents.append((r,"pos"))
 #     for r in NegativeExamples.split('\n'):
 #         documents.append((r,"neg"))
-#     all_words = []
+        
+#     customPickle(documents,"documents")
     
+#     all_words = []
 #     short_pos_words = nltk.word_tokenize(PositiveExamples)
 #     short_neg_words = nltk.word_tokenize(NegativeExamples)
     
@@ -128,16 +94,50 @@ def pickle_Intermediate_Steps(PositiveExamples, NegativeExamples):
 #         all_words.append(w.lower()) 
 #     for w in short_neg_words:
 #         all_words.append(w.lower())
-
+    
+ 
 #     stop_words = set(stopwords.words('english')) # I added this to remove all the stop words
 #     all_words = [w for w in all_words if (not w in stop_words)] 
 #     all_words = nltk.FreqDist(all_words)
-#     word_features = list(all_words.keys())[:3000]
+#     customPickle(all_words,"all_words")
     
-#     feature_sets = [(find_Features(rev, word_features), category) 
+#     word_features = list(all_words.keys())[:5000] # 5000 is an arbritary choice
+    
+#     customPickle(word_features,"word_features")
+    
+#     feature_sets = [(dataLabeling.find_Features(rev, word_features), category) 
 #                     for (rev, category) in documents]
     
-#     return random.shuffle(feature_sets)
+#     random.shuffle(feature_sets)
+#     customPickle(feature_sets,"feature_sets")
+
+    
+    
+# # def create_feature_sets(PositiveExamples, NegativeExamples):
+# #     documents = [] # document is a tuple of (review, classifcation)
+# #     for r in PositiveExamples.split('\n'):
+# #         documents.append((r,"pos"))
+# #     for r in NegativeExamples.split('\n'):
+# #         documents.append((r,"neg"))
+# #     all_words = []
+    
+# #     short_pos_words = nltk.word_tokenize(PositiveExamples)
+# #     short_neg_words = nltk.word_tokenize(NegativeExamples)
+    
+# #     for w in short_pos_words:
+# #         all_words.append(w.lower()) 
+# #     for w in short_neg_words:
+# #         all_words.append(w.lower())
+
+# #     stop_words = set(stopwords.words('english')) # I added this to remove all the stop words
+# #     all_words = [w for w in all_words if (not w in stop_words)] 
+# #     all_words = nltk.FreqDist(all_words)
+# #     word_features = list(all_words.keys())[:3000]
+    
+# #     feature_sets = [(find_Features(rev, word_features), category) 
+# #                     for (rev, category) in documents]
+    
+# #     return random.shuffle(feature_sets)
 
 
 
