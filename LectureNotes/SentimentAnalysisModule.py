@@ -19,20 +19,8 @@ important to note its accuracy is only 76% when it says it is 100% confident
 Source:
     https://www.youtube.com/watch?v=eObouMO2qSE&list=PLQVvvaa0QuDf2JswnfiGkliBInZnIC4HL&index=19
 """
-
-
-from NaturalLanguage.custom_NLTK_Utils import Inital_Pickle
-from NaturalLanguage.custom_NLTK_Utils import dataLabeling as DL
-from NaturalLanguage.custom_NLTK_Utils import VoteClassifier
-import random, pickle, nltk
-
-from nltk.classify.scikitlearn import SklearnClassifier
-from sklearn.naive_bayes import MultinomialNB, GaussianNB, BernoulliNB
-from sklearn.linear_model import LogisticRegression, SGDClassifier 
-from nltk.classify import ClassifierI
-from statistics import mode;
-from sklearn.svm import SVC, LinearSVC, NuSVC
-
+from NaturalLanguage.custom_NLTK_Utils import VoteClassifier, dataLabeling as DL
+import pickle
 
 classifierList = open("C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/OwnPrograms/pickled_TrainedClassifierList.pickle", "rb")
 classifiers = pickle.load(classifierList)
@@ -52,10 +40,8 @@ documentsIN.close()
 
 
 voted_classifier = VoteClassifier.VoteClassifier(classifiers[0],classifiers[1],
-                                          classifiers[2],classifiers[3],
-                                          classifiers[4])
-
-
+                                                 classifiers[2],classifiers[3],
+                                                 classifiers[4])
 def sentiment(text):
     """
     
@@ -68,7 +54,7 @@ def sentiment(text):
     Returns
     -------
     The voted_classifers guess of if the text is positive or negative,
-    and how confident it is
+    and its convidence betwene a(.6, 1.0)
     
     example
        sentiment("The movie was bad and awful")

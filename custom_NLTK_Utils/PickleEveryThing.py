@@ -73,7 +73,7 @@ c.train(TrainingData)
 TrainedClassifierList.append(c)
 print(datetime.datetime.now() -start)
 
-cs.Inital_Pickle.customPickle(TrainedClassifierList, "TrainedClassifierList")
+custom_NLTK_Utils.Inital_Pickle.customPickle(TrainedClassifierList, "TrainedClassifierList")
 
 
 print("the program took this long: ")

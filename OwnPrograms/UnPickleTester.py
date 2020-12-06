@@ -7,7 +7,7 @@ Created on Sun Nov 29 14:16:55 2020
 
 import pickle
 import nltk
-from NaturalLanguage.custom_NLTK_Utils import general
+from custom_NLTK_Utils import VoteClassifier
 
 print("started")
 
@@ -28,7 +28,7 @@ documents = pickle.load(documentsIN)
 documentsIN.close()
 
 
-voted_classifier = general.VoteClassifier(classifiers[0],classifiers[1],
+voted_classifier = VoteClassifier.VoteClassifier(classifiers[0],classifiers[1],
                                           classifiers[2],classifiers[3],
                                           classifiers[4])
 

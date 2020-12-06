@@ -1,9 +1,4 @@
-
-
 import pickle
-#from custom_NLTK_Utils import dataLabeling as DL
-
-# import custom_NLTK_Utils.dataLabeling as DL
 import NaturalLanguage.custom_NLTK_Utils.dataLabeling as DL
 
 def customPickle(thingToPickle, objectName): 
@@ -17,7 +12,6 @@ def customPickle(thingToPickle, objectName):
         
         myList.pickle in your current dirictory
     """
-
     objectName = objectName +".pickle"
     outLocation = open(objectName, "wb")
     pickle.dump(thingToPickle, outLocation)

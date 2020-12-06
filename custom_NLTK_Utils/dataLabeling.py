@@ -4,19 +4,26 @@ import random
 
 def find_Features(document,word_features):
     """
-        I have no idea what this method does. I need to rewatch the lecture series on it
+        source: https://www.youtube.com/watch?v=-vVskDsHcVc&list=PLQVvvaa0QuDf2JswnfiGkliBInZnIC4HL&index=12
+            
         
-        word Featuers is the list of tuples? that are most frequent in each of the different 
-        positive or negative sentimet texts
+        This method takes a string of Text, "documents" 
+        It removes all duplicate words, then it creates a dictionary object
+        where The key is each unique word and the value is a boolean.
+        The boolean represetes if that word occurs in the most common N words
         
-        Later you pass this a tweet and it will parse out the features from it.
-        and be passed into the Voted Classifer
+        Features is then a  dictionary that will look elike this {"great": True, "fish": False}
+        This would be if Great is the word_features, and fish is not.
         
+        
+        There are many words that are just so rare that they dont' have predictive value. 
+        those are assigned false.
     """
     limit_features(document) # this removes stop words from consideration
-    words = set(document) 
-    features = {}
+    words = set(document) # remove all duplicate words
+    features = {} # empty dictionary
     for w in word_features:
+        # if a word is in the most common N words
         features[w] = (w in words) # this a boolean
     return features  
 
@@ -59,19 +66,41 @@ def limit_features(all_words):
     stop_words = set(stopwords.words('english')) # I added this to remove all the stop words
     all_words = [w for w in all_words if (not w in stop_words)] 
     
-def assemble_word_features(all_words, numFeaturesToConsider):
-    return (all_words.keys())[:numFeaturesToConsider]
+def assemble_word_features(all_words, topNWords):
+    """
+    returns a nltk.FreqDist object for the most frequent topNWords
+    """
+    return (all_words.keys())[:topNWords]
 
     
 def create_feature_sets(PositiveExamples, NegativeExamples):
+    """
+    This will create a list of tuples representing
+    [Dictionary of
+
+                 (word: boolean(Occurs In Most common N words) # this has a lot of words in it
+                  "String if this review is postive or negative".
+                  
+                  
+                  
+                  These are the objects that you split into Train / Test that will train the algo
+                  
+                  
+                  
+    
+        
+    
+    Example
+    [({"great":True, "fish": False ...}, "pos"), ({"amazing":True, "kevin": False ...}, "neg")...]
+    """
     documents = assemble_Documents(PositiveExamples, NegativeExamples)
     all_words = assemble_all_wordsFRQDIST(PositiveExamples,NegativeExamples)
     word_features = assemble_word_features(all_words, 3000)
     
-    
+    # this is the key line
     feature_sets = [(find_Features(text, word_features), category) 
                     for (text, category) in documents]
-    
+
     return random.shuffle(feature_sets)
 
 
