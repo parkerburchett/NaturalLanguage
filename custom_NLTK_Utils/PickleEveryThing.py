@@ -14,7 +14,9 @@ This is a beautiful way of looking at it.
     
 """
 
-from NaturalLanguage.custom_NLTK_Utils import general
+import NaturalLanguage.custom_NLTK_Utils.Inital_Pickle
+import NaturalLanguage.custom_NLTK_Utils.VoteClassifier
+
 
 import random, pickle, nltk
 import datetime
@@ -71,9 +73,8 @@ c.train(TrainingData)
 TrainedClassifierList.append(c)
 print(datetime.datetime.now() -start)
 
+cs.Inital_Pickle.customPickle(TrainedClassifierList, "TrainedClassifierList")
 
-
-general.customPickle(TrainedClassifierList, "TrainedClassifierList")
 
 print("the program took this long: ")
 end = datetime.datetime.now()

@@ -1,6 +1,10 @@
-import pickle
-import dataLabeling
 
+
+import pickle
+#from custom_NLTK_Utils import dataLabeling as DL
+
+# import custom_NLTK_Utils.dataLabeling as DL
+import NaturalLanguage.custom_NLTK_Utils.dataLabeling as DL
 
 def customPickle(thingToPickle, objectName): 
     """
@@ -26,10 +30,10 @@ def pickle_Training_Params(PositiveExamples, NegativeExamples):
        You also need to save somehow what the limit_features Method you are using. 
        // Maybe you need
     """
-    documents = dataLabeling.assemble_Documents(PositiveExamples, NegativeExamples)
-    all_words = dataLabeling.assemble_all_wordsFRQDIST(PositiveExamples,NegativeExamples)
-    word_features = dataLabeling.assemble_word_features(all_words, 3000)
-    feature_sets = dataLabeling.create_feature_sets(PositiveExamples,PositiveExamples)
+    documents = DL.assemble_Documents(PositiveExamples, NegativeExamples)
+    all_words = DL.assemble_all_wordsFRQDIST(PositiveExamples,NegativeExamples)
+    word_features = DL.assemble_word_features(all_words, 3000)
+    feature_sets = DL.create_feature_sets(PositiveExamples,PositiveExamples)
     
     customPickle(documents,"documents")
     customPickle(all_words,"all_words")
@@ -38,5 +42,7 @@ def pickle_Training_Params(PositiveExamples, NegativeExamples):
     
 
 def pickle_Algos(ListOfTrainedAlgos):
+    return True
+#need to write this
     
     

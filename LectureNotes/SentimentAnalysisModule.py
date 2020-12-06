@@ -21,7 +21,9 @@ Source:
 """
 
 
-from NaturalLanguage.custom_NLTK_Utils import general
+from NaturalLanguage.custom_NLTK_Utils import Inital_Pickle
+from NaturalLanguage.custom_NLTK_Utils import dataLabeling as DL
+from NaturalLanguage.custom_NLTK_Utils import VoteClassifier
 import random, pickle, nltk
 
 from nltk.classify.scikitlearn import SklearnClassifier
@@ -49,7 +51,7 @@ documents = pickle.load(documentsIN)
 documentsIN.close()
 
 
-voted_classifier = general.VoteClassifier(classifiers[0],classifiers[1],
+voted_classifier = VoteClassifier.VoteClassifier(classifiers[0],classifiers[1],
                                           classifiers[2],classifiers[3],
                                           classifiers[4])
 
@@ -75,5 +77,5 @@ def sentiment(text):
     This can be interperated as the algo is 100% confident that sentiment is negative
     
     """
-    feats = general.find_Features(text)
+    feats = DL.find_Features(text, word_features)
     return voted_classifier.classify(feats), voted_classifier.confidence(feats)
