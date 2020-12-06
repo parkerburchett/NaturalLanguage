@@ -74,12 +74,19 @@ def createParamList():
                 paramList.append(AlgoParams.AlgoParams(stopWords, N, shortPos, shortNeg, PartOfSpeech))
     return paramList
 
-def create_Feature_sets_list(params):
-    
+def create_Feature_sets_list(param):
+    documents = dl.assemble_Documents(param.PosExamples, param.NegExamples)
+    all_words = dl.assemble_all_wordsFRQDIST(param.PosExamples, param.NegExamples, 
+                                             param.the_stop, param.PartsOfSpeech)
+    word_features = dl.assemble_word_features(all_words, param.NmostFrequent)
+    feature_sets = dl.create_feature_sets(documents, word_features, param.the_stop, param.PartsOfSpeech)
+    return feature_sets
     
         
 
 start = datetime.datetime.now()
 print('you have started')
 paramList = createParamList();
+create_Feature_sets_list(paramList[0])
+
 print(datetime.datetime.now() -start)
