@@ -4,9 +4,9 @@ class AlgoParams():
     the most accurate classification Algorithms.
     
     """
-    def __init__(self, stopWords, NmostFrequent, PosExamples, NegExamples, PartsOfSpeech):
+    def __init__(self, the_stop, NmostFrequent, PosExamples, NegExamples, PartsOfSpeech):
         # the init method will always run in a class
-        self._stopWords = stopWords
+        self.the_stop = the_stop
         self.NmostFrequent = NmostFrequent
         self.PosExamples = PosExamples
         self.NegExamples = NegExamples

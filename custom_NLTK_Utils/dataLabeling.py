@@ -3,7 +3,7 @@ from NaturalLanguage.custom_NLTK_Utils import AlgoParams
 import nltk
 import random
 
-def find_Features(document,word_features):
+def find_Features(document,word_features, ifStop, PartsOfSpeech):
     """
         source: https://www.youtube.com/watch?v=-vVskDsHcVc&list=PLQVvvaa0QuDf2JswnfiGkliBInZnIC4HL&index=12
             
@@ -20,7 +20,7 @@ def find_Features(document,word_features):
         There are many words that are just so rare that they dont' have predictive value. 
         those are assigned false.
     """
-    limit_features(document) # this removes stop words from consideration
+    limit_features(document, ifStop, PartsOfSpeech) # this removes stop words from consideration
     words = set(document) # remove all duplicate words
     features = {} # empty dictionary
     for w in word_features:
@@ -37,7 +37,7 @@ def assemble_Documents(PositiveExamples, NegativeExamples):
         documents.append((r,"neg"))
     return documents
 
-def assemble_all_wordsFRQDIST(PositiveExamples, NegativeExamples):
+def assemble_all_wordsFRQDIST(PositiveExamples, NegativeExamples,stopWords, PartsOfSpeech):
     short_pos_words = nltk.word_tokenize(PositiveExamples)
     short_neg_words = nltk.word_tokenize(NegativeExamples)
     
@@ -47,13 +47,13 @@ def assemble_all_wordsFRQDIST(PositiveExamples, NegativeExamples):
     for w in short_neg_words:
         all_words.append(w.lower())
         
-    limit_features(all_words)
+    limit_features(all_words, stopWords, PartsOfSpeech)
     all_words = nltk.FreqDist(all_words)
     return all_words
 
     
     
-def limit_features(all_words):
+def limit_features(all_words, ifStop, PartsOfSpeech):
     """
     Parameters
     ----------
@@ -64,17 +64,21 @@ def limit_features(all_words):
         
         That will make the algos train better. 
     """
-    stop_words = set(stopwords.words('english')) # I added this to remove all the stop words
-    all_words = [w for w in all_words if (not w in stop_words)] 
+    if(ifStop):
+        stop_words = set(stopwords.words('english')) # I added this to remove all the stop words
+        all_words = [w for w in all_words if (not w in stop_words)]
     
-def assemble_word_features(all_words, topNWords):
+    
+def assemble_word_features(all_words, N):
     """
     returns a nltk.FreqDist object for the most frequent topNWords
     """
-    return (all_words.keys())[:topNWords]
-
     
-def create_feature_sets(PositiveExamples, NegativeExamples):
+    word_features =  list(all_words.keys())
+    word_features = word_features[:N]
+    return word_features
+    
+def create_feature_sets(documents, word_features, ifStop, PartsOfSpeech):
     """
     This will create a list of tuples representing
     [Dictionary of
@@ -86,20 +90,16 @@ def create_feature_sets(PositiveExamples, NegativeExamples):
                   
                   These are the objects that you split into Train / Test that will train the algo
                   
-                  
-                  
-    
-        
     
     Example
     [({"great":True, "fish": False ...}, "pos"), ({"amazing":True, "kevin": False ...}, "neg")...]
     """
-    documents = assemble_Documents(PositiveExamples, NegativeExamples)
-    all_words = assemble_all_wordsFRQDIST(PositiveExamples,NegativeExamples)
-    word_features = assemble_word_features(all_words, 3000)
+    # documents = assemble_Documents(PositiveExamples, NegativeExamples)
+    # all_words = assemble_all_wordsFRQDIST(PositiveExamples,NegativeExamples,stop,PartsOfSpeech)
+    # word_features = assemble_word_features(all_words, 3000)
     
     # this is the key line
-    feature_sets = [(find_Features(text, word_features), category) 
+    feature_sets = [(find_Features(text, word_features, ifStop, PartsOfSpeech), category) 
                     for (text, category) in documents]
 
     return random.shuffle(feature_sets)
