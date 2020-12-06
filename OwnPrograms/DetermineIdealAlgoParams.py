@@ -36,8 +36,7 @@ These are the parts
     Boolean to consider stopwords.
      )
 
-
-should create a data object with these parts:
+Use the data object
 
 
 from  custom_NLTK_Utils.README.txt
@@ -58,3 +57,29 @@ For Each , With_stopWords and WithoutStopWOrds: (2)
                 Write that tuple to a different
 
 """
+
+
+from NaturalLanguage.custom_NLTK_Utils import AlgoParams
+from NaturalLanguage.custom_NLTK_Utils import dataLabeling as dl
+import datetime
+
+def createParamList():
+    shortPos = open("short_reviews/shortPositive.txt","r").read()
+    shortNeg = open("short_reviews/shortNegative.txt","r").read()
+    paramList = []
+    for stopWords in (True,False):
+        for N in (1000,2000,3000):
+            for PartOfSpeech in (["J","R","V"],["J","R"],["J","V"],["R","V"],
+                        ["J"],["R"],["V"]):
+                paramList.append(AlgoParams.AlgoParams(stopWords, N, shortPos, shortNeg, PartOfSpeech))
+    return paramList
+
+def create_Feature_sets_list(params):
+    
+    
+        
+
+start = datetime.datetime.now()
+print('you have started')
+paramList = createParamList();
+print(datetime.datetime.now() -start)
