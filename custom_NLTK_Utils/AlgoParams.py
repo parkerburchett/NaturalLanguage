@@ -12,3 +12,9 @@ class AlgoParams():
         self.NegExamples = NegExamples
         self.PartsOfSpeech = PartsOfSpeech
     
+    def toString(self):
+        res = ("StopWords         : " + str(self.the_stop) + 
+               "\nN Most Frequent : " + str(self.NmostFrequent) +
+               "\nPartsOfSpeech   : " + str(self.PartsOfSpeech) 
+                )
+        return res

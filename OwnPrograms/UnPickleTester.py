@@ -7,7 +7,7 @@ Created on Sun Nov 29 14:16:55 2020
 
 import pickle
 import nltk
-from custom_NLTK_Utils import VoteClassifier
+from NaturalLanguage.custom_NLTK_Utils import VoteClassifier
 
 print("started")
 
@@ -32,7 +32,9 @@ voted_classifier = VoteClassifier.VoteClassifier(classifiers[0],classifiers[1],
                                           classifiers[2],classifiers[3],
                                           classifiers[4])
 
-
+print("Accuracy of A differnet classifier in Percentage :", (nltk.classify.accuracy
+                                                       (classifiers[0], 
+                                                        TestingSet)*100))
 
 print("Accuracy of voted_classifier in Percentage :", (nltk.classify.accuracy
                                                        (voted_classifier, 
