@@ -86,7 +86,26 @@ def create_Feature_sets_list(param):
 
 start = datetime.datetime.now()
 print('you have started')
-paramList = createParamList();
-create_Feature_sets_list(paramList[0])
 
+paramList = createParamList();
+print('it took this long to create a feature set:')
+print(datetime.datetime.now() -start)
+
+FeatureSet_ParamTuple =[]
+
+different_Feature_sets = []
+for p in paramList:
+    FS = create_Feature_sets_list(p)
+    myTuple = tuple([FS,p])
+    FeatureSet_ParamTuple.append(myTuple)
+    print(datetime.datetime.now()-start)
+
+# at this point you have a of tuples like (FEATURE_SET, Params that get that feature set)
+# it takes 3:41 minutes to get this
+
+
+
+#next steps pass feature sets, and the params to the Create and traing Classifier list. 
+
+print('finished')
 print(datetime.datetime.now() -start)
