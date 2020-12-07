@@ -56,6 +56,9 @@ For Each , With_stopWords and WithoutStopWOrds: (2)
             Num testing set at 60% confident, num at 80% confident and num at 100% confident
                 Write that tuple to a different
 
+
+For whatever reason, this is a very bad tester. It is just about 50% accurate
+
 """
 
 
@@ -78,11 +81,8 @@ def createParamList():
     shortNeg = open("short_reviews/shortNegative.txt","r").read()
     paramList = []
     for stopWords in (True,False):
-        for N in (1000,2000,3000):
-            for PartOfSpeech in (["J","R","V"],
-                                 ["J","R"],["J","V"],["R","V"],
-                                 ["J"],["R"],["V"]):
-                paramList.append(AlgoParams.AlgoParams(stopWords, N, shortPos, shortNeg, PartOfSpeech))
+        for N in (2000,3000,4000,5000):
+                paramList.append(AlgoParams.AlgoParams(stopWords, N, shortPos, shortNeg, ["*"]))
     return paramList
 
 def create_Feature_sets_list(param):
@@ -94,55 +94,42 @@ def create_Feature_sets_list(param):
     return feature_sets
 
     
-def getTestData(FS, N):
-   # N = int(len(fs)*.9) #90% in training data BROKEN
+def getTestData(FS):
+    N = int(len(FS)*.9) #90% in training data BROKEN
     TestingData = FS[N:]
     return TestingData
 
 
-def getTrainData(FS,N):
-    
+def getTrainData(F):
+    N = int(len(FS)*.9) #90% in training data BROKEN
     TrainingData = FS[:N]
     return TrainingData
     
 
 def CreateAndTrain_Classifiers(FS):
-    TrainingData = getTrainData(FS, 9000)
-    TestingData = getTestData(FS,9000)
+    TrainingData = getTrainData(FS)
+    TestingData = getTestData(FS)
     
     TrainedClassifierList = []
     NBClassifer = nltk.NaiveBayesClassifier.train(TrainingData)
     TrainedClassifierList.append(NBClassifer)
-    print("Trained NaiveBayes ", end="")
-    print(datetime.datetime.now()-start)
     
     c = SklearnClassifier(SGDClassifier())
     c.train(TrainingData)
-    print("Trained SGD Classifier ", end="")
     TrainedClassifierList.append(c)
-    print(datetime.datetime.now() -start)
     
     c = SklearnClassifier(BernoulliNB())
     c.train(TrainingData)
-    print("Trained Bernoulli Naive Bayes ", end="")
     TrainedClassifierList.append(c)
-    print(datetime.datetime.now() -start)
     
     c = SklearnClassifier(LinearSVC())
     c.train(TrainingData)
-    print("Trained Linear Support Vector Machine ", end="")
     TrainedClassifierList.append(c)
-    print(datetime.datetime.now() -start)
     
     c = SklearnClassifier(LogisticRegression())
     c.train(TrainingData)
-    print("Trained Logistic Regression ", end="")
     TrainedClassifierList.append(c)
-    print(datetime.datetime.now() -start)
-    
-    print("It took this long to Train 5 Classifiers:", end="")
-    print(datetime.datetime.now() -start)
-    
+
     voted_classifier = VoteClassifier.VoteClassifier(TrainedClassifierList[0],
                                                      TrainedClassifierList[1],
                                                      TrainedClassifierList[2],
@@ -152,7 +139,7 @@ def CreateAndTrain_Classifiers(FS):
     return TrainedClassifierList
 
 def writeAlgoEvaluation(param, classifiers, results):
-    TestingSet = getTestData(FS, 9000)
+    TestingSet = getTestData(FS)
     with open("AlgoEvalutationResults.txt","a+") as out:
         out.write("\n----------------------------------------------\n")
         
@@ -169,7 +156,6 @@ def writeAlgoEvaluation(param, classifiers, results):
         out.write("\nAccuracy of Vote Classifier               :"+str(nltk.classify.accuracy(classifiers[5], TestingSet)*100))
         localRes = (param, nltk.classify.accuracy(classifiers[5], TestingSet)*100)
         results.append(localRes)
-        print("You just wrote out the results of a param test")
         out.write("\n----------------------------------------------\n\n")
 
 start = datetime.datetime.now()
@@ -186,6 +172,7 @@ for p in paramList:
     results =[()]
     classifiers = CreateAndTrain_Classifiers(FS)
     writeAlgoEvaluation(p,classifiers,results)
+    # the parts of speech stuff is broken, otherwise this is still good
     print("A pass of the for loop took this long: ", end="")
     print(datetime.datetime.now()-start2)
     
