@@ -1,0 +1,39 @@
+
+----------------------------------------------
+StopWords       : True
+N Most Frequent : 1000
+PartsOfSpeech   : ['J', 'R', 'V']
+
+Accuracy of Naive Bayes                   :53.54567307692307
+Accuracy of SGD Classifiers               :54.14663461538461
+Accuracy of Bernoulli Naive Bayes         :53.54567307692307
+Accuracy of Linear Support Vector Machine :53.36538461538461
+Accuracy of Logistic Regression           :53.36538461538461
+Accuracy of Vote Classifier               :53.425480769230774
+----------------------------------------------
+StopWords       : True
+N Most Frequent : 1000
+PartsOfSpeech   : ['J', 'R', 'V']
+
+Accuracy of Naive Bayes                   :52.463942307692314
+Accuracy of SGD Classifiers               :49.21875
+Accuracy of Bernoulli Naive Bayes         :52.52403846153846
+Accuracy of Linear Support Vector Machine :52.76442307692307
+Accuracy of Logistic Regression           :52.644230769230774
+Accuracy of Vote Classifier               :52.58413461538461
+----------------------------------------------
+
+
+----------------------------------------------
+StopWords       : True
+N Most Frequent : 1000
+PartsOfSpeech   : ['J', 'R']
+
+Accuracy of Naive Bayes                   :53.245192307692314
+Accuracy of SGD Classifiers               :49.33894230769231
+Accuracy of Bernoulli Naive Bayes         :53.245192307692314
+Accuracy of Linear Support Vector Machine :53.605769230769226
+Accuracy of Logistic Regression           :53.605769230769226
+Accuracy of Vote Classifier               :53.36538461538461
+----------------------------------------------
+

@@ -102,7 +102,9 @@ def create_feature_sets(documents, word_features, ifStop, PartsOfSpeech):
     feature_sets = [(find_Features(text, word_features, ifStop, PartsOfSpeech), category) 
                     for (text, category) in documents]
 
-    return random.shuffle(feature_sets)
+    random.shuffle(feature_sets)
+    return feature_sets
+    
 
 
 def lookAtAccuracy(sample):

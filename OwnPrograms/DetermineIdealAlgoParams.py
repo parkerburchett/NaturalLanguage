@@ -91,29 +91,29 @@ def create_Feature_sets_list(param):
                                              param.the_stop, param.PartsOfSpeech)
     word_features = dl.assemble_word_features(all_words, param.NmostFrequent)
     feature_sets = dl.create_feature_sets(documents, word_features, param.the_stop, param.PartsOfSpeech)
-    random.shuffle(feature_sets) # don't shuffle it after this
     return feature_sets
+
     
-def getTestData(FS):
-    N = int(len(fs)*.9) #90% in training data
-    TestingData = feature_sets[N:]
+def getTestData(FS, N):
+   # N = int(len(fs)*.9) #90% in training data BROKEN
+    TestingData = FS[N:]
     return TestingData
 
-def getTrainData(FS):
-    N = int(len(fs)*.9) #90% in training data
-    TrainingData = feature_sets[:N]
+
+def getTrainData(FS,N):
+    
+    TrainingData = FS[:N]
     return TrainingData
     
 
 def CreateAndTrain_Classifiers(FS):
-    N = int(len(fs)*.9) #90% in training data
-    TrainingData = getTrainData(FS)
-    TestingData = getTestData(FS)
+    TrainingData = getTrainData(FS, 9000)
+    TestingData = getTestData(FS,9000)
     
     TrainedClassifierList = []
     NBClassifer = nltk.NaiveBayesClassifier.train(TrainingData)
     TrainedClassifierList.append(NBClassifer)
-    print("Trained NaiveBayes", end="")
+    print("Trained NaiveBayes ", end="")
     print(datetime.datetime.now()-start)
     
     c = SklearnClassifier(SGDClassifier())
@@ -140,50 +140,59 @@ def CreateAndTrain_Classifiers(FS):
     TrainedClassifierList.append(c)
     print(datetime.datetime.now() -start)
     
-    paramList = createParamList();
     print("It took this long to Train 5 Classifiers:", end="")
     print(datetime.datetime.now() -start)
     
-    voted_classifier = VoteClassifier.VoteClassifier(classifiers[0],
-                                                     classifiers[1],
-                                                     classifiers[2],
-                                                     classifiers[3],
-                                                     classifiers[4])
-    classifiers.append(voted_classifier)
-    return classifiers
+    voted_classifier = VoteClassifier.VoteClassifier(TrainedClassifierList[0],
+                                                     TrainedClassifierList[1],
+                                                     TrainedClassifierList[2],
+                                                     TrainedClassifierList[3],
+                                                     TrainedClassifierList[4])
+    TrainedClassifierList.append(voted_classifier)
+    return TrainedClassifierList
 
 def writeAlgoEvaluation(param, classifiers, results):
-    TestingSet = getTestData(FS)
+    TestingSet = getTestData(FS, 9000)
     with open("AlgoEvalutationResults.txt","a+") as out:
-        out.write("----------------------------------------------")
-        out.write(toString(param))
-        out.write("Accuracy of Naive Bayes:", (nltk.classify.accuracy(classifiers[0], TestingSet)*100))
-        out.write("Accuracy of SGD Classifiers:", (nltk.classify.accuracy(classifiers[1], TestingSet)*100))
-        out.write("Accuracy of Bernoulli Naive Bayes:", (nltk.classify.accuracy(classifiers[2], TestingSet)*100))
-        out.write("Accuracy of Linear Support Vector Machine", (nltk.classify.accuracy(classifiers[3], TestingSet)*100))
-        out.write("Accuracy of Logistic Regression:", (nltk.classify.accuracy(classifiers[4], TestingSet)*100))
-        out.write("Accuracy of Vote Classifier:", (nltk.classify.accuracy(classifiers[5], TestingSet)*100))
+        out.write("\n----------------------------------------------\n")
+        
+        res = ("StopWords       : " + str(param.the_stop) + 
+               "\nN Most Frequent : " + str(param.NmostFrequent) +
+               "\nPartsOfSpeech   : " + str(param.PartsOfSpeech) +"\n"
+                )
+        out.write(res)
+        out.write("\nAccuracy of Naive Bayes                   :"+str(nltk.classify.accuracy(classifiers[0], TestingSet)*100))
+        out.write("\nAccuracy of SGD Classifiers               :"+str(nltk.classify.accuracy(classifiers[1], TestingSet)*100))
+        out.write("\nAccuracy of Bernoulli Naive Bayes         :"+str(nltk.classify.accuracy(classifiers[2], TestingSet)*100))
+        out.write("\nAccuracy of Linear Support Vector Machine :"+str(nltk.classify.accuracy(classifiers[3], TestingSet)*100))
+        out.write("\nAccuracy of Logistic Regression           :"+str(nltk.classify.accuracy(classifiers[4], TestingSet)*100))
+        out.write("\nAccuracy of Vote Classifier               :"+str(nltk.classify.accuracy(classifiers[5], TestingSet)*100))
         localRes = (param, nltk.classify.accuracy(classifiers[5], TestingSet)*100)
         results.append(localRes)
         print("You just wrote out the results of a param test")
-        out.write("----------------------------------------------\n\n")
+        out.write("\n----------------------------------------------\n\n")
 
 start = datetime.datetime.now()
 print('you have started')
 
 paramList = createParamList()
+counter =0
 for p in paramList:
+    start2 =  datetime.datetime.now()
+    print("You are at this call of 42:",end="")
+    print(counter)
+    counter = counter +1
     FS = create_Feature_sets_list(p)
-    ## FS is a Feature set and P is a 
     results =[()]
     classifiers = CreateAndTrain_Classifiers(FS)
     writeAlgoEvaluation(p,classifiers,results)
-    print(datetime.datetime.now()-start)
-
-
-
-
-#next steps pass feature sets, and the params to the Create and traing Classifier list. 
+    print("A pass of the for loop took this long: ", end="")
+    print(datetime.datetime.now()-start2)
+    
+# results =[()]
+# FS = create_Feature_sets_list(paramList[0]) # Part of the random is wrong here
+# classifiers = CreateAndTrain_Classifiers(FS)
+# writeAlgoEvaluation(paramList[0],classifiers,results)
 
 print('finished')
 print(datetime.datetime.now() -start)
