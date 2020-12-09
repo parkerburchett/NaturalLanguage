@@ -3,7 +3,7 @@ from NaturalLanguage.custom_NLTK_Utils import AlgoParams
 import nltk
 import random
 
-def find_Features(document,word_features, ifStop, PartsOfSpeech):
+def find_Features(document,word_features, ifStop=False, PartsOfSpeech=["*"]):
     """
         source: https://www.youtube.com/watch?v=-vVskDsHcVc&list=PLQVvvaa0QuDf2JswnfiGkliBInZnIC4HL&index=12
             
@@ -16,15 +16,13 @@ def find_Features(document,word_features, ifStop, PartsOfSpeech):
         Features is then a  dictionary that will look elike this {"great": True, "fish": False}
         This would be if Great is the word_features, and fish is not.
         
-        
         There are many words that are just so rare that they dont' have predictive value. 
         those are assigned false.
     """
     limit_features(document, ifStop, PartsOfSpeech) # this removes stop words from consideration
-    words = set(document) # remove all duplicate words
+    words = nltk.word_tokenize(document)
     features = {} # empty dictionary
     for w in word_features:
-        # if a word is in the most common N words
         features[w] = (w in words) # this a boolean
     return features  
 
@@ -35,9 +33,10 @@ def assemble_Documents(PositiveExamples, NegativeExamples):
         documents.append((r,"pos"))
     for r in NegativeExamples.split('\n'):
         documents.append((r,"neg"))
+    random.shuffle(documents)
     return documents
 
-def assemble_all_wordsFRQDIST(PositiveExamples, NegativeExamples,stopWords, PartsOfSpeech):
+def assemble_all_wordsFRQDIST(PositiveExamples, NegativeExamples,ifStop=False, PartsOfSpeech=["*"]):
     short_pos_words = nltk.word_tokenize(PositiveExamples)
     short_neg_words = nltk.word_tokenize(NegativeExamples)
     
@@ -47,13 +46,13 @@ def assemble_all_wordsFRQDIST(PositiveExamples, NegativeExamples,stopWords, Part
     for w in short_neg_words:
         all_words.append(w.lower())
         
-    limit_features(all_words, stopWords, PartsOfSpeech)
+    limit_features(all_words, ifStop, PartsOfSpeech)
     all_words = nltk.FreqDist(all_words)
     return all_words
 
     
     
-def limit_features(all_words, ifStop, PartsOfSpeech):
+def limit_features(all_words, ifStop=False, PartsOfSpeech=["*"]):
     """
     Parameters
     ----------
@@ -73,37 +72,32 @@ def assemble_word_features(all_words, N):
     """
     returns a nltk.FreqDist object for the most frequent topNWords
     """
-    
-    word_features =  list(all_words.keys())
-    word_features = word_features[:N]
+    word_features = list(all_words.keys())[:3000]
     return word_features
     
-def create_feature_sets(documents, word_features, ifStop, PartsOfSpeech):
+def create_feature_sets(PositiveExamples,NegativeExamples, ifStop=False, PartsOfSpeech=["*"]):
     """
     This will create a list of tuples representing
     [Dictionary of
 
                  (word: boolean(Occurs In Most common N words) # this has a lot of words in it
                   "String if this review is postive or negative".
-                  
-                  
-                  
                   These are the objects that you split into Train / Test that will train the algo
-                  
-    
     Example
     [({"great":True, "fish": False ...}, "pos"), ({"amazing":True, "kevin": False ...}, "neg")...]
     """
-    # documents = assemble_Documents(PositiveExamples, NegativeExamples)
-    # all_words = assemble_all_wordsFRQDIST(PositiveExamples,NegativeExamples,stop,PartsOfSpeech)
-    # word_features = assemble_word_features(all_words, 3000)
+    documents = assemble_Documents(PositiveExamples, NegativeExamples)
+    
+    all_words = assemble_all_wordsFRQDIST(PositiveExamples,NegativeExamples)
+    
+    word_features = assemble_word_features(all_words, 3000)
     
     # this is the key line
-    feature_sets = [(find_Features(text, word_features, ifStop, PartsOfSpeech), category) 
+    feature_sets = [(find_Features(text, word_features), category) 
                     for (text, category) in documents]
 
     random.shuffle(feature_sets)
-    return feature_sets
+    return feature_sets # don't shuffle after this point
     
 
 

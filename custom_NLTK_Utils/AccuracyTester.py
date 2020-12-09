@@ -13,11 +13,9 @@ This is a beautiful way of looking at it.
 
     
 """
-
+import NaturalLanguage.custom_NLTK_Utils.dataLabeling as DL
 import NaturalLanguage.custom_NLTK_Utils.Inital_Pickle
 import NaturalLanguage.custom_NLTK_Utils.VoteClassifier
-
-
 import random, pickle, nltk
 import datetime
 from nltk.classify.scikitlearn import SklearnClassifier
@@ -26,31 +24,26 @@ from sklearn.linear_model import LogisticRegression, SGDClassifier
 from nltk.classify import ClassifierI
 from statistics import mode
 from sklearn.svm import SVC, LinearSVC, NuSVC
-from nltk.corpus import stopwords
+
 
 start = datetime.datetime.now()
-print('you have started')
+print('This is the buggy version you have started')
 
-# shortPos = open("short_reviews/shortPositive.txt","r").read()
-# shortNeg = open("short_reviews/shortNegative.txt","r").read()
-
-# general.pickle_Intermediate_Steps(shortPos,shortNeg)
+shortPos = open("C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/custom_NLTK_Utils/short_reviews/shortPositive.txt","r").read()
+shortNeg = open("C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/custom_NLTK_Utils/short_reviews/shortNegative.txt","r").read()
 
 
-
-loadFS = open("pickled_feature_sets.pickle", "rb")
-feature_sets = pickle.load(loadFS)
-loadFS.close()
-
-
-TrainingData = feature_sets[:9000]
-TestingData = feature_sets[9000:]
+feature_sets =  DL.create_feature_sets(shortPos, shortNeg)
+N = int(len(feature_sets)*.9)
+TrainingData = feature_sets[:N]
+TestingSet = feature_sets[N:]
 
 
-
+print("Buggy now training")
 TrainedClassifierList = []
 NBClassifer = nltk.NaiveBayesClassifier.train(TrainingData)
 TrainedClassifierList.append(NBClassifer)
+print("Buggy Trained")
 print(datetime.datetime.now() -start)
 
 c = SklearnClassifier(SGDClassifier())
@@ -73,11 +66,20 @@ c.train(TrainingData)
 TrainedClassifierList.append(c)
 print(datetime.datetime.now() -start)
 
-custom_NLTK_Utils.Inital_Pickle.customPickle(TrainedClassifierList, "TrainedClassifierList")
+voted_classifier = NaturalLanguage.custom_NLTK_Utils.VoteClassifier.VoteClassifier(TrainedClassifierList[0],
+                                                      TrainedClassifierList[1],
+                                                      TrainedClassifierList[2],
+                                                      TrainedClassifierList[3],
+                                                      TrainedClassifierList[4])
 
+print("BUGGY Accuracy of Naive Bayes:", (nltk.classify.accuracy(TrainedClassifierList[0], 
+                                                          TestingSet)*100))
 
-print("the program took this long: ")
-end = datetime.datetime.now()
-print(end-start)
+print("Accuracy of voted_classifier in Percentage :", (nltk.classify.accuracy
+                                                        (voted_classifier, 
+                                                        TestingSet)*100))
+
+print("BUGGY the program took this long: ")
+print(datetime.datetime.now() -start)
 
 

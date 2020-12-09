@@ -1,0 +1,36 @@
+Problem: The accuracy on all of the classifiers is 50%. During the lecture, using the pramas that the lecture provided
+the accuracy was 70-80%. There is an error somewhere in the code
+So, I am running the code with the inputs from the pickeled files instead of the code I wrote. 
+
+Attempting to remove limit features. did not fix
+
+Replacing documents with the pickled documents.This does not impact accuracy. Still 50%. Did not fix
+
+
+Replacing all_words with pickled allwords. Did not fix.
+
+Repace word_features. Did not fix.
+
+Replace feature_sets. Accuracy is now 71%
+
+Now, I am going to stip down dataLabeling.create_feature_sets() to see if the error is there.
+
+
+I think I found the problem: 
+Find features you look create a set of ("word", True) tuples 
+that represent is a word in a given review is one of the features that we are considering
+
+In find_features(document, word_features)
+
+I was first converting a document to a set(document). 
+
+
+OLD:
+words = set(document)
+
+NEW:
+words = nltk.word_tokenize(document)
+
+Since word_features is initally created from a nltk.word_tokenize when the reviews are read in it is comparing two different objects
+
+THis makes it more accurate since
