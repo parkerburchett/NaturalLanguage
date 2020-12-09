@@ -30,9 +30,9 @@ def find_Features(document,word_features, ifStop=False, PartsOfSpeech=["*"]):
 def assemble_Documents(PositiveExamples, NegativeExamples):
     documents = [] # document is a tuple of (review, classifcation)
     for r in PositiveExamples.split('\n'):
-        documents.append((r,"pos"))
+        documents.append((r,"Positive"))
     for r in NegativeExamples.split('\n'):
-        documents.append((r,"neg"))
+        documents.append((r,"Negative"))
     random.shuffle(documents)
     return documents
 
@@ -97,7 +97,7 @@ def create_feature_sets(PositiveExamples,NegativeExamples, ifStop=False, PartsOf
                     for (text, category) in documents]
 
     random.shuffle(feature_sets)
-    return feature_sets # don't shuffle after this point
+    return feature_sets # don't shuffle the feature_sets after this point
     
 
 

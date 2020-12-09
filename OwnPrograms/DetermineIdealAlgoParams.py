@@ -87,10 +87,11 @@ def createParamList():
 
 def create_Feature_sets_list(param):
     documents = dl.assemble_Documents(param.PosExamples, param.NegExamples)
-    all_words = dl.assemble_all_wordsFRQDIST(param.PosExamples, param.NegExamples, 
-                                             param.the_stop, param.PartsOfSpeech)
+    all_words = dl.assemble_all_wordsFRQDIST(param.PosExamples, param.NegExamples)
+                                            
     word_features = dl.assemble_word_features(all_words, param.NmostFrequent)
-    feature_sets = dl.create_feature_sets(documents, word_features, param.the_stop, param.PartsOfSpeech)
+    feature_sets = dl.create_feature_sets(param.PosExamples, param.NegExamples, param.the_stop, param.PartsOfSpeech)
+
     return feature_sets
 
     
@@ -162,10 +163,10 @@ start = datetime.datetime.now()
 print('you have started')
 
 paramList = createParamList()
-counter =0
+counter =1
 for p in paramList:
     start2 =  datetime.datetime.now()
-    print("You are at this call of 42:",end="")
+    print("You are at this call of 8:",end="")
     print(counter)
     counter = counter +1
     FS = create_Feature_sets_list(p)
