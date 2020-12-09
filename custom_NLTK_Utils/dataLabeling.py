@@ -6,21 +6,21 @@ import random
 def find_Features(document,word_features, ifStop=False, PartsOfSpeech=["*"]):
     """
         source: https://www.youtube.com/watch?v=-vVskDsHcVc&list=PLQVvvaa0QuDf2JswnfiGkliBInZnIC4HL&index=12
-            
         
         This method takes a string of Text, "documents" 
         It removes all duplicate words, then it creates a dictionary object
         where The key is each unique word and the value is a boolean.
-        The boolean represetes if that word occurs in the most common N words
+        The boolean represented if that word occurs in the most common N words
         
-        Features is then a  dictionary that will look elike this {"great": True, "fish": False}
+        Features is then a  dictionary that will look like this {"great": True, "fish": False}
         This would be if Great is the word_features, and fish is not.
         
-        There are many words that are just so rare that they dont' have predictive value. 
+        There are many words that are just so rare that they don't' have predictive value. 
         those are assigned false.
+
     """
     limit_features(document, ifStop, PartsOfSpeech) # this removes stop words from consideration
-    words = nltk.word_tokenize(document)
+    words = nltk.word_tokenize(document) # this was where the bug was in DetermineIdealALgoParams.py was It was words = set(document)
     features = {} # empty dictionary
     for w in word_features:
         features[w] = (w in words) # this a boolean
@@ -54,13 +54,7 @@ def assemble_all_wordsFRQDIST(PositiveExamples, NegativeExamples,ifStop=False, P
     
 def limit_features(all_words, ifStop=False, PartsOfSpeech=["*"]):
     """
-    Parameters
-    ----------
-    all_words : TYPE
-        I am not sure what type this is it might be a tuple like ("word", 'pos')
-        or it might be a list of every word
-        Later you can chnage this method to parse by part of speech
-        
+        Need to add way to parse REGEX from PartsOFspeech 
         That will make the algos train better. 
     """
     if(ifStop):
@@ -70,7 +64,7 @@ def limit_features(all_words, ifStop=False, PartsOfSpeech=["*"]):
     
 def assemble_word_features(all_words, N):
     """
-    returns a nltk.FreqDist object for the most frequent topNWords
+    returns a nltk.FreqDist object for the most frequent N unique words
     """
     word_features = list(all_words.keys())[:3000]
     return word_features
@@ -102,6 +96,10 @@ def create_feature_sets(PositiveExamples,NegativeExamples, ifStop=False, PartsOf
 
 
 def lookAtAccuracy(sample):
+    """
+    This is to get a more indepth understanding of the accuracy of a classifier
+
+    """
     numCorrect =0
     HighConfidenceCorrect =0
     numHighConfidence =0
