@@ -1,21 +1,19 @@
 """
+Source:
+
 https://www.youtube.com/watch?v=rISOsUaTrO4&list=PLQVvvaa0QuDf2JswnfiGkliBInZnIC4HL&index=13
 
-
 This is where we build the naive bayes algorithm to classify a review as 
-negative or postiive syntiment. 
+negative or positive sentiment. 
 
-The Naive Bayse is pretty good and very cheap timecost. So it can get scaled up
+The Naive Bayse is pretty good and very cheap. So it can get scaled up
 a tremendous amount 
 
 The time complexity is O(nK) (linear time)
 
-where n is the number of features( this is the number of words)
+where n is the number of features( this is the number of words I am considering)
 
-and k is the number of labed classes ( I don't know what this means)
-
-
-
+and k is the number of labed classes (Positive  or Negative)
 
 From wikipedia
 https://en.wikipedia.org/wiki/Naive_Bayes_classifier
@@ -23,17 +21,13 @@ https://en.wikipedia.org/wiki/Naive_Bayes_classifier
 The Naive Bayes is a method for developing a system classifying a vector.
 The vector is a very long series of words in this context. 
 
-    This ignores corralation between values in the  vector
-
-
-# posterior = prior occurances x liklhood  / current evidence
-
+This ignores correlation between values in the vector
+# posterior = prior occurrences x likelihood  / current evidence
 
 The reason why the value changes so much is that 
 you are shuffling the Train, Test Data
 
 You can see more details by looking at the variables after you run this. 
-
 
 
 """
@@ -44,7 +38,7 @@ import nltk
 from nltk.corpus import movie_reviews
 
 # this is an ugly one liner
-# documents is a list of tuples of (contents of a review, pos or negaitve)
+# documents is a list of tuples of (contents of a review, positive or negaitve)
 documents = [(list(movie_reviews.words(fileid)), category)
              for category in movie_reviews.categories()
              for fileid in movie_reviews.fileids(category)]
@@ -77,7 +71,7 @@ feature_sets = [(find_Features(rev), category) for (rev, category) in documents]
 TrainingSet = feature_sets[:1900]
 TestingSet = feature_sets[1900:]
 
-# create a classifer object using the NaiveBayesClassifer
+# create a classifier object using the NaiveBayesClassifier
 classifier = nltk.NaiveBayesClassifier.train(TrainingSet)
 
 print("Accuracy of Naive Bays in Percentage:", (nltk.classify.accuracy(classifier, TestingSet)*100))
