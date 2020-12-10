@@ -112,8 +112,12 @@ def CreateAndTrain_Classifiers(FS):
     TestingData = getTestData(FS)
     
     TrainedClassifierList = []
+    
     NBClassifer = nltk.NaiveBayesClassifier.train(TrainingData)
+    
     TrainedClassifierList.append(NBClassifer)
+    
+    
     
     c = SklearnClassifier(SGDClassifier())
     c.train(TrainingData)

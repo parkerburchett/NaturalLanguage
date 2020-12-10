@@ -72,14 +72,12 @@ def find_Features(document):
     
 
 # this creates a list of tuples of (an entire review : BOOLEAN if in top 3000 words, Negative  or Positive)   
-feature_sets = [(find_Features(rev), category) for (rev, category) in documents]
 
+feature_sets = [(find_Features(rev), category) for (rev, category) in documents]
 TrainingSet = feature_sets[:1900]
 TestingSet = feature_sets[1900:]
-
-# create a classifer object using the NaiveBayesClassifer
 classifier = nltk.NaiveBayesClassifier.train(TrainingSet)
-
-print("Accuracy of Naive Bays in Percentage:", (nltk.classify.accuracy(classifier, TestingSet)*100))
+print("Accuracy of Naive Bays in Percentage:", 
+      (nltk.classify.accuracy(classifier, TestingSet)*100))
 
 classifier.show_most_informative_features(10)
