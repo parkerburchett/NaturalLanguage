@@ -79,8 +79,8 @@ def createParamList():
     shortNeg = open("C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/OwnPrograms/short_reviews/shortNegative.txt","r").read()
     paramList = []
     
-    for pos in (["J"],["A","J"],["A"]):
-        paramList.append(AlgoParams.AlgoParams(True, 1000, shortPos, shortNeg, pos))
+    for pos in (["J"],["V"],["R"],["V","J"],["V","R"],["R","J"],["V","J","R"]):
+        paramList.append(AlgoParams.AlgoParams(True, 2000, shortPos, shortNeg, pos))
     return paramList
     
 def getTestData(feature_sets):
@@ -129,7 +129,7 @@ def CreateAndTrain_Classifiers(Feature_sets):
 def writeAlgoEvaluation(param, classifiers, FeatureSets):
     TestingSet = getTestData(FeatureSets)
     # change where this writes to so it writes to the current diricetory
-    with open("JustPartsOfSpeech_AlgoEvalutationResults.txt","a+") as out:
+    with open("JustPartsOfSpeech2_AlgoEvalutationResults.txt","a+") as out:
         out.write("\n----------------------------------------------\n")
         ParamDetails = ("StopWords       : " + str(param.the_stop) + 
                "\nN Most Frequent : " + str(param.NmostFrequent) +
@@ -151,16 +151,19 @@ print('you have started')
 paramList = createParamList()
 counter =1
 for p in paramList:
-    start2 =  datetime.datetime.now()
-    print("At {} of {} where N={}".format(counter,len(paramList),p.NmostFrequent))
-    counter = counter +1
-    FS = dl.create_feature_sets(p)
-    print('Created Feature_sets {}:'.format((datetime.datetime.now()-start2)))
-    classifiers = CreateAndTrain_Classifiers(FS)
-    print('Trained Classifiers: {}:'.format((datetime.datetime.now()-start2)))
-    writeAlgoEvaluation(p,classifiers,FS)
-    print('Tested Classifiers: {}:'.format((datetime.datetime.now()-start2)))
-
+    try:
+        start2 =  datetime.datetime.now()
+        print("At {} of {} where N={}".format(counter,len(paramList),p.NmostFrequent))
+        counter = counter +1
+        FS = dl.create_feature_sets(p)
+        print('Created Feature_sets {}:'.format((datetime.datetime.now()-start2)))
+        classifiers = CreateAndTrain_Classifiers(FS)
+        print('Trained Classifiers: {}:'.format((datetime.datetime.now()-start2)))
+        writeAlgoEvaluation(p,classifiers,FS)
+        print('Tested Classifiers: {}:'.format((datetime.datetime.now()-start2)))
+    
+    except (ValueError):
+        print(ValueError)
     
 
 
