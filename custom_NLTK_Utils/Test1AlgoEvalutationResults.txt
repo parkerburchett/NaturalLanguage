@@ -1,0 +1,56 @@
+
+----------------------------------------------
+StopWords       : True
+N Most Frequent : 50
+PartsOfSpeech   : ['*']
+
+Accuracy of Naive Bayes                   :58.76288659793815
+Accuracy of SGD Classifiers               :58.76288659793815
+Accuracy of Bernoulli Naive Bayes         :59.606373008434865
+Accuracy of Linear Support Vector Machine :58.76288659793815
+Accuracy of Logistic Regression           :59.700093720712275
+Accuracy of Vote Classifier               :59.700093720712275
+----------------------------------------------
+
+
+----------------------------------------------
+StopWords       : True
+N Most Frequent : 1
+PartsOfSpeech   : ['*']
+
+Accuracy of Naive Bayes                   :48.26616682286786
+Accuracy of SGD Classifiers               :48.26616682286786
+Accuracy of Bernoulli Naive Bayes         :50.98406747891284
+Accuracy of Linear Support Vector Machine :48.26616682286786
+Accuracy of Logistic Regression           :48.26616682286786
+Accuracy of Vote Classifier               :48.26616682286786
+----------------------------------------------
+
+
+----------------------------------------------
+StopWords       : False
+N Most Frequent : 50
+PartsOfSpeech   : ['*']
+
+Accuracy of Naive Bayes                   :60.07497656982193
+Accuracy of SGD Classifiers               :60.07497656982193
+Accuracy of Bernoulli Naive Bayes         :58.66916588566073
+Accuracy of Linear Support Vector Machine :60.07497656982193
+Accuracy of Logistic Regression           :59.137769447047795
+Accuracy of Vote Classifier               :59.137769447047795
+----------------------------------------------
+
+
+----------------------------------------------
+StopWords       : False
+N Most Frequent : 1
+PartsOfSpeech   : ['*']
+
+Accuracy of Naive Bayes                   :47.70384254920337
+Accuracy of SGD Classifiers               :47.70384254920337
+Accuracy of Bernoulli Naive Bayes         :51.452671040299904
+Accuracy of Linear Support Vector Machine :47.70384254920337
+Accuracy of Logistic Regression           :47.70384254920337
+Accuracy of Vote Classifier               :47.70384254920337
+----------------------------------------------
+
