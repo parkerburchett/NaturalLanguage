@@ -21,7 +21,7 @@ def find_Features(document, word_features):
 
     """
     # limit_features(document, ifStop, PartsOfSpeech) # this removes stop words from consideration
-    words = nltk.word_tokenize(document) # this was where the bug was in DetermineIdealALgoParams.py was It was words = set(document)
+    words = word_tokenize(document) # this was where the bug was in DetermineIdealALgoParams.py was It was words = set(document)
     features = {} # empty dictionary
     for w in word_features:
         features[w] = (w in words) # this a boolean
@@ -38,8 +38,8 @@ def assemble_Documents(param):
     return documents
 
 def assemble_all_wordsFRQDIST(param):
-    short_pos_words = nltk.word_tokenize(param.PosExamples)
-    short_neg_words = nltk.word_tokenize(param.NegExamples)
+    short_pos_words = word_tokenize(param.PosExamples)
+    short_neg_words = word_tokenize(param.NegExamples)
     all_words = []
     for w in short_pos_words:
         all_words.append(w.lower()) 
@@ -47,7 +47,7 @@ def assemble_all_wordsFRQDIST(param):
         all_words.append(w.lower())
         
     limit_features(all_words, param)
-    all_words = nltk.FreqDist(all_words)
+    all_words = FreqDist(all_words)
     return all_words
 
 def FromLecture_assemble_all_words_FREQDIST(param):
@@ -72,7 +72,7 @@ def FromLecture_assemble_all_words_FREQDIST(param):
     
 def limit_features(all_words, param):
     """
-        Need to add way to parse REGEX from PartsOFspeech 
+        Need to add way to parse REGEX from PartsOfspeech 
         That will make the algos train better. 
     """
     if(param.the_stop):
