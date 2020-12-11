@@ -1,0 +1,56 @@
+
+----------------------------------------------
+StopWords       : True
+N Most Frequent : 100
+PartsOfSpeech   : ['*']
+
+Accuracy of Naive Bayes                   :60.73102155576382
+Accuracy of SGD Classifiers               :60.73102155576382
+Accuracy of Bernoulli Naive Bayes         :58.66916588566073
+Accuracy of Linear Support Vector Machine :60.63730084348641
+Accuracy of Logistic Regression           :60.35613870665417
+Accuracy of Vote Classifier               :60.543580131209
+----------------------------------------------
+
+
+----------------------------------------------
+StopWords       : True
+N Most Frequent : 200
+PartsOfSpeech   : ['*']
+
+Accuracy of Naive Bayes                   :65.5107778819119
+Accuracy of SGD Classifiers               :65.5107778819119
+Accuracy of Bernoulli Naive Bayes         :66.2605435801312
+Accuracy of Linear Support Vector Machine :65.5107778819119
+Accuracy of Logistic Regression           :67.57263355201499
+Accuracy of Vote Classifier               :67.76007497656981
+----------------------------------------------
+
+
+----------------------------------------------
+StopWords       : False
+N Most Frequent : 100
+PartsOfSpeech   : ['*']
+
+Accuracy of Naive Bayes                   :62.32427366447985
+Accuracy of SGD Classifiers               :62.32427366447985
+Accuracy of Bernoulli Naive Bayes         :62.41799437675727
+Accuracy of Linear Support Vector Machine :62.41799437675727
+Accuracy of Logistic Regression           :64.47985004686035
+Accuracy of Vote Classifier               :64.19868791002811
+----------------------------------------------
+
+
+----------------------------------------------
+StopWords       : False
+N Most Frequent : 200
+PartsOfSpeech   : ['*']
+
+Accuracy of Naive Bayes                   :66.44798500468603
+Accuracy of SGD Classifiers               :66.44798500468603
+Accuracy of Bernoulli Naive Bayes         :65.79194001874414
+Accuracy of Linear Support Vector Machine :66.35426429240863
+Accuracy of Logistic Regression           :65.88566073102156
+Accuracy of Vote Classifier               :65.69821930646673
+----------------------------------------------
+
