@@ -37,7 +37,8 @@ def assemble_Documents(PositiveExamples, NegativeExamples):
     random.shuffle(documents)
     return documents
 
-def assemble_all_wordsFRQDIST(PositiveExamples, NegativeExamples,ifStop=False, PartsOfSpeech=["*"]):
+def assemble_all_wordsFRQDIST(PositiveExamples, NegativeExamples,
+                              ifStop=False, PartsOfSpeech=["*"]):
     short_pos_words = nltk.word_tokenize(PositiveExamples)
     short_neg_words = nltk.word_tokenize(NegativeExamples)
     
@@ -48,8 +49,8 @@ def assemble_all_wordsFRQDIST(PositiveExamples, NegativeExamples,ifStop=False, P
         all_words.append(w.lower())
         
     limit_features(all_words, ifStop, PartsOfSpeech)
-    all_words = nltk.FreqDist(all_words)
-    return all_words
+    res = nltk.FreqDist(all_words)
+    return res
 
 def FromLecture_assemble_all_words_FREQDIST(PositiveExamples, NegativeExamples,
                                             AllowedWordTypes):
@@ -86,10 +87,15 @@ def assemble_word_features(all_words, N):
     """
     returns a nltk.FreqDist object for the most frequent N unique words
     """
-    word_features = list(all_words.keys())[:3000]
+    word_features = list(all_words.keys())[:N]
     return word_features
     
-def create_feature_sets(PositiveExamples,NegativeExamples, all_words, ifStop=False, PartsOfSpeech=["*"]):
+def create_feature_sets(PositiveExamples,
+                        NegativeExamples,
+                        all_words, 
+                        word_featuresSize=3000,
+                        ifStop=False, 
+                        PartsOfSpeech=["*"]):
     """
     This will create a list of tuples representing
     [Dictionary of
@@ -102,9 +108,9 @@ def create_feature_sets(PositiveExamples,NegativeExamples, all_words, ifStop=Fal
     """
     documents = assemble_Documents(PositiveExamples, NegativeExamples)
     
-    # all_words = assemble_all_wordsFRQDIST(PositiveExamples,NegativeExamples)
+    all_words = FromLecture_assemble_all_words_FREQDIST(PositiveExamples,NegativeExamples)
     
-    word_features = assemble_word_features(all_words, 3000)
+    word_features = assemble_word_features(all_words, word_featuresSize)
     
     # this is the key line
     feature_sets = [(find_Features(text, word_features), category) 
