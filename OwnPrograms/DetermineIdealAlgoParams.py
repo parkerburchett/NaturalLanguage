@@ -86,11 +86,16 @@ def createParamList():
     return paramList
 
 def create_Feature_sets_list(param):
-    documents = dl.assemble_Documents(param.PosExamples, param.NegExamples)
-    all_words = dl.assemble_all_wordsFRQDIST(param.PosExamples, param.NegExamples)
+    # documents = dl.assemble_Documents(param.PosExamples, param.NegExamples)
+    all_words = dl.FromLecture_assemble_all_words_FREQDIST(param.PosExamples, 
+                                                           param.NegExamples,
+                                                           param.PartsOfSpeech)
                                             
-    word_features = dl.assemble_word_features(all_words, param.NmostFrequent)
-    feature_sets = dl.create_feature_sets(param.PosExamples, param.NegExamples, param.the_stop, param.PartsOfSpeech)
+    # word_features = dl.assemble_word_features(all_words, param.NmostFrequent)
+    feature_sets = dl.create_feature_sets(param.PosExamples, 
+                                          param.NegExamples,
+                                          all_words, param.the_stop, 
+                                          param.PartsOfSpeech)
 
     return feature_sets
 
@@ -112,13 +117,9 @@ def CreateAndTrain_Classifiers(FS):
     TestingData = getTestData(FS)
     
     TrainedClassifierList = []
-    
     NBClassifer = nltk.NaiveBayesClassifier.train(TrainingData)
-    
     TrainedClassifierList.append(NBClassifer)
-    
-    
-    
+
     c = SklearnClassifier(SGDClassifier())
     c.train(TrainingData)
     TrainedClassifierList.append(c)

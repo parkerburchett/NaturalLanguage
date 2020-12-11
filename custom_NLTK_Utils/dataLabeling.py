@@ -1,6 +1,7 @@
 from nltk.corpus import stopwords
 from NaturalLanguage.custom_NLTK_Utils import AlgoParams
 import nltk
+from nltk import word_tokenize
 import random
 
 def find_Features(document,word_features, ifStop=False, PartsOfSpeech=["*"]):
@@ -19,7 +20,7 @@ def find_Features(document,word_features, ifStop=False, PartsOfSpeech=["*"]):
         those are assigned false.
 
     """
-    limit_features(document, ifStop, PartsOfSpeech) # this removes stop words from consideration
+    # limit_features(document, ifStop, PartsOfSpeech) # this removes stop words from consideration
     words = nltk.word_tokenize(document) # this was where the bug was in DetermineIdealALgoParams.py was It was words = set(document)
     features = {} # empty dictionary
     for w in word_features:
@@ -50,7 +51,26 @@ def assemble_all_wordsFRQDIST(PositiveExamples, NegativeExamples,ifStop=False, P
     all_words = nltk.FreqDist(all_words)
     return all_words
 
-    
+def FromLecture_assemble_all_words_FREQDIST(PositiveExamples, NegativeExamples,
+                                            AllowedWordTypes):
+    """
+    Source:
+    https://www.youtube.com/watch?v=eObouMO2qSE&list=PLQVvvaa0QuDf2JswnfiGkliBInZnIC4HL&index=19
+    This makes it so that allwords is limited by both stop words and parts of speech
+    """
+    all_words = []
+    Examples = [PositiveExamples, NegativeExamples]
+    for e in Examples:
+        for review in e.split('\n'):
+            words = nltk.word_tokenize(review)
+            partOfSpeech = nltk.pos_tag(words)
+            for w in partOfSpeech:
+                if (w[1][0]) in AllowedWordTypes:
+                    all_words.append(w[0].lower())
+    limit_features(all_words, PartsOfSpeech=AllowedWordTypes)
+    all_words = nltk.FreqDist(all_words)
+    return all_words
+            
     
 def limit_features(all_words, ifStop=False, PartsOfSpeech=["*"]):
     """
@@ -69,7 +89,7 @@ def assemble_word_features(all_words, N):
     word_features = list(all_words.keys())[:3000]
     return word_features
     
-def create_feature_sets(PositiveExamples,NegativeExamples, ifStop=False, PartsOfSpeech=["*"]):
+def create_feature_sets(PositiveExamples,NegativeExamples, all_words, ifStop=False, PartsOfSpeech=["*"]):
     """
     This will create a list of tuples representing
     [Dictionary of
@@ -82,7 +102,7 @@ def create_feature_sets(PositiveExamples,NegativeExamples, ifStop=False, PartsOf
     """
     documents = assemble_Documents(PositiveExamples, NegativeExamples)
     
-    all_words = assemble_all_wordsFRQDIST(PositiveExamples,NegativeExamples)
+    # all_words = assemble_all_wordsFRQDIST(PositiveExamples,NegativeExamples)
     
     word_features = assemble_word_features(all_words, 3000)
     
