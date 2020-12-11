@@ -2,6 +2,7 @@ from nltk.corpus import stopwords
 from NaturalLanguage.custom_NLTK_Utils import AlgoParams
 from nltk.probability import FreqDist
 from nltk import word_tokenize
+from nltk import pos_tag
 import random
 
 def find_Features(document, word_features):
@@ -60,13 +61,13 @@ def FromLecture_assemble_all_words_FREQDIST(param):
     Examples = [param.PosExamples, param.NegExamples]
     for e in Examples:
         for review in e.split('\n'):
-            words = nltk.word_tokenize(review)
-            pos_inthisReveiw = nltk.pos_tag(words)
+            words = word_tokenize(review)
+            pos_inthisReveiw = pos_tag(words)
             for w in pos_inthisReveiw:
                 if (w[1][0]) in param.PartsOfSpeech:
                     all_words.append(w[0].lower())
     limit_features(all_words, param)
-    all_words = nltk.FreqDist(all_words)
+    all_words = FreqDist(all_words)
     return all_words
             
     
@@ -84,9 +85,8 @@ def assemble_word_features(all_words, param):
     """
     returns list of the frequent N unique words
     """
-    
+    # source: https://stackoverflow.com/questions/613183/how-do-i-sort-a-dictionary-by-value
     dict(sorted(all_words.items(), key=lambda item: item[1]))
-
     word_features = list(all_words)[:param.NmostFrequent]
     return word_features
     
@@ -102,9 +102,11 @@ def create_feature_sets(param):
     [({"great":True, "fish": False ...}, "pos"), ({"amazing":True, "kevin": False ...}, "neg")...]
     """
     documents = assemble_Documents(param) 
-    all_words = assemble_all_wordsFRQDIST(param)
+    # all_words = assemble_all_wordsFRQDIST(param)
+    # regex Tester 
+    all_words = FromLecture_assemble_all_words_FREQDIST (param)
     word_features = assemble_word_features(all_words, param)
-    # this is the key line
+
     feature_sets = [(find_Features(text, word_features), category) 
                     for (text, category) in documents]
 

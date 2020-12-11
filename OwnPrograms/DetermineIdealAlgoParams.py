@@ -24,7 +24,6 @@ These are the parts
                 
     word_features: the N most common words, where you can change N. In the entire sample
     
-    
     feature_sets: A list of Dictionary, String tuples 
     representing the boolean of if a word is in the common features and if the review is postiive or negative 
      
@@ -71,25 +70,18 @@ from sklearn.linear_model import LogisticRegression, SGDClassifier
 from nltk.classify import ClassifierI
 from statistics import mode
 from sklearn.svm import SVC, LinearSVC, NuSVC
-
 import nltk
 import datetime
 import random
 
 def createParamList():
-    shortPos = open("short_reviews/shortPositive.txt","r").read()
-    shortNeg = open("short_reviews/shortNegative.txt","r").read()
+    shortPos = open("C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/OwnPrograms/short_reviews/shortPositive.txt","r").read()
+    shortNeg = open("C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/OwnPrograms/short_reviews/shortNegative.txt","r").read()
     paramList = []
-    for stopWords in (True,False):
-        for N in (2000,3000,4000,5000):
-                paramList.append(AlgoParams.AlgoParams(stopWords, N, shortPos, shortNeg, ["*"]))
+    for N in (2000,3000):
+        for pos in (["J"],["A","J"],["A"]):
+            paramList.append(AlgoParams.AlgoParams(True, N, shortPos, shortNeg, pos))
     return paramList
-
-def create_Feature_sets_list(param): # this method is redundent you should replace it with the one from dataLabeling
-    
-    feature_sets = dl.create_feature_sets(param)
-    return feature_sets
-
     
 def getTestData(feature_sets):
     N = int(len(feature_sets)*.9) #90% in training data BROKEN
@@ -101,8 +93,8 @@ def getTrainData(feature_sets):
     TrainingData = feature_sets[:N]
     return TrainingData
 
-def CreateAndTrain_Classifiers(TrainingData):
-    TrainingData = getTrainData(TrainingData)
+def CreateAndTrain_Classifiers(Feature_sets):
+    TrainingData = getTrainData(Feature_sets)
     TrainedClassifierList = []
     
     c = nltk.NaiveBayesClassifier.train(TrainingData)
@@ -137,7 +129,7 @@ def CreateAndTrain_Classifiers(TrainingData):
 def writeAlgoEvaluation(param, classifiers, FeatureSets):
     TestingSet = getTestData(FeatureSets)
     # change where this writes to so it writes to the current diricetory
-    with open("Test1AlgoEvalutationResults.txt","a+") as out:
+    with open("RegEx_AlgoEvalutationResults.txt","a+") as out:
         out.write("\n----------------------------------------------\n")
         ParamDetails = ("StopWords       : " + str(param.the_stop) + 
                "\nN Most Frequent : " + str(param.NmostFrequent) +
@@ -159,24 +151,15 @@ paramList = createParamList()
 counter =1
 for p in paramList:
     start2 =  datetime.datetime.now()
-    # you should also include a bit here about the size of p.nMostFrequent
-    print("You are at this call of 8:",end="")
-    print(counter)
+    print("At {} of {} where N={}".format(counter,len(paramList),p.NmostFrequent))
     counter = counter +1
-    
-    FS = create_Feature_sets_list(p)
-    # FS = dl.create_feature_sets(param)
-    print('you created Feature_sets in this time:', end='')
-    print(datetime.datetime.now()- start2 )
-    
+    FS = dl.create_feature_sets(p)
+    print('Created Feature_sets {}:'.format((datetime.datetime.now()-start2)))
     classifiers = CreateAndTrain_Classifiers(FS)
-    print('you just trained your classifiers: ', end='')
-    print(datetime.datetime.now()- start2 )
-    
+    print('Trained Classifiers: {}:'.format((datetime.datetime.now()-start2)))
     writeAlgoEvaluation(p,classifiers,FS)
-    # the parts of speech stuff is broken, otherwise this is still good
-    print("Creating FeatureSets, Training 5 algos, and writing the result took this long: ", end="")
-    print(datetime.datetime.now()-start2)
+    print('Tested Classifiers: {}:'.format((datetime.datetime.now()-start2)))
+
     
 
 
