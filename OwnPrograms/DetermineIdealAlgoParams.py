@@ -118,9 +118,15 @@ def CreateAndTrain_Classifiers(FS):
     TrainingData = getTrainData(FS)
     
     TrainedClassifierList = []
+<<<<<<< HEAD
     c = nltk.NaiveBayesClassifier.train(TrainingData)
     TrainedClassifierList.append(c)
 
+=======
+    NBClassifer = nltk.NaiveBayesClassifier.train(TrainingData)
+    TrainedClassifierList.append(NBClassifer)
+    
+>>>>>>> parent of 7c7a3ea... Typos
     c = SklearnClassifier(SGDClassifier())
     c.train(TrainingData)
     TrainedClassifierList.append(c)
