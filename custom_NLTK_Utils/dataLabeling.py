@@ -1,10 +1,10 @@
 from nltk.corpus import stopwords
 from NaturalLanguage.custom_NLTK_Utils import AlgoParams
-import nltk
+from nltk.probability import FreqDist
 from nltk import word_tokenize
 import random
 
-def find_Features(document,word_features, ifStop=False, PartsOfSpeech=["*"]):
+def find_Features(document, word_features):
     """
         source: https://www.youtube.com/watch?v=-vVskDsHcVc&list=PLQVvvaa0QuDf2JswnfiGkliBInZnIC4HL&index=12
         
@@ -21,81 +21,76 @@ def find_Features(document,word_features, ifStop=False, PartsOfSpeech=["*"]):
 
     """
     # limit_features(document, ifStop, PartsOfSpeech) # this removes stop words from consideration
-    words = nltk.word_tokenize(document) # this was where the bug was in DetermineIdealALgoParams.py was It was words = set(document)
+    words = word_tokenize(document) # this was where the bug was in DetermineIdealALgoParams.py was It was words = set(document)
     features = {} # empty dictionary
     for w in word_features:
         features[w] = (w in words) # this a boolean
     return features  
 
 
-def assemble_Documents(PositiveExamples, NegativeExamples):
+def assemble_Documents(param):
     documents = [] # document is a tuple of (review, classifcation)
-    for r in PositiveExamples.split('\n'):
+    for r in param.PosExamples.split('\n'):
         documents.append((r,"Positive"))
-    for r in NegativeExamples.split('\n'):
+    for r in param.NegExamples.split('\n'):
         documents.append((r,"Negative"))
     random.shuffle(documents)
     return documents
 
-def assemble_all_wordsFRQDIST(PositiveExamples, NegativeExamples,
-                              ifStop=False, PartsOfSpeech=["*"]):
-    short_pos_words = nltk.word_tokenize(PositiveExamples)
-    short_neg_words = nltk.word_tokenize(NegativeExamples)
-    
+def assemble_all_wordsFRQDIST(param):
+    short_pos_words = word_tokenize(param.PosExamples)
+    short_neg_words = word_tokenize(param.NegExamples)
     all_words = []
     for w in short_pos_words:
         all_words.append(w.lower()) 
     for w in short_neg_words:
         all_words.append(w.lower())
         
-    limit_features(all_words, ifStop, PartsOfSpeech)
-    res = nltk.FreqDist(all_words)
-    return res
+    limit_features(all_words, param)
+    all_words = FreqDist(all_words)
+    return all_words
 
-def FromLecture_assemble_all_words_FREQDIST(PositiveExamples, NegativeExamples,
-                                            AllowedWordTypes):
+def FromLecture_assemble_all_words_FREQDIST(param):
     """
     Source:
     https://www.youtube.com/watch?v=eObouMO2qSE&list=PLQVvvaa0QuDf2JswnfiGkliBInZnIC4HL&index=19
     This makes it so that allwords is limited by both stop words and parts of speech
     """
     all_words = []
-    Examples = [PositiveExamples, NegativeExamples]
+    Examples = [param.PosExamples, param.NegExamples]
     for e in Examples:
         for review in e.split('\n'):
             words = nltk.word_tokenize(review)
-            partOfSpeech = nltk.pos_tag(words)
-            for w in partOfSpeech:
-                if (w[1][0]) in AllowedWordTypes:
+            pos_inthisReveiw = nltk.pos_tag(words)
+            for w in pos_inthisReveiw:
+                if (w[1][0]) in param.PartsOfSpeech:
                     all_words.append(w[0].lower())
-    limit_features(all_words, PartsOfSpeech=AllowedWordTypes)
+    limit_features(all_words, param)
     all_words = nltk.FreqDist(all_words)
     return all_words
             
     
-def limit_features(all_words, ifStop=False, PartsOfSpeech=["*"]):
+def limit_features(all_words, param):
     """
-        Need to add way to parse REGEX from PartsOFspeech 
+        Need to add way to parse REGEX from PartsOfspeech 
         That will make the algos train better. 
     """
-    if(ifStop):
+    if(param.the_stop):
         stop_words = set(stopwords.words('english')) # I added this to remove all the stop words
         all_words = [w for w in all_words if (not w in stop_words)]
     
     
-def assemble_word_features(all_words, N):
+def assemble_word_features(all_words, param):
     """
-    returns a nltk.FreqDist object for the most frequent N unique words
+    returns list of the frequent N unique words
     """
-    word_features = list(all_words.keys())[:N]
+    
+    dict(sorted(all_words.items(), key=lambda item: item[1]))
+
+    word_features = list(all_words)[:param.NmostFrequent]
     return word_features
     
-def create_feature_sets(PositiveExamples,
-                        NegativeExamples,
-                        all_words, 
-                        word_featuresSize=3000,
-                        ifStop=False, 
-                        PartsOfSpeech=["*"]):
+def create_feature_sets(param):
     """
     This will create a list of tuples representing
     [Dictionary of
@@ -106,12 +101,9 @@ def create_feature_sets(PositiveExamples,
     Example
     [({"great":True, "fish": False ...}, "pos"), ({"amazing":True, "kevin": False ...}, "neg")...]
     """
-    documents = assemble_Documents(PositiveExamples, NegativeExamples)
-    
-    all_words = FromLecture_assemble_all_words_FREQDIST(PositiveExamples,NegativeExamples)
-    
-    word_features = assemble_word_features(all_words, word_featuresSize)
-    
+    documents = assemble_Documents(param) 
+    all_words = assemble_all_wordsFRQDIST(param)
+    word_features = assemble_word_features(all_words, param)
     # this is the key line
     feature_sets = [(find_Features(text, word_features), category) 
                     for (text, category) in documents]
