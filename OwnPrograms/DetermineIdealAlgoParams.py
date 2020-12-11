@@ -86,47 +86,30 @@ def createParamList():
     return paramList
 
 def create_Feature_sets_list(param):
-    # documents = dl.assemble_Documents(param.PosExamples, param.NegExamples)
-    all_words = dl.assemble_all_wordsFRQDIST(param.PosExamples, 
-                                             param.NegExamples,
-                                             param.PartsOfSpeech)
-                                            
-    # word_features = dl.assemble_word_features(all_words, param.NmostFrequent)
-    feature_sets = dl.create_feature_sets(param.PosExamples, 
-                                          param.NegExamples,
-                                          param.NmostFrequent,
-                                          all_words, 
-                                          param.the_stop, 
-                                          param.PartsOfSpeech)
-
+    all_words = dl.assemble_all_wordsFRQDIST(param)
+    feature_sets = dl.create_feature_sets(param)
     return feature_sets
 
     
-def getTestData(FS):
-    N = int(len(FS)*.9) #90% in training data BROKEN
-    TestingData = FS[N:]
+def getTestData(feature_sets):
+    N = int(len(feature_sets)*.9) #90% in training data BROKEN
+    TestingData = feature_sets[N:]
     return TestingData
 
-
-def getTrainData(F):
-    N = int(len(FS)*.9) #90% in training data 
-    TrainingData = FS[:N]
+def getTrainData(feature_sets):
+    N = int(len(feature_sets)*.9) #90% in training data BROKEN
+    TrainingData = feature_sets[:N]
     return TrainingData
-    
 
-def CreateAndTrain_Classifiers(FS):
-    TrainingData = getTrainData(FS)
-    
+def CreateAndTrain_Classifiers(TrainingData):
+    TrainingData = getTrainData(TrainingData)
     TrainedClassifierList = []
-<<<<<<< HEAD
+    
     c = nltk.NaiveBayesClassifier.train(TrainingData)
     TrainedClassifierList.append(c)
-
-=======
     NBClassifer = nltk.NaiveBayesClassifier.train(TrainingData)
     TrainedClassifierList.append(NBClassifer)
-    
->>>>>>> parent of 7c7a3ea... Typos
+
     c = SklearnClassifier(SGDClassifier())
     c.train(TrainingData)
     TrainedClassifierList.append(c)
@@ -168,6 +151,7 @@ def writeAlgoEvaluation(param, classifiers, results):
         out.write("\nAccuracy of Logistic Regression           :"+str(nltk.classify.accuracy(classifiers[4], TestingSet)*100))
         out.write("\nAccuracy of Vote Classifier               :"+str(nltk.classify.accuracy(classifiers[5], TestingSet)*100))
         localRes = (param, nltk.classify.accuracy(classifiers[5], TestingSet)*100)
+        print("localres: " + localRes)
         results.append(localRes)
         out.write("\n----------------------------------------------\n\n")
 
