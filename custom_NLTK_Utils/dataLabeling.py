@@ -102,11 +102,14 @@ def create_feature_sets(param):
     [({"great":True, "fish": False ...}, "pos"), ({"amazing":True, "kevin": False ...}, "neg")...]
     """
     documents = assemble_Documents(param) 
-    # all_words = assemble_all_wordsFRQDIST(param)
-    # regex Tester 
-    all_words = FromLecture_assemble_all_words_FREQDIST (param)
+    
+    if(param.PartsOfSpeech[0] == "*"): # this checks if you are limiting by part of speech
+    
+        all_words = assemble_all_wordsFRQDIST(param)
+    else:
+        all_words = FromLecture_assemble_all_words_FREQDIST (param)
+    
     word_features = assemble_word_features(all_words, param)
-
     feature_sets = [(find_Features(text, word_features), category) 
                     for (text, category) in documents]
 

@@ -78,18 +78,18 @@ def createParamList():
     shortPos = open("C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/OwnPrograms/short_reviews/shortPositive.txt","r").read()
     shortNeg = open("C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/OwnPrograms/short_reviews/shortNegative.txt","r").read()
     paramList = []
-    
-    for N in (100,1000,1500,2000,2500,3000,3500,4000,4500,5000,5500,6000,6500,7000):
-        paramList.append(AlgoParams.AlgoParams(True, N, shortPos, shortNeg, ["J"]))
+    # for N in (100,1000,1500,2000,2500,3000,3500,4000,4500,5000,5500,6000,6500,7000):
+    for N in (1000,5000):
+         paramList.append(AlgoParams.AlgoParams(True, N, shortPos, shortNeg, ["*"]))
     return paramList
     
 def getTestData(feature_sets):
-    N = int(len(feature_sets)*.9) #90% in training data BROKEN
+    N = int(len(feature_sets)*.9) 
     TestingData = feature_sets[N:]
     return TestingData
 
 def getTrainData(feature_sets):
-    N = int(len(feature_sets)*.9) #90% in training data BROKEN
+    N = int(len(feature_sets)*.9) 
     TrainingData = feature_sets[:N]
     return TrainingData
 
@@ -143,7 +143,6 @@ def writeAlgoEvaluation(param, classifiers, FeatureSets):
         out.write("\nAccuracy of Linear Support Vector Machine :"+str(nltk.classify.accuracy(classifiers[3], TestingSet)*100))
         out.write("\nAccuracy of Logistic Regression           :"+str(nltk.classify.accuracy(classifiers[4], TestingSet)*100))
         out.write("\nAccuracy of Vote Classifier               :"+str(nltk.classify.accuracy(classifiers[5], TestingSet)*100))
-
         out.write("\n----------------------------------------------\n\n")
 
 start = datetime.datetime.now()
