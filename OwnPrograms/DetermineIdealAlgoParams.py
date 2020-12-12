@@ -78,8 +78,7 @@ def createParamList():
     shortPos = open("C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/OwnPrograms/short_reviews/shortPositive.txt","r").read()
     shortNeg = open("C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/OwnPrograms/short_reviews/shortNegative.txt","r").read()
     paramList = []
-    # for N in (100,1000,1500,2000,2500,3000,3500,4000,4500,5000,5500,6000,6500,7000):
-    for N in (1000,5000):
+    for N in range(0,2000,100):
          paramList.append(AlgoParams.AlgoParams(True, N, shortPos, shortNeg, ["*"]))
     return paramList
     
@@ -129,21 +128,13 @@ def CreateAndTrain_Classifiers(Feature_sets):
 def writeAlgoEvaluation(param, classifiers, FeatureSets):
     TestingSet = getTestData(FeatureSets)
     # change where this writes to so it writes to the current diricetory
-    with open("InfluenceOfnumWordFeatures_v2_AlgoEvalutationResults.txt","a+") as out:
-        out.write("\n----------------------------------------------\n")
-        ParamDetails = ("StopWords       : " + str(param.the_stop) + 
-               "\nN Most Frequent : " + str(param.NmostFrequent) +
-               "\nPartsOfSpeech   : " + str(param.PartsOfSpeech) +"\n"
-                )
-        out.write(ParamDetails)
-        out.write("Naive Bayes Most informativeFeatures: {}".format(classifiers[0].most_informative_features(10)))
-        out.write("\nAccuracy of Naive Bayes                   :"+str(nltk.classify.accuracy(classifiers[0], TestingSet)*100))
-        out.write("\nAccuracy of SGD Classifiers               :"+str(nltk.classify.accuracy(classifiers[1], TestingSet)*100))
-        out.write("\nAccuracy of Bernoulli Naive Bayes         :"+str(nltk.classify.accuracy(classifiers[2], TestingSet)*100))
-        out.write("\nAccuracy of Linear Support Vector Machine :"+str(nltk.classify.accuracy(classifiers[3], TestingSet)*100))
-        out.write("\nAccuracy of Logistic Regression           :"+str(nltk.classify.accuracy(classifiers[4], TestingSet)*100))
-        out.write("\nAccuracy of Vote Classifier               :"+str(nltk.classify.accuracy(classifiers[5], TestingSet)*100))
-        out.write("\n----------------------------------------------\n\n")
+    with open("Zero to a 2000 words as features AlgoEvalutationResults.txt","a+") as out:
+        out.write("\nAccuracy of Naive Bayes,"+str(nltk.classify.accuracy(classifiers[0], TestingSet)*100)+ "," + str(param.NmostFrequent) )
+        out.write("\nAccuracy of SGD Classifiers ,"+str(nltk.classify.accuracy(classifiers[1], TestingSet)*100)+ "," + str(param.NmostFrequent))
+        out.write("\nBernoulli Naive Bayes,"+str(nltk.classify.accuracy(classifiers[2], TestingSet)*100)+ "," + str(param.NmostFrequent))
+        out.write("\nLinear Support Vector Machine,"+str(nltk.classify.accuracy(classifiers[3], TestingSet)*100)+ "," + str(param.NmostFrequent))
+        out.write("\nLogistic Regression,"+str(nltk.classify.accuracy(classifiers[4], TestingSet)*100)+ "," + str(param.NmostFrequent))
+        out.write("\nVote Classifier,"+str(nltk.classify.accuracy(classifiers[5], TestingSet)*100)+ "," + str(param.NmostFrequent))
 
 start = datetime.datetime.now()
 print('you have started')
@@ -160,7 +151,6 @@ for p in paramList:
         print('Trained Classifiers: {}:'.format((datetime.datetime.now()-start2)))
         writeAlgoEvaluation(p,classifiers,FS)
         print('Tested Classifiers: {}:'.format((datetime.datetime.now()-start2)))
-    
     except (ValueError):
         print('you had an error here')
         print(ValueError)
