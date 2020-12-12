@@ -1,0 +1,14 @@
+
+----------------------------------------------
+StopWords       : True
+N Most Frequent : 5000
+PartsOfSpeech   : ['J']
+Naive Bayes Most informativeFeatures: [('engrossing', True), ('dull', True), ('boring', True), ('generic', True), ('routine', True), ('flat', True), ('mediocre', True), ('warm', True), ('powerful', True), ('haunting', True)]
+Accuracy of Naive Bayes                   :76.38238050609185
+Accuracy of SGD Classifiers               :76.38238050609185
+Accuracy of Bernoulli Naive Bayes         :72.63355201499532
+Accuracy of Linear Support Vector Machine :77.22586691658857
+Accuracy of Logistic Regression           :70.47797563261481
+Accuracy of Vote Classifier               :74.32052483598875
+----------------------------------------------
+

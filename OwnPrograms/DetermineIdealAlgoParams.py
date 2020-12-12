@@ -79,8 +79,8 @@ def createParamList():
     shortNeg = open("C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/OwnPrograms/short_reviews/shortNegative.txt","r").read()
     paramList = []
     
-    for pos in (["J"],["V"],["R"],["V","J"],["V","R"],["R","J"],["V","J","R"]):
-        paramList.append(AlgoParams.AlgoParams(True, 2000, shortPos, shortNeg, pos))
+    for N in (100,1000,1500,2000,2500,3000,3500,4000,4500,5000,5500,6000,6500,7000):
+        paramList.append(AlgoParams.AlgoParams(True, N, shortPos, shortNeg, ["J"]))
     return paramList
     
 def getTestData(feature_sets):
@@ -129,7 +129,7 @@ def CreateAndTrain_Classifiers(Feature_sets):
 def writeAlgoEvaluation(param, classifiers, FeatureSets):
     TestingSet = getTestData(FeatureSets)
     # change where this writes to so it writes to the current diricetory
-    with open("JustPartsOfSpeech2_AlgoEvalutationResults.txt","a+") as out:
+    with open("InfluenceOfnumWordFeatures_v2_AlgoEvalutationResults.txt","a+") as out:
         out.write("\n----------------------------------------------\n")
         ParamDetails = ("StopWords       : " + str(param.the_stop) + 
                "\nN Most Frequent : " + str(param.NmostFrequent) +
@@ -163,6 +163,7 @@ for p in paramList:
         print('Tested Classifiers: {}:'.format((datetime.datetime.now()-start2)))
     
     except (ValueError):
+        print('you had an error here')
         print(ValueError)
     
 

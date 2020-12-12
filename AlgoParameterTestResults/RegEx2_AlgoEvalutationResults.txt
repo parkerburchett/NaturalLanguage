@@ -1,0 +1,84 @@
+
+----------------------------------------------
+StopWords       : True
+N Most Frequent : 10
+PartsOfSpeech   : ['J']
+
+Accuracy of Naive Bayes                   :54.9203373945642
+Accuracy of SGD Classifiers               :54.9203373945642
+Accuracy of Bernoulli Naive Bayes         :54.076850984067484
+Accuracy of Linear Support Vector Machine :54.9203373945642
+Accuracy of Logistic Regression           :54.9203373945642
+Accuracy of Vote Classifier               :54.9203373945642
+----------------------------------------------
+
+
+----------------------------------------------
+StopWords       : True
+N Most Frequent : 10
+PartsOfSpeech   : ['A', 'J']
+
+Accuracy of Naive Bayes                   :51.64011246485474
+Accuracy of SGD Classifiers               :51.64011246485474
+Accuracy of Bernoulli Naive Bayes         :50.7029053420806
+Accuracy of Linear Support Vector Machine :51.64011246485474
+Accuracy of Logistic Regression           :51.921274601686974
+Accuracy of Vote Classifier               :51.921274601686974
+----------------------------------------------
+
+
+----------------------------------------------
+StopWords       : True
+N Most Frequent : 10
+PartsOfSpeech   : ['J']
+
+Accuracy of Naive Bayes                   :53.98313027179007
+Accuracy of SGD Classifiers               :53.98313027179007
+Accuracy of Bernoulli Naive Bayes         :53.13964386129335
+Accuracy of Linear Support Vector Machine :53.98313027179007
+Accuracy of Logistic Regression           :53.98313027179007
+Accuracy of Vote Classifier               :53.98313027179007
+----------------------------------------------
+
+
+----------------------------------------------
+StopWords       : True
+N Most Frequent : 10
+PartsOfSpeech   : ['A', 'J']
+
+Accuracy of Naive Bayes                   :52.76476101218369
+Accuracy of SGD Classifiers               :52.76476101218369
+Accuracy of Bernoulli Naive Bayes         :52.20243673851921
+Accuracy of Linear Support Vector Machine :52.76476101218369
+Accuracy of Logistic Regression           :52.67104029990628
+Accuracy of Vote Classifier               :52.67104029990628
+----------------------------------------------
+
+
+----------------------------------------------
+StopWords       : True
+N Most Frequent : 100
+PartsOfSpeech   : ['J']
+
+Accuracy of Naive Bayes                   :58.20056232427366
+Accuracy of SGD Classifiers               :58.20056232427366
+Accuracy of Bernoulli Naive Bayes         :58.76288659793815
+Accuracy of Linear Support Vector Machine :58.20056232427366
+Accuracy of Logistic Regression           :58.57544517338332
+Accuracy of Vote Classifier               :58.4817244611059
+----------------------------------------------
+
+
+----------------------------------------------
+StopWords       : True
+N Most Frequent : 100
+PartsOfSpeech   : ['A', 'J']
+
+Accuracy of Naive Bayes                   :59.512652296157455
+Accuracy of SGD Classifiers               :59.512652296157455
+Accuracy of Bernoulli Naive Bayes         :57.73195876288659
+Accuracy of Linear Support Vector Machine :59.512652296157455
+Accuracy of Logistic Regression           :59.137769447047795
+Accuracy of Vote Classifier               :59.137769447047795
+----------------------------------------------
+
