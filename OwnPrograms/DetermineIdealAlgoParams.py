@@ -78,9 +78,8 @@ def createParamList():
     shortPos = open("C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/OwnPrograms/short_reviews/shortPositive.txt","r").read()
     shortNeg = open("C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/OwnPrograms/short_reviews/shortNegative.txt","r").read()
     paramList = []
-    # for N in (100,1000,1500,2000,2500,3000,3500,4000,4500,5000,5500,6000,6500,7000):
-    for N in (1000,5000):
-         paramList.append(AlgoParams.AlgoParams(True, N, shortPos, shortNeg, ["*"]))
+    for f in ("NOUN", "ADJ", "VERB","ADV", "*"):
+        paramList.append(AlgoParams.AlgoParams(False, 1000, shortPos, shortNeg, f))
     return paramList
     
 def getTestData(feature_sets):
@@ -129,14 +128,14 @@ def CreateAndTrain_Classifiers(Feature_sets):
 def writeAlgoEvaluation(param, classifiers, FeatureSets):
     TestingSet = getTestData(FeatureSets)
     # change where this writes to so it writes to the current diricetory
-    with open("InfluenceOfnumWordFeatures_v2_AlgoEvalutationResults.txt","a+") as out:
+    with open("PartsOfSpeech2_AlgoEvalutationResults.csv","a+") as out:
         out.write("\n----------------------------------------------\n")
-        ParamDetails = ("StopWords       : " + str(param.the_stop) + 
-               "\nN Most Frequent : " + str(param.NmostFrequent) +
-               "\nPartsOfSpeech   : " + str(param.PartsOfSpeech) +"\n"
-                )
+        ParamDetails = ("Remove StopWords: " + str(param.the_stop) + 
+                       "\nN Most Frequent : " + str(param.NmostFrequent) +
+                       "\nPartsOfSpeech   : " + str(param.PartsOfSpeech)
+                        )
         out.write(ParamDetails)
-        out.write("Naive Bayes Most informativeFeatures: {}".format(classifiers[0].most_informative_features(10)))
+        out.write("\nNaive Bayes Most informativeFeatures: {}".format(classifiers[0].most_informative_features(10)))
         out.write("\nAccuracy of Naive Bayes                   :"+str(nltk.classify.accuracy(classifiers[0], TestingSet)*100))
         out.write("\nAccuracy of SGD Classifiers               :"+str(nltk.classify.accuracy(classifiers[1], TestingSet)*100))
         out.write("\nAccuracy of Bernoulli Naive Bayes         :"+str(nltk.classify.accuracy(classifiers[2], TestingSet)*100))

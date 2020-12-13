@@ -62,9 +62,9 @@ def FromLecture_assemble_all_words_FREQDIST(param):
     for e in Examples:
         for review in e.split('\n'):
             words = word_tokenize(review)
-            pos_inthisReveiw = pos_tag(words)
+            pos_inthisReveiw = pos_tag(words, tagset='universal')
             for w in pos_inthisReveiw:
-                if (w[1][0]) in param.PartsOfSpeech:
+                if (w[1]) == param.PartsOfSpeech:
                     all_words.append(w[0].lower())
     limit_features(all_words, param)
     all_words = FreqDist(all_words)
