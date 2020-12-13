@@ -48,7 +48,8 @@ def assemble_all_words(param):
     -------
     all_words : nlkt.FreqDist object
         A freqency distibution of (word, count) of every word that could be
-        treated as a feature given the paramters
+        treated as a feature given the paramters.
+        Timecost of Linear the Size of the labeled dataset
 
     """
     short_pos_words = word_tokenize(param.PosExamples)
@@ -59,18 +60,19 @@ def assemble_all_words(param):
     for w in short_neg_words:
         all_words.append(w.lower())
         
-    limit_features(all_words, param)
-    all_words = FreqDist(all_words)
-    return all_words
+    all_words_lessLimits = limit_features(all_words, param)
+    all_wordsFRQ = FreqDist(all_words_lessLimits)
+    return all_wordsFRQ
 
 
 def limit_features(all_words, param): # untested
     """
     Removes Stopwords and the Parts of Speech when appropriate.
+    
     It might be faster to only walk through the all_words once, rather than twice.
-    Right now when only looking at nouns: 
-        At 1 of 5 where N=1000
-        Created Feature_sets 0:01:12.005746
+    Some testing would clear this up. 
+    
+    It is very costly to remove words by type. 1 minute for 150,000 words
 
     Parameters
     ----------
@@ -82,6 +84,7 @@ def limit_features(all_words, param): # untested
         Nothing it just reduces all_words when approprite
     -------
     """
+    ans = all_words
     if param.the_stop:
         temp = []
         stop_words = set(stopwords.words('english')) # I added this to remove all the stop words
@@ -89,15 +92,23 @@ def limit_features(all_words, param): # untested
             if(w not in stop_words):
                 temp.append(w)
         all_words = temp
-        
+        ans = temp
+    
     if param.PartsOfSpeech != "*":
+        print('you are limiting all_words by {}'.format(param.PartsOfSpeech))
+        print('Before you remove everything that is not a {} you have {} words'.format((param.PartsOfSpeech),len(all_words)))
         temp = []
         for word in all_words:
             pos = pos_tag(word_tokenize(word),tagset='universal')
             # print('type of pos_tag: {} word {}'.format(str(pos),word)) for debugging
             if(pos[0][1] == param.PartsOfSpeech):
-                temp.append(pos[0][0])  
-        all_words = temp
+                temp.append(pos[0][0])
+                # print('type of pos_tag: {}'.format(str(pos)))
+        print('After  you remove everything that is not a {} you have {} words'.format((param.PartsOfSpeech),len(temp)))
+        print('OUTSIDE OF MAIN here is a sample of words in all_words: {}'.format(str(temp[:20])))
+        ans = temp
+    return ans
+        
   
         
 def assemble_word_features(all_words, param):
