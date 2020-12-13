@@ -1,0 +1,65 @@
+----------------------------------------------
+INSIDE OF MAIN top word_features: [[('film', 'NOUN')], [('movie', 'NOUN')], [('story', 'NOUN')], [('comedy', 'NOUN')], [('time', 'NOUN')], [('characters', 'NOUN')], [('way', 'NOUN')], [('funny', 'NOUN')], [('[', 'NOUN')], [(']', 'NOUN')], [('director', 'NOUN')], [('work', 'NOUN')], [('life', 'NOUN')], [('love', 'NOUN')], [('movies', 'NOUN')], [('something', 'NOUN')], [('performances', 'NOUN')], [('plot', 'NOUN')], [('drama', 'NOUN')], [('films', 'NOUN')]]
+Remove StopWords: True
+N Most Frequent : 1000
+PartsOfSpeech   : NOUN
+Naive Bayes Most informativeFeatures: [('mediocre', True), ('generic', True), ('routine', True), ('unique', True), ('boring', True), ('wonderful', True), ('warm', True), ('mindless', True), ('stale', True), ('ages', True)]
+Accuracy of Naive Bayes                   :67.66635426429241
+Accuracy of SGD Classifiers               :67.66635426429241
+Accuracy of Bernoulli Naive Bayes         :67.76007497656981
+Accuracy of Linear Support Vector Machine :67.47891283973757
+Accuracy of Logistic Regression           :66.44798500468603
+Accuracy of Vote Classifier               :67.47891283973757
+----------------------------------------------
+----------------------------------------------
+INSIDE OF MAIN top word_features: [[('much', 'ADJ')], [('good', 'ADJ')], [('little', 'ADJ')], [('best', 'ADJ')], [('bad', 'ADJ')], [('new', 'ADJ')], [('many', 'ADJ')], [('great', 'ADJ')], [('big', 'ADJ')], [('real', 'ADJ')], [('full', 'ADJ')], [('hard', 'ADJ')], [('romantic', 'ADJ')], [('american', 'ADJ')], [('original', 'ADJ')], [('old', 'ADJ')], [('young', 'ADJ')], [('least', 'ADJ')], [('emotional', 'ADJ')], [('cinematic', 'ADJ')]]
+Remove StopWords: True
+N Most Frequent : 1000
+PartsOfSpeech   : ADJ
+Naive Bayes Most informativeFeatures: [('powerful', True), ('stupid', True), ('inventive', True), ('flat', True), ('extraordinary', True), ('realistic', True), ('quiet', True), ('iranian', True), ('unexpected', True), ('amateurish', True)]
+Accuracy of Naive Bayes                   :61.19962511715089
+Accuracy of SGD Classifiers               :61.19962511715089
+Accuracy of Bernoulli Naive Bayes         :60.44985941893158
+Accuracy of Linear Support Vector Machine :61.293345829428304
+Accuracy of Logistic Regression           :60.63730084348641
+Accuracy of Vote Classifier               :60.824742268041234
+----------------------------------------------
+----------------------------------------------
+INSIDE OF MAIN top word_features: [[('make', 'VERB')], [('makes', 'VERB')], [('would', 'VERB')], [('may', 'VERB')], [('could', 'VERB')], [('made', 'VERB')], [('see', 'VERB')], [("'re", 'VERB')], [('get', 'VERB')], [('might', 'VERB')], [('seems', 'VERB')], [('ca', 'VERB')], [('interesting', 'VERB')], [("'ll", 'VERB')], [("'ve", 'VERB')], [('entertaining', 'VERB')], [('take', 'VERB')], [('watching', 'VERB')], [('seen', 'VERB')], [('go', 'VERB')]]
+Remove StopWords: True
+N Most Frequent : 1000
+PartsOfSpeech   : VERB
+Naive Bayes Most informativeFeatures: [('engrossing', True), ('absorbing', True), ('refreshing', True), ('affecting', True), ('provides', True), ('chilling', True), ('meandering', True), ('editing', True), ('mesmerizing', True), ('supposed', True)]
+Accuracy of Naive Bayes                   :61.293345829428304
+Accuracy of SGD Classifiers               :61.293345829428304
+Accuracy of Bernoulli Naive Bayes         :61.57450796626054
+Accuracy of Linear Support Vector Machine :61.293345829428304
+Accuracy of Logistic Regression           :61.387066541705714
+Accuracy of Vote Classifier               :61.9493908153702
+----------------------------------------------
+----------------------------------------------
+INSIDE OF MAIN top word_features: [[("n't", 'ADV')], [('even', 'ADV')], [('enough', 'ADV')], [('never', 'ADV')], [('well', 'ADV')], [('really', 'ADV')], [('still', 'ADV')], [('better', 'ADV')], [('long', 'ADV')], [('also', 'ADV')], [('first', 'ADV')], [('ever', 'ADV')], [('far', 'ADV')], [('often', 'ADV')], [('less', 'ADV')], [('almost', 'ADV')], [('quite', 'ADV')], [('yet', 'ADV')], [('rather', 'ADV')], [('ultimately', 'ADV')]]
+Remove StopWords: True
+N Most Frequent : 1000
+PartsOfSpeech   : ADV
+Naive Bayes Most informativeFeatures: [('refreshingly', True), ('apparently', True), ('nicely', True), ('timely', True), ('gradually', True), ('undeniably', True), ('literally', True), ('sadly', True), ('virtually', True), ('consistently', True)]
+Accuracy of Naive Bayes                   :59.32521087160263
+Accuracy of SGD Classifiers               :59.32521087160263
+Accuracy of Bernoulli Naive Bayes         :59.41893158388004
+Accuracy of Linear Support Vector Machine :59.32521087160263
+Accuracy of Logistic Regression           :58.57544517338332
+Accuracy of Vote Classifier               :59.137769447047795
+----------------------------------------------
+----------------------------------------------
+INSIDE OF MAIN top word_features: [[('.', '.')], [(',', '.')], [("'s", 'PRT')], [('film', 'NOUN')], [('movie', 'NOUN')], [("n't", 'ADV')], [('one', 'NUM')], [('like', 'ADP')], [('--', '.')], [('``', '.')], [("'", '.')], [('story', 'NOUN')], [('much', 'ADJ')], [('even', 'ADV')], [('good', 'ADJ')], [('comedy', 'NOUN')], [('time', 'NOUN')], [('characters', 'NOUN')], [('little', 'ADJ')], [('way', 'NOUN')]]
+Remove StopWords: True
+N Most Frequent : 1000
+PartsOfSpeech   : *
+Naive Bayes Most informativeFeatures: [('provides', True), ('loud', True), ('inventive', True), ('supposed', True), ('flat', True), ('90', True), ('routine', True), ('refreshing', True), ('warm', True), ('wonderful', True)]
+Accuracy of Naive Bayes                   :73.85192127460168
+Accuracy of SGD Classifiers               :73.85192127460168
+Accuracy of Bernoulli Naive Bayes         :73.66447985004686
+Accuracy of Linear Support Vector Machine :73.9456419868791
+Accuracy of Logistic Regression           :73.75820056232428
+Accuracy of Vote Classifier               :73.66447985004686
+----------------------------------------------
