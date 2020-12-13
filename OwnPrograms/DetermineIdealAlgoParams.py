@@ -128,11 +128,11 @@ def CreateAndTrain_Classifiers(Feature_sets):
 def writeAlgoEvaluation(param, classifiers, FeatureSets):
     TestingSet = getTestData(FeatureSets)
     # change where this writes to so it writes to the current diricetory
-    with open("PartsOfSpeech3_AlgoEvalutationResults.txt","a+") as out:
-        all_w = dl.assemble_all_wordsFRQDIST(param)
-        word_f = dl.assemble_word_features(all_w,param )
+    with open("fixedPartsOfSpeech_AlgoEvalutationResults.txt","a+") as out:
+        all_w = dl.assemble_all_words(param)
+        word_f = dl.assemble_word_features(all_w,param)
         out.write("top 10 word_features")
-        out.write(str(word_f[:100]))
+        out.write(str(word_f[:10]))
         out.write("\n----------------------------------------------\n")
         ParamDetails = ("Remove StopWords: " + str(param.the_stop) + 
                        "\nN Most Frequent : " + str(param.NmostFrequent) +
