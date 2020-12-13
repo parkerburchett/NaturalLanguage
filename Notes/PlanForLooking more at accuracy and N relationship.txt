@@ -1,0 +1,16 @@
+If you want ot know more you should do this:
+
+Since Accuracy/N/ classifer are hightly corrilated you don't need to train every 5 classifer. 
+
+It would be better to just do the fastest. Prob Naive Bayes 10 time at every level. 
+
+You could leave this going over night.
+
+You would want to find a way of doing this faster on your computer since right now it is going to take several hours.
+
+
+
+
+
+Need to find a way of making it much faster than what it is now. 
+
