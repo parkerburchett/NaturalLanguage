@@ -1,0 +1,28 @@
+
+----------------------------------------------
+StopWords       : True
+N Most Frequent : 1000
+PartsOfSpeech   : ['*']
+Naive Bayes Most informativeFeatures: [('captures', True), ('engrossing', True), ('boring', True), ('mediocre', True), ('generic', True), ('routine', True), ('flat', True), ('inventive', True), ('refreshing', True), ('unique', True)]
+Accuracy of Naive Bayes                   :71.7900656044986
+Accuracy of SGD Classifiers               :71.7900656044986
+Accuracy of Bernoulli Naive Bayes         :71.32146204311152
+Accuracy of Linear Support Vector Machine :71.7900656044986
+Accuracy of Logistic Regression           :71.04029990627929
+Accuracy of Vote Classifier               :71.60262417994376
+----------------------------------------------
+
+
+----------------------------------------------
+StopWords       : True
+N Most Frequent : 5000
+PartsOfSpeech   : ['*']
+Naive Bayes Most informativeFeatures: [('flat', True), ('engrossing', True), ('powerful', True), ('generic', True), ('mediocre', True), ('routine', True), ('waste', True), ('plain', True), ('inventive', True), ('refreshing', True)]
+Accuracy of Naive Bayes                   :73.38331771321462
+Accuracy of SGD Classifiers               :73.38331771321462
+Accuracy of Bernoulli Naive Bayes         :73.38331771321462
+Accuracy of Linear Support Vector Machine :73.57075913776944
+Accuracy of Logistic Regression           :72.25866916588566
+Accuracy of Vote Classifier               :74.32052483598875
+----------------------------------------------
+

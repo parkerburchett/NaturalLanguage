@@ -1,0 +1,39 @@
+top 10 word_features['.', ',', "'s", 'film', 'movie', "n't", 'one', 'like', '--', '``']
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 1000
+PartsOfSpeech   : NOUN
+Naive Bayes Most informativeFeatures: [('mediocre', True), ('boring', True), ('intimate', True), ('ages', True), ('portrait', True), ('dull', True), ('detail', True), ('culture', True), ('loud', True), ('polanski', True)]
+Accuracy of Naive Bayes                   :67.38519212746017
+Accuracy of SGD Classifiers               :67.38519212746017
+Accuracy of Bernoulli Naive Bayes         :66.1668228678538
+Accuracy of Linear Support Vector Machine :67.47891283973757
+Accuracy of Logistic Regression           :65.41705716963449
+Accuracy of Vote Classifier               :65.69821930646673
+----------------------------------------------
+top 10 word_features['.', ',', "'s", 'film', 'movie', "n't", 'one', 'like', '--', '``']
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 1000
+PartsOfSpeech   : ADJ
+Naive Bayes Most informativeFeatures: [('flat', True), ('touching', True), ('generic', True), ('routine', True), ('boring', True), ('mediocre', True), ('lame', True), ('dull', True), ('warm', True), ('inventive', True)]
+Accuracy of Naive Bayes                   :68.69728209934397
+Accuracy of SGD Classifiers               :68.69728209934397
+Accuracy of Bernoulli Naive Bayes         :68.3223992502343
+Accuracy of Linear Support Vector Machine :68.50984067478912
+Accuracy of Logistic Regression           :68.9784442361762
+Accuracy of Vote Classifier               :69.35332708528584
+----------------------------------------------
+top 10 word_features['.', ',', "'s", 'film', 'movie', "n't", 'one', 'like', '--', '``']
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 1000
+PartsOfSpeech   : VERB
+Naive Bayes Most informativeFeatures: [('engrossing', True), ('provides', True), ('boring', True), ('warm', True), ('mesmerizing', True), ('refreshing', True), ('annoying', True), ('bears', True), ('captures', True), ('flawed', True)]
+Accuracy of Naive Bayes                   :64.57357075913777
+Accuracy of SGD Classifiers               :64.57357075913777
+Accuracy of Bernoulli Naive Bayes         :61.57450796626054
+Accuracy of Linear Support Vector Machine :64.57357075913777
+Accuracy of Logistic Regression           :62.23055295220243
+Accuracy of Vote Classifier               :64.0112464854733
+----------------------------------------------

@@ -1,0 +1,26 @@
+top 10 word_features['.', 'the', ',', 'a', 'and', 'of', 'to', 'is', "'s", 'it']
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 1000
+PartsOfSpeech   : NOUN
+Naive Bayes Most informativeFeatures: [('boring', True), ('mediocre', True), ('dull', True), ('tv', True), ('masterpiece', True), ('devoid', True), ('son', True), ('loud', True), ('meandering', True), ('waste', True)]
+Accuracy of Naive Bayes                   :68.79100281162137
+Accuracy of SGD Classifiers               :68.79100281162137
+Accuracy of Bernoulli Naive Bayes         :67.47891283973757
+Accuracy of Linear Support Vector Machine :68.9784442361762
+Accuracy of Logistic Regression           :67.10402999062794
+Accuracy of Vote Classifier               :66.9165885660731
+----------------------------------------------
+top 10 word_features['.', 'the', ',', 'a', 'and', 'of', 'to', 'is', "'s", 'it']
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 1000
+PartsOfSpeech   : ADJ
+Naive Bayes Most informativeFeatures: [('boring', True), ('mediocre', True), ('routine', True), ('inventive', True), ('generic', True), ('refreshing', True), ('wonderful', True), ('flat', True), ('warm', True), ('dull', True)]
+Accuracy of Naive Bayes                   :68.41611996251171
+Accuracy of SGD Classifiers               :68.41611996251171
+Accuracy of Bernoulli Naive Bayes         :65.69821930646673
+Accuracy of Linear Support Vector Machine :68.69728209934397
+Accuracy of Logistic Regression           :66.9165885660731
+Accuracy of Vote Classifier               :67.47891283973757
+----------------------------------------------

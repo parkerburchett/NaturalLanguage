@@ -79,7 +79,7 @@ def createParamList():
     shortNeg = open("C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/OwnPrograms/short_reviews/shortNegative.txt","r").read()
     paramList = []
     for f in ("NOUN", "ADJ", "VERB","ADV", "*"):
-        paramList.append(AlgoParams.AlgoParams(False, 1000, shortPos, shortNeg, f))
+        paramList.append(AlgoParams.AlgoParams(True, 1000, shortPos, shortNeg, f))
     return paramList
     
 def getTestData(feature_sets):
@@ -128,7 +128,11 @@ def CreateAndTrain_Classifiers(Feature_sets):
 def writeAlgoEvaluation(param, classifiers, FeatureSets):
     TestingSet = getTestData(FeatureSets)
     # change where this writes to so it writes to the current diricetory
-    with open("PartsOfSpeech2_AlgoEvalutationResults.csv","a+") as out:
+    with open("PartsOfSpeech3_AlgoEvalutationResults.txt","a+") as out:
+        all_w = dl.assemble_all_wordsFRQDIST(param)
+        word_f = dl.assemble_word_features(all_w,param )
+        out.write("top 10 word_features")
+        out.write(str(word_f[:100]))
         out.write("\n----------------------------------------------\n")
         ParamDetails = ("Remove StopWords: " + str(param.the_stop) + 
                        "\nN Most Frequent : " + str(param.NmostFrequent) +
@@ -142,7 +146,7 @@ def writeAlgoEvaluation(param, classifiers, FeatureSets):
         out.write("\nAccuracy of Linear Support Vector Machine :"+str(nltk.classify.accuracy(classifiers[3], TestingSet)*100))
         out.write("\nAccuracy of Logistic Regression           :"+str(nltk.classify.accuracy(classifiers[4], TestingSet)*100))
         out.write("\nAccuracy of Vote Classifier               :"+str(nltk.classify.accuracy(classifiers[5], TestingSet)*100))
-        out.write("\n----------------------------------------------\n\n")
+        out.write("\n----------------------------------------------\n")
 
 start = datetime.datetime.now()
 print('you have started')

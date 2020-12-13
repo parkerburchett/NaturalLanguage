@@ -47,7 +47,7 @@ def assemble_all_wordsFRQDIST(param):
     for w in short_neg_words:
         all_words.append(w.lower())
         
-    limit_features(all_words, param)
+    all_words = limit_features(all_words, param)
     all_words = FreqDist(all_words)
     return all_words
 
@@ -66,7 +66,7 @@ def FromLecture_assemble_all_words_FREQDIST(param):
             for w in pos_inthisReveiw:
                 if (w[1]) == param.PartsOfSpeech:
                     all_words.append(w[0].lower())
-    limit_features(all_words, param)
+    all_words = limit_features(all_words, param)
     all_words = FreqDist(all_words)
     return all_words
             
@@ -78,8 +78,12 @@ def limit_features(all_words, param):
     """
     if(param.the_stop):
         stop_words = set(stopwords.words('english')) # I added this to remove all the stop words
-        all_words = [w for w in all_words if (not w in stop_words)]
-    
+        new_allWords = []
+        for w in all_words:
+            if(w not in stop_words):
+                new_allWords.append(w)
+        
+        return new_allWords
     
 def assemble_word_features(all_words, param):
     """
@@ -103,11 +107,10 @@ def create_feature_sets(param):
     """
     documents = assemble_Documents(param) 
     
-    if(param.PartsOfSpeech[0] == "*"): # this checks if you are limiting by part of speech
-    
+    if(param.PartsOfSpeech == "*"): # this checks if you are limiting by part of speech
         all_words = assemble_all_wordsFRQDIST(param)
     else:
-        all_words = FromLecture_assemble_all_words_FREQDIST (param)
+        all_words = FromLecture_assemble_all_words_FREQDIST(param)
     
     word_features = assemble_word_features(all_words, param)
     feature_sets = [(find_Features(text, word_features), category) 
