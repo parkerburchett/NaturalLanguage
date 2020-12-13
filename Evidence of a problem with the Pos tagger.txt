@@ -1,0 +1,65 @@
+top 10 word_features['.', ',', "'s", 'film', 'movie', "n't", 'one', 'like', '--', '``', "'", 'story', 'much', 'even', 'good', 'comedy', 'time', 'characters', 'little', 'way', 'funny', 'make', '[', ']', 'enough', 'never', 'director', 'makes', 'would', 'may', 'us', 'work', 'best', 'bad', 'life', ')', 'love', '?', '(', 'could', ':', 'movies', 'new', 'well', 'something', 'really', 'made', 'performances', 'plot', 'many', 'drama', 'films', 'still', 'see', 'look', 'every', 'two', 'people', 'nothing', "'re", 'better', 'long', 'without', 'fun', 'get', 'action', 'great', 'though', 'might', 'big', 'also', 'character', 'audience', 'another', 'cast', 'script', 'kind', 'first', 'humor', 'sense', 'world', 'ever', ';', 'performance', 'feels', 'thing', 'far', 'often', 'less', 'seems', 'minutes', 'real', 'picture', 'feel', 'thriller', 'tale', 'almost', 'ca', 'quite', 'documentary']
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 1000
+PartsOfSpeech   : NOUN
+Naive Bayes Most informativeFeatures: [('boring', True), ('intimate', True), ('culture', True), ('bears', True), ('ages', True), ('humanity', True), ('loud', True), ('dull', True), ('waste', True), ('tender', True)]
+Accuracy of Naive Bayes                   :66.54170571696345
+Accuracy of SGD Classifiers               :66.54170571696345
+Accuracy of Bernoulli Naive Bayes         :65.69821930646673
+Accuracy of Linear Support Vector Machine :66.2605435801312
+Accuracy of Logistic Regression           :65.97938144329896
+Accuracy of Vote Classifier               :65.13589503280225
+----------------------------------------------
+top 10 word_features['.', ',', "'s", 'film', 'movie', "n't", 'one', 'like', '--', '``', "'", 'story', 'much', 'even', 'good', 'comedy', 'time', 'characters', 'little', 'way', 'funny', 'make', '[', ']', 'enough', 'never', 'director', 'makes', 'would', 'may', 'us', 'work', 'best', 'bad', 'life', ')', 'love', '?', '(', 'could', ':', 'movies', 'new', 'well', 'something', 'really', 'made', 'performances', 'plot', 'many', 'drama', 'films', 'still', 'see', 'look', 'every', 'two', 'people', 'nothing', "'re", 'better', 'long', 'without', 'fun', 'get', 'action', 'great', 'though', 'might', 'big', 'also', 'character', 'audience', 'another', 'cast', 'script', 'kind', 'first', 'humor', 'sense', 'world', 'ever', ';', 'performance', 'feels', 'thing', 'far', 'often', 'less', 'seems', 'minutes', 'real', 'picture', 'feel', 'thriller', 'tale', 'almost', 'ca', 'quite', 'documentary']
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 1000
+PartsOfSpeech   : ADJ
+Naive Bayes Most informativeFeatures: [('stupid', True), ('routine', True), ('inventive', True), ('generic', True), ('flat', True), ('boring', True), ('refreshing', True), ('warm', True), ('wonderful', True), ('realistic', True)]
+Accuracy of Naive Bayes                   :70.10309278350515
+Accuracy of SGD Classifiers               :70.10309278350515
+Accuracy of Bernoulli Naive Bayes         :67.76007497656981
+Accuracy of Linear Support Vector Machine :70.29053420805998
+Accuracy of Logistic Regression           :68.22867853795688
+Accuracy of Vote Classifier               :69.25960637300844
+----------------------------------------------
+top 10 word_features['.', ',', "'s", 'film', 'movie', "n't", 'one', 'like', '--', '``', "'", 'story', 'much', 'even', 'good', 'comedy', 'time', 'characters', 'little', 'way', 'funny', 'make', '[', ']', 'enough', 'never', 'director', 'makes', 'would', 'may', 'us', 'work', 'best', 'bad', 'life', ')', 'love', '?', '(', 'could', ':', 'movies', 'new', 'well', 'something', 'really', 'made', 'performances', 'plot', 'many', 'drama', 'films', 'still', 'see', 'look', 'every', 'two', 'people', 'nothing', "'re", 'better', 'long', 'without', 'fun', 'get', 'action', 'great', 'though', 'might', 'big', 'also', 'character', 'audience', 'another', 'cast', 'script', 'kind', 'first', 'humor', 'sense', 'world', 'ever', ';', 'performance', 'feels', 'thing', 'far', 'often', 'less', 'seems', 'minutes', 'real', 'picture', 'feel', 'thriller', 'tale', 'almost', 'ca', 'quite', 'documentary']
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 1000
+PartsOfSpeech   : VERB
+Naive Bayes Most informativeFeatures: [('engrossing', True), ('boring', True), ('warm', True), ('refreshing', True), ('provides', True), ('chilling', True), ('annoying', True), ('meandering', True), ('waste', True), ('supposed', True)]
+Accuracy of Naive Bayes                   :65.41705716963449
+Accuracy of SGD Classifiers               :65.41705716963449
+Accuracy of Bernoulli Naive Bayes         :64.29240862230553
+Accuracy of Linear Support Vector Machine :65.41705716963449
+Accuracy of Logistic Regression           :64.38612933458295
+Accuracy of Vote Classifier               :64.19868791002811
+----------------------------------------------
+top 10 word_features['.', ',', "'s", 'film', 'movie', "n't", 'one', 'like', '--', '``', "'", 'story', 'much', 'even', 'good', 'comedy', 'time', 'characters', 'little', 'way', 'funny', 'make', '[', ']', 'enough', 'never', 'director', 'makes', 'would', 'may', 'us', 'work', 'best', 'bad', 'life', ')', 'love', '?', '(', 'could', ':', 'movies', 'new', 'well', 'something', 'really', 'made', 'performances', 'plot', 'many', 'drama', 'films', 'still', 'see', 'look', 'every', 'two', 'people', 'nothing', "'re", 'better', 'long', 'without', 'fun', 'get', 'action', 'great', 'though', 'might', 'big', 'also', 'character', 'audience', 'another', 'cast', 'script', 'kind', 'first', 'humor', 'sense', 'world', 'ever', ';', 'performance', 'feels', 'thing', 'far', 'often', 'less', 'seems', 'minutes', 'real', 'picture', 'feel', 'thriller', 'tale', 'almost', 'ca', 'quite', 'documentary']
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 1000
+PartsOfSpeech   : ADV
+Naive Bayes Most informativeFeatures: [('refreshingly', True), ('apparently', True), ('unique', True), ('gentle', True), ('timely', True), ('undeniably', True), ('bother', True), ('sadly', True), ('quietly', True), ('vivid', True)]
+Accuracy of Naive Bayes                   :60.91846298031866
+Accuracy of SGD Classifiers               :60.91846298031866
+Accuracy of Bernoulli Naive Bayes         :60.824742268041234
+Accuracy of Linear Support Vector Machine :60.824742268041234
+Accuracy of Logistic Regression           :61.10590440487348
+Accuracy of Vote Classifier               :62.60543580131209
+----------------------------------------------
+top 10 word_features['.', ',', "'s", 'film', 'movie', "n't", 'one', 'like', '--', '``', "'", 'story', 'much', 'even', 'good', 'comedy', 'time', 'characters', 'little', 'way', 'funny', 'make', '[', ']', 'enough', 'never', 'director', 'makes', 'would', 'may', 'us', 'work', 'best', 'bad', 'life', ')', 'love', '?', '(', 'could', ':', 'movies', 'new', 'well', 'something', 'really', 'made', 'performances', 'plot', 'many', 'drama', 'films', 'still', 'see', 'look', 'every', 'two', 'people', 'nothing', "'re", 'better', 'long', 'without', 'fun', 'get', 'action', 'great', 'though', 'might', 'big', 'also', 'character', 'audience', 'another', 'cast', 'script', 'kind', 'first', 'humor', 'sense', 'world', 'ever', ';', 'performance', 'feels', 'thing', 'far', 'often', 'less', 'seems', 'minutes', 'real', 'picture', 'feel', 'thriller', 'tale', 'almost', 'ca', 'quite', 'documentary']
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 1000
+PartsOfSpeech   : *
+Naive Bayes Most informativeFeatures: [('engrossing', True), ('routine', True), ('inventive', True), ('touching', True), ('generic', True), ('mediocre', True), ('unique', True), ('boring', True), ('refreshing', True), ('flat', True)]
+Accuracy of Naive Bayes                   :72.44611059044048
+Accuracy of SGD Classifiers               :72.44611059044048
+Accuracy of Bernoulli Naive Bayes         :70.66541705716963
+Accuracy of Linear Support Vector Machine :72.35238987816307
+Accuracy of Logistic Regression           :70.10309278350515
+Accuracy of Vote Classifier               :71.1340206185567
+----------------------------------------------
