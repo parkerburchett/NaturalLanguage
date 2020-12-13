@@ -1,0 +1,301 @@
+
+Accuracy of Naive Bayes,60.07497656982193,100
+Accuracy of SGD Classifiers ,60.07497656982193,100
+Bernoulli Naive Bayes,60.168697282099345,100
+Linear Support Vector Machine,60.07497656982193,100
+Logistic Regression,60.26241799437676,100
+Vote Classifier,60.168697282099345,100
+Accuracy of Naive Bayes,64.57357075913777,200
+Accuracy of SGD Classifiers ,64.57357075913777,200
+Bernoulli Naive Bayes,64.0112464854733,200
+Linear Support Vector Machine,64.57357075913777,200
+Logistic Regression,64.94845360824742,200
+Vote Classifier,65.22961574507966,200
+Accuracy of Naive Bayes,65.13589503280225,300
+Accuracy of SGD Classifiers ,65.13589503280225,300
+Bernoulli Naive Bayes,65.97938144329896,300
+Linear Support Vector Machine,65.13589503280225,300
+Logistic Regression,66.07310215557638,300
+Vote Classifier,65.69821930646673,300
+Accuracy of Naive Bayes,67.66635426429241,400
+Accuracy of SGD Classifiers ,67.66635426429241,400
+Bernoulli Naive Bayes,67.47891283973757,400
+Linear Support Vector Machine,67.47891283973757,400
+Logistic Regression,69.72820993439551,400
+Vote Classifier,70.00937207122774,400
+Accuracy of Naive Bayes,69.63448922211809,500
+Accuracy of SGD Classifiers ,69.63448922211809,500
+Bernoulli Naive Bayes,70.29053420805998,500
+Linear Support Vector Machine,69.63448922211809,500
+Logistic Regression,69.0721649484536,500
+Vote Classifier,69.35332708528584,500
+Accuracy of Naive Bayes,68.3223992502343,600
+Accuracy of SGD Classifiers ,68.3223992502343,600
+Bernoulli Naive Bayes,69.0721649484536,600
+Linear Support Vector Machine,68.22867853795688,600
+Logistic Regression,70.94657919400188,600
+Vote Classifier,70.94657919400188,600
+Accuracy of Naive Bayes,69.82193064667291,700
+Accuracy of SGD Classifiers ,69.82193064667291,700
+Bernoulli Naive Bayes,68.22867853795688,700
+Linear Support Vector Machine,69.63448922211809,700
+Logistic Regression,68.69728209934397,700
+Vote Classifier,68.88472352389878,700
+Accuracy of Naive Bayes,69.35332708528584,800
+Accuracy of SGD Classifiers ,69.35332708528584,800
+Bernoulli Naive Bayes,68.88472352389878,800
+Linear Support Vector Machine,69.25960637300844,800
+Logistic Regression,68.69728209934397,800
+Vote Classifier,68.9784442361762,800
+Accuracy of Naive Bayes,70.10309278350515,900
+Accuracy of SGD Classifiers ,70.10309278350515,900
+Bernoulli Naive Bayes,69.0721649484536,900
+Linear Support Vector Machine,70.10309278350515,900
+Logistic Regression,70.00937207122774,900
+Vote Classifier,69.44704779756327,900
+Accuracy of Naive Bayes,71.41518275538894,1000
+Accuracy of SGD Classifiers ,71.41518275538894,1000
+Bernoulli Naive Bayes,72.07122774133083,1000
+Linear Support Vector Machine,71.50890346766636,1000
+Logistic Regression,70.85285848172445,1000
+Vote Classifier,71.32146204311152,1000
+Accuracy of Naive Bayes,72.82099343955014,1100
+Accuracy of SGD Classifiers ,72.82099343955014,1100
+Bernoulli Naive Bayes,71.41518275538894,1100
+Linear Support Vector Machine,73.00843486410497,1100
+Logistic Regression,71.97750702905343,1100
+Vote Classifier,72.63355201499532,1100
+Accuracy of Naive Bayes,73.19587628865979,1200
+Accuracy of SGD Classifiers ,73.19587628865979,1200
+Bernoulli Naive Bayes,71.97750702905343,1200
+Linear Support Vector Machine,73.19587628865979,1200
+Logistic Regression,71.7900656044986,1200
+Vote Classifier,71.7900656044986,1200
+Accuracy of Naive Bayes,73.75820056232428,1300
+Accuracy of SGD Classifiers ,73.75820056232428,1300
+Bernoulli Naive Bayes,73.38331771321462,1300
+Linear Support Vector Machine,73.9456419868791,1300
+Logistic Regression,74.6954076850984,1300
+Vote Classifier,75.53889409559513,1300
+Accuracy of Naive Bayes,72.35238987816307,1400
+Accuracy of SGD Classifiers ,72.35238987816307,1400
+Bernoulli Naive Bayes,70.29053420805998,1400
+Linear Support Vector Machine,72.35238987816307,1400
+Logistic Regression,72.07122774133083,1400
+Vote Classifier,71.60262417994376,1400
+Accuracy of Naive Bayes,74.60168697282099,1500
+Accuracy of SGD Classifiers ,74.60168697282099,1500
+Bernoulli Naive Bayes,73.75820056232428,1500
+Linear Support Vector Machine,74.60168697282099,1500
+Logistic Regression,73.66447985004686,1500
+Vote Classifier,75.25773195876289,1500
+Accuracy of Naive Bayes,72.5398313027179,1600
+Accuracy of SGD Classifiers ,72.5398313027179,1600
+Bernoulli Naive Bayes,72.91471415182755,1600
+Linear Support Vector Machine,72.63355201499532,1600
+Logistic Regression,71.97750702905343,1600
+Vote Classifier,72.44611059044048,1600
+Accuracy of Naive Bayes,74.97656982193065,1700
+Accuracy of SGD Classifiers ,74.97656982193065,1700
+Bernoulli Naive Bayes,74.41424554826617,1700
+Linear Support Vector Machine,74.97656982193065,1700
+Logistic Regression,73.47703842549204,1700
+Vote Classifier,74.13308341143393,1700
+Accuracy of Naive Bayes,71.97750702905343,1800
+Accuracy of SGD Classifiers ,71.97750702905343,1800
+Bernoulli Naive Bayes,69.82193064667291,1800
+Linear Support Vector Machine,71.7900656044986,1800
+Logistic Regression,70.29053420805998,1800
+Vote Classifier,71.32146204311152,1800
+Accuracy of Naive Bayes,76.47610121836927,1900
+Accuracy of SGD Classifiers ,76.47610121836927,1900
+Bernoulli Naive Bayes,73.38331771321462,1900
+Linear Support Vector Machine,76.7572633552015,1900
+Logistic Regression,73.47703842549204,1900
+Vote Classifier,74.6954076850984,1900
+Accuracy of Naive Bayes,74.6954076850984,2000
+Accuracy of SGD Classifiers ,74.6954076850984,2000
+Bernoulli Naive Bayes,73.10215557638237,2000
+Linear Support Vector Machine,74.60168697282099,2000
+Logistic Regression,71.32146204311152,2000
+Vote Classifier,72.82099343955014,2000
+Accuracy of Naive Bayes,71.97750702905343,2100
+Accuracy of SGD Classifiers ,71.97750702905343,2100
+Bernoulli Naive Bayes,72.25866916588566,2100
+Linear Support Vector Machine,72.16494845360825,2100
+Logistic Regression,70.66541705716963,2100
+Vote Classifier,73.00843486410497,2100
+Accuracy of Naive Bayes,76.66354264292409,2200
+Accuracy of SGD Classifiers ,76.66354264292409,2200
+Bernoulli Naive Bayes,73.57075913776944,2200
+Linear Support Vector Machine,77.22586691658857,2200
+Logistic Regression,73.00843486410497,2200
+Vote Classifier,75.53889409559513,2200
+Accuracy of Naive Bayes,74.88284910965324,2300
+Accuracy of SGD Classifiers ,74.88284910965324,2300
+Bernoulli Naive Bayes,72.82099343955014,2300
+Linear Support Vector Machine,75.16401124648547,2300
+Logistic Regression,71.7900656044986,2300
+Vote Classifier,73.00843486410497,2300
+Accuracy of Naive Bayes,73.2895970009372,2400
+Accuracy of SGD Classifiers ,73.2895970009372,2400
+Bernoulli Naive Bayes,73.19587628865979,2400
+Linear Support Vector Machine,73.47703842549204,2400
+Logistic Regression,72.5398313027179,2400
+Vote Classifier,73.38331771321462,2400
+Accuracy of Naive Bayes,75.44517338331771,2500
+Accuracy of SGD Classifiers ,75.44517338331771,2500
+Bernoulli Naive Bayes,72.72727272727273,2500
+Linear Support Vector Machine,75.25773195876289,2500
+Logistic Regression,73.47703842549204,2500
+Vote Classifier,73.85192127460168,2500
+Accuracy of Naive Bayes,76.7572633552015,2600
+Accuracy of SGD Classifiers ,76.7572633552015,2600
+Bernoulli Naive Bayes,73.57075913776944,2600
+Linear Support Vector Machine,76.47610121836927,2600
+Logistic Regression,73.57075913776944,2600
+Vote Classifier,76.0074976569822,2600
+Accuracy of Naive Bayes,74.41424554826617,2700
+Accuracy of SGD Classifiers ,74.41424554826617,2700
+Bernoulli Naive Bayes,72.44611059044048,2700
+Linear Support Vector Machine,74.88284910965324,2700
+Logistic Regression,70.47797563261481,2700
+Vote Classifier,73.00843486410497,2700
+Accuracy of Naive Bayes,77.50702905342081,2800
+Accuracy of SGD Classifiers ,77.50702905342081,2800
+Bernoulli Naive Bayes,74.97656982193065,2800
+Linear Support Vector Machine,77.31958762886599,2800
+Logistic Regression,74.13308341143393,2800
+Vote Classifier,75.16401124648547,2800
+Accuracy of Naive Bayes,75.91377694470478,2900
+Accuracy of SGD Classifiers ,75.91377694470478,2900
+Bernoulli Naive Bayes,70.3842549203374,2900
+Linear Support Vector Machine,75.53889409559513,2900
+Logistic Regression,69.0721649484536,2900
+Vote Classifier,71.41518275538894,2900
+Accuracy of Naive Bayes,75.44517338331771,3000
+Accuracy of SGD Classifiers ,75.44517338331771,3000
+Bernoulli Naive Bayes,73.19587628865979,3000
+Linear Support Vector Machine,75.25773195876289,3000
+Logistic Regression,72.72727272727273,3000
+Vote Classifier,74.03936269915651,3000
+Accuracy of Naive Bayes,77.13214620431116,3100
+Accuracy of SGD Classifiers ,77.13214620431116,3100
+Bernoulli Naive Bayes,76.1012183692596,3100
+Linear Support Vector Machine,77.22586691658857,3100
+Logistic Regression,74.97656982193065,3100
+Vote Classifier,76.38238050609185,3100
+Accuracy of Naive Bayes,76.47610121836927,3200
+Accuracy of SGD Classifiers ,76.47610121836927,3200
+Bernoulli Naive Bayes,73.9456419868791,3200
+Linear Support Vector Machine,76.38238050609185,3200
+Logistic Regression,72.5398313027179,3200
+Vote Classifier,74.97656982193065,3200
+Accuracy of Naive Bayes,75.63261480787254,3300
+Accuracy of SGD Classifiers ,75.63261480787254,3300
+Bernoulli Naive Bayes,74.50796626054358,3300
+Linear Support Vector Machine,75.63261480787254,3300
+Logistic Regression,73.66447985004686,3300
+Vote Classifier,76.38238050609185,3300
+Accuracy of Naive Bayes,76.1012183692596,3400
+Accuracy of SGD Classifiers ,76.1012183692596,3400
+Bernoulli Naive Bayes,74.03936269915651,3400
+Linear Support Vector Machine,75.82005623242736,3400
+Logistic Regression,71.22774133083412,3400
+Vote Classifier,75.44517338331771,3400
+Accuracy of Naive Bayes,77.31958762886599,3500
+Accuracy of SGD Classifiers ,77.31958762886599,3500
+Bernoulli Naive Bayes,75.53889409559513,3500
+Linear Support Vector Machine,76.38238050609185,3500
+Logistic Regression,73.9456419868791,3500
+Vote Classifier,75.25773195876289,3500
+Accuracy of Naive Bayes,75.35145267104029,3600
+Accuracy of SGD Classifiers ,75.35145267104029,3600
+Bernoulli Naive Bayes,72.25866916588566,3600
+Linear Support Vector Machine,75.35145267104029,3600
+Logistic Regression,71.50890346766636,3600
+Vote Classifier,74.88284910965324,3600
+Accuracy of Naive Bayes,76.1012183692596,3700
+Accuracy of SGD Classifiers ,76.1012183692596,3700
+Bernoulli Naive Bayes,74.32052483598875,3700
+Linear Support Vector Machine,76.1012183692596,3700
+Logistic Regression,73.66447985004686,3700
+Vote Classifier,75.25773195876289,3700
+Accuracy of Naive Bayes,76.1012183692596,3800
+Accuracy of SGD Classifiers ,76.1012183692596,3800
+Bernoulli Naive Bayes,72.35238987816307,3800
+Linear Support Vector Machine,76.0074976569822,3800
+Logistic Regression,71.22774133083412,3800
+Vote Classifier,74.60168697282099,3800
+Accuracy of Naive Bayes,76.19493908153702,3900
+Accuracy of SGD Classifiers ,76.19493908153702,3900
+Bernoulli Naive Bayes,72.35238987816307,3900
+Linear Support Vector Machine,75.82005623242736,3900
+Logistic Regression,72.44611059044048,3900
+Vote Classifier,73.19587628865979,3900
+Accuracy of Naive Bayes,76.56982193064667,4000
+Accuracy of SGD Classifiers ,76.56982193064667,4000
+Bernoulli Naive Bayes,73.47703842549204,4000
+Linear Support Vector Machine,76.56982193064667,4000
+Logistic Regression,73.66447985004686,4000
+Vote Classifier,75.91377694470478,4000
+Accuracy of Naive Bayes,76.1012183692596,4100
+Accuracy of SGD Classifiers ,76.1012183692596,4100
+Bernoulli Naive Bayes,74.03936269915651,4100
+Linear Support Vector Machine,76.56982193064667,4100
+Logistic Regression,72.91471415182755,4100
+Vote Classifier,76.0074976569822,4100
+Accuracy of Naive Bayes,77.88191190253045,4200
+Accuracy of SGD Classifiers ,77.88191190253045,4200
+Bernoulli Naive Bayes,75.35145267104029,4200
+Linear Support Vector Machine,78.1630740393627,4200
+Logistic Regression,74.03936269915651,4200
+Vote Classifier,76.7572633552015,4200
+Accuracy of Naive Bayes,75.44517338331771,4300
+Accuracy of SGD Classifiers ,75.44517338331771,4300
+Bernoulli Naive Bayes,76.19493908153702,4300
+Linear Support Vector Machine,75.53889409559513,4300
+Logistic Regression,73.85192127460168,4300
+Vote Classifier,75.82005623242736,4300
+Accuracy of Naive Bayes,78.63167760074975,4400
+Accuracy of SGD Classifiers ,78.63167760074975,4400
+Bernoulli Naive Bayes,74.97656982193065,4400
+Linear Support Vector Machine,78.0693533270853,4400
+Logistic Regression,74.13308341143393,4400
+Vote Classifier,76.56982193064667,4400
+Accuracy of Naive Bayes,78.0693533270853,4500
+Accuracy of SGD Classifiers ,78.0693533270853,4500
+Bernoulli Naive Bayes,75.44517338331771,4500
+Linear Support Vector Machine,78.25679475164011,4500
+Logistic Regression,74.6954076850984,4500
+Vote Classifier,77.41330834114339,4500
+Accuracy of Naive Bayes,75.16401124648547,4600
+Accuracy of SGD Classifiers ,75.16401124648547,4600
+Bernoulli Naive Bayes,72.82099343955014,4600
+Linear Support Vector Machine,75.16401124648547,4600
+Logistic Regression,71.97750702905343,4600
+Vote Classifier,74.50796626054358,4600
+Accuracy of Naive Bayes,78.72539831302718,4700
+Accuracy of SGD Classifiers ,78.72539831302718,4700
+Bernoulli Naive Bayes,75.91377694470478,4700
+Linear Support Vector Machine,78.53795688847235,4700
+Logistic Regression,74.22680412371135,4700
+Vote Classifier,76.7572633552015,4700
+Accuracy of Naive Bayes,77.13214620431116,4800
+Accuracy of SGD Classifiers ,77.13214620431116,4800
+Bernoulli Naive Bayes,73.75820056232428,4800
+Linear Support Vector Machine,77.22586691658857,4800
+Logistic Regression,73.57075913776944,4800
+Vote Classifier,76.0074976569822,4800
+Accuracy of Naive Bayes,76.38238050609185,4900
+Accuracy of SGD Classifiers ,76.38238050609185,4900
+Bernoulli Naive Bayes,72.91471415182755,4900
+Linear Support Vector Machine,77.22586691658857,4900
+Logistic Regression,71.7900656044986,4900
+Vote Classifier,74.6954076850984,4900
+Accuracy of Naive Bayes,75.25773195876289,5000
+Accuracy of SGD Classifiers ,75.25773195876289,5000
+Bernoulli Naive Bayes,73.10215557638237,5000
+Linear Support Vector Machine,75.63261480787254,5000
+Logistic Regression,71.69634489222118,5000
+Vote Classifier,76.1012183692596,5000
