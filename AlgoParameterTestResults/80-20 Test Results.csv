@@ -1,4 +1,4 @@
-
+Name,Accuracy,N
 Accuracy of Naive Bayes,59.774964838255976,100
 Accuracy of SGD Classifiers ,59.774964838255976,100
 Bernoulli Naive Bayes,60.75949367088608,100
