@@ -1,0 +1,36 @@
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 1
+PartsOfSpeech   : ['*']
+Naive Bayes Most informativeFeatures: [('.', False), ('.', True)]
+Accuracy of Naive Bayes                   :50.51546391752577
+Accuracy of SGD Classifiers               :50.51546391752577
+Accuracy of Bernoulli Naive Bayes         :50.51546391752577
+Accuracy of Linear Support Vector Machine :50.51546391752577
+Accuracy of Logistic Regression           :50.51546391752577
+Accuracy of Vote Classifier               :50.51546391752577
+----------------------------------------------
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 10
+PartsOfSpeech   : ['*']
+Naive Bayes Most informativeFeatures: [("n't", True), ('like', True), ('movie', True), ('film', True), ('.', False), ('``', True), (',', False), ('movie', False), ("'s", True), ("n't", False)]
+Accuracy of Naive Bayes                   :52.8584817244611
+Accuracy of SGD Classifiers               :52.8584817244611
+Accuracy of Bernoulli Naive Bayes         :52.483598875351454
+Accuracy of Linear Support Vector Machine :52.8584817244611
+Accuracy of Logistic Regression           :54.9203373945642
+Accuracy of Vote Classifier               :54.9203373945642
+----------------------------------------------
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 50
+PartsOfSpeech   : ['*']
+Naive Bayes Most informativeFeatures: [('bad', True), ('performances', True), ('?', True), ('best', True), ('would', True), ('really', True), ('plot', True), ('love', True), ('funny', True), ('life', True)]
+Accuracy of Naive Bayes                   :59.137769447047795
+Accuracy of SGD Classifiers               :59.137769447047795
+Accuracy of Bernoulli Naive Bayes         :58.95032802249297
+Accuracy of Linear Support Vector Machine :59.137769447047795
+Accuracy of Logistic Regression           :60.44985941893158
+Accuracy of Vote Classifier               :60.63730084348641
+----------------------------------------------
