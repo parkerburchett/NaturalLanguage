@@ -20,7 +20,7 @@ for p in paramList:
         print('Tested Classifiers: {}:'.format((datetime.datetime.now()-start2)))
     
     except (ValueError):
-        print('you had an error here')
+        print('Error Part of speech that breaks: {}'.format(p.PartsOfSpeech))
         print(ValueError)
 
 print('finished')
