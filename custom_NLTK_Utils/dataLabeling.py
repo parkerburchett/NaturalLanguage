@@ -77,7 +77,7 @@ def limit_features(all_words, param):
         temp = []
         stop_words = set(stopwords.words('english'))
         for w in all_words:
-            if(w not in stop_words):
+            if w not in stop_words:
                 temp.append(w)
         all_words = temp
         ans = temp
@@ -86,7 +86,7 @@ def limit_features(all_words, param):
         temp = []
         for word in all_words:
             pos = pos_tag(word_tokenize(word),tagset='universal')
-            if(pos[0][1] == param.PartsOfSpeech):
+            if pos[0][1] == param.PartsOfSpeech:
                 temp.append(pos[0][0])
         ans = temp
     return ans
@@ -104,8 +104,15 @@ def assemble_word_features(all_words, param):
     word_features : A list of all the words to be treated as features
     """
     # source: https://stackoverflow.com/questions/613183/how-do-i-sort-a-dictionary-by-value
+
     dict(sorted(all_words.items(), key=lambda item: item[1]))
-    word_features = list(all_words)[:param.NmostFrequent]
+    try:
+        word_features = list(all_words)[:param.NmostFrequent]
+    except:
+        word_features = list(all_words)
+        # this only triggers when there are not enough Unique Words in all_words
+        # This is the case for example when you are limiting by punctuation
+        # and there are not enough unique punctuation symbols
     return word_features
     
     
