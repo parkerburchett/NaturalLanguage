@@ -69,7 +69,7 @@ from sklearn.naive_bayes import MultinomialNB, GaussianNB, BernoulliNB
 from sklearn.linear_model import LogisticRegression, SGDClassifier 
 from nltk.classify import ClassifierI
 from statistics import mode
-from sklearn.svm import SVC, LinearSVC, NuSVC
+from sklearn.svm import SVC, LinearSVC
 import nltk
 import datetime
 import random
@@ -129,17 +129,7 @@ def writeAlgoEvaluation(param, classifiers, FeatureSets):
     TestingSet = getTestData(FeatureSets)
     # change where this writes to so it writes to the current diricetory
     with open("CurTest.txt","a+") as out:
-        all_w = dl.assemble_all_words(param)
-        word_features = dl.assemble_word_features(all_w,param)
-        word_featuresPos =[]
-        for i in range(20):
-            pos = nltk.pos_tag(nltk.word_tokenize(word_features[i]),tagset='universal')
-            word_featuresPos.append(pos) 
-  
         out.write("----------------------------------------------\n")
-        # the limit word features method works. But it does not get parsed properly
-        out.write("INSIDE OF MAIN top word_features: {}\n".format(str(word_featuresPos)))
-        
         ParamDetails = ("Remove StopWords: " + str(param.the_stop) + 
                        "\nN Most Frequent : " + str(param.NmostFrequent) +
                        "\nPartsOfSpeech   : " + str(param.PartsOfSpeech)
