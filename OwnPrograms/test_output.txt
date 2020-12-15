@@ -1,0 +1,55 @@
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 1000
+PartsOfSpeech   : NOUN
+Accuracy of Naive Bayes                   :70.47797563261481
+Accuracy of SGD Classifiers               :70.47797563261481
+Accuracy of Bernoulli Naive Bayes         :66.72914714151827
+Accuracy of Linear Support Vector Machine :70.29053420805998
+Accuracy of Logistic Regression           :69.35332708528584
+Accuracy of Vote Classifier               :69.44704779756327
+----------------------------------------------
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 1000
+PartsOfSpeech   : ADJ
+Accuracy of Naive Bayes                   :62.32427366447985
+Accuracy of SGD Classifiers               :62.32427366447985
+Accuracy of Bernoulli Naive Bayes         :62.69915651358951
+Accuracy of Linear Support Vector Machine :62.51171508903468
+Accuracy of Logistic Regression           :63.54264292408622
+Accuracy of Vote Classifier               :62.69915651358951
+----------------------------------------------
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 1000
+PartsOfSpeech   : VERB
+Accuracy of Naive Bayes                   :61.01218369259607
+Accuracy of SGD Classifiers               :61.01218369259607
+Accuracy of Bernoulli Naive Bayes         :61.01218369259607
+Accuracy of Linear Support Vector Machine :61.01218369259607
+Accuracy of Logistic Regression           :60.73102155576382
+Accuracy of Vote Classifier               :60.63730084348641
+----------------------------------------------
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 1000
+PartsOfSpeech   : ADV
+Accuracy of Naive Bayes                   :56.70103092783505
+Accuracy of SGD Classifiers               :56.70103092783505
+Accuracy of Bernoulli Naive Bayes         :55.85754451733833
+Accuracy of Linear Support Vector Machine :56.41986879100281
+Accuracy of Logistic Regression           :56.23242736644799
+Accuracy of Vote Classifier               :55.763823805060916
+----------------------------------------------
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 1000
+PartsOfSpeech   : *
+Accuracy of Naive Bayes                   :72.91471415182755
+Accuracy of SGD Classifiers               :72.91471415182755
+Accuracy of Bernoulli Naive Bayes         :72.35238987816307
+Accuracy of Linear Support Vector Machine :72.72727272727273
+Accuracy of Logistic Regression           :71.7900656044986
+Accuracy of Vote Classifier               :71.97750702905343
+----------------------------------------------
