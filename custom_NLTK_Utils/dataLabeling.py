@@ -23,12 +23,34 @@ def find_Features(document, word_features):
     return features  
 
 
-def assemble_Documents(param):
-    documents = [] # document is a tuple of (review, category)
-    for r in param.PosExamples.split('\n'):
-        documents.append((r,"Positive"))
-    for r in param.NegExamples.split('\n'):
-        documents.append((r,"Negative"))
+def assemble_Documents(param, randomized=False):
+    """
+    Parameters: Param: AlgoParam Object using AlgoParam.PosExamples and AlgoParam.NegExamples
+    randomized:Optional Default False.
+    If true this will randomly label 50% of the documents as positive and 50% as negative.
+    randomized=True is for a proof of concept that the shows there needs to be an underlying relationship between
+    A input and output. If there is not an output, theory says accuracy should always be close to 50%
+    Returns:
+        a list of Tuples representing (review, category) for every labeled review.
+    """
+    documents = []  # document is a tuple of (review, category)
+    if randomized:
+        for r in param.PosExamples.split('\n'):
+            documents.append((r, "placeholder"))
+        for r in param.NegExamples.split('\n'):
+            documents.append((r, "placeholder"))
+        random.shuffle(documents)
+        half = int(len(documents)/2)
+        for d in documents[:half]:
+            d[1] = "Positive"
+        for d in documents[half:]:
+            d[1] = "Negative"
+    else:
+        for r in param.PosExamples.split('\n'):
+            documents.append((r,"Positive"))
+        for r in param.NegExamples.split('\n'):
+            documents.append((r,"Negative"))
+
     return documents
 
 
