@@ -111,7 +111,7 @@ def limit_features(all_words, param):
     return ans
         
 
-def assemble_word_features(all_words, param):
+def assemble_word_features(all_words, param, write=False):
     """
     Parameters
     ----------
@@ -133,12 +133,12 @@ def assemble_word_features(all_words, param):
         # This is the case for example when you are limiting by punctuation
         # and there are not enough unique punctuation symbols
         # it is currently untested. I need to verify that it works
-
-    with open("word_featuresList.txt","a+") as out:
-        out.write(param.PartsOfSpeech)
-        for w in range(min(100, len(word_features)-1)):
-            out.write(word_features[w]+", ")
-        out.write("\n")
+    if write:
+        with open("word_featuresList.txt","a+") as out:
+            out.write(param.PartsOfSpeech)
+            for w in range(min(100, len(word_features)-1)):
+                out.write(word_features[w]+", ")
+            out.write("\n")
     return word_features
     
     

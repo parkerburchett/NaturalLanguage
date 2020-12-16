@@ -1,0 +1,11 @@
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 2000
+PartsOfSpeech   : *
+Accuracy of Naive Bayes                   :75.44517338331771
+Accuracy of SGD Classifiers               :75.44517338331771
+Accuracy of Bernoulli Naive Bayes         :72.91471415182755
+Accuracy of Linear Support Vector Machine :75.25773195876289
+Accuracy of Logistic Regression           :72.72727272727273
+Accuracy of Vote Classifier               :74.88284910965324
+----------------------------------------------
