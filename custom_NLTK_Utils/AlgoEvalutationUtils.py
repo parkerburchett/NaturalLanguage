@@ -17,7 +17,7 @@ def createParamList():
         "C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/OwnPrograms/short_reviews/shortNegative.txt",
         "r").read()
     paramList = []
-    for f in ("NOUN","VERB","ADV","ADJ", "DET","AUX" "PUNCT", "*"):
+    for f in ("NOUN", "VERB", "ADV", "ADJ", "DET", "AUX", "PUNCT", "*"):
         paramList.append(AlgoParams.AlgoParams(True, 1000, shortPos, shortNeg, f))
     return paramList
 
