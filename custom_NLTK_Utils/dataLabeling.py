@@ -156,7 +156,7 @@ def create_feature_sets(param):
     Example
     [({"great":True, "kevin": False ...}, "Positive"), ({"great":False, "kevin": False ...}, "Negative")...]
     """
-    documents = assemble_Documents(param,randomized=True)
+    documents = assemble_Documents(param)
     all_words = assemble_all_words(param)
     word_features = assemble_word_features(all_words, param)
     feature_sets = [(find_Features(text, word_features), category) 
