@@ -16,27 +16,3 @@ def customPickle(thingToPickle, objectName):
     outLocation = open(objectName, "wb")
     pickle.dump(thingToPickle, outLocation)
     outLocation.close()
-
-def pickle_Training_Params(PositiveExamples, NegativeExamples):
-    """
-       This calls the proccesses in dataLabeling.py 
-       but saves the pickled resutls instead
-       You also need to save somehow what the limit_features Method you are using. 
-       // Maybe you need
-    """
-    documents = DL.assemble_Documents(PositiveExamples, NegativeExamples)
-    all_words = DL.assemble_all_wordsFRQDIST(PositiveExamples,NegativeExamples)
-    word_features = DL.assemble_word_features(all_words, 3000)
-    feature_sets = DL.create_feature_sets(PositiveExamples,PositiveExamples)
-    
-    customPickle(documents,"documents")
-    customPickle(all_words,"all_words")
-    customPickle(word_features,"word_features")
-    customPickle(feature_sets,"feature_sets")
-    
-
-def pickle_Algos(ListOfTrainedAlgos):
-    return True
-#need to write this
-    
-    
