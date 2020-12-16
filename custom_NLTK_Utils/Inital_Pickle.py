@@ -12,7 +12,7 @@ def customPickle(thingToPickle, objectName):
         
         myList.pickle in your current dirictory
     """
-    objectName = objectName +".pickle"
+    objectName = "./"+ objectName +".pickle"
     outLocation = open(objectName, "wb")
     pickle.dump(thingToPickle, outLocation)
     outLocation.close()
