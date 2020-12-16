@@ -27,29 +27,26 @@ def assemble_Documents(param, randomized=False):
     """
     Parameters: Param: AlgoParam Object using AlgoParam.PosExamples and AlgoParam.NegExamples
     randomized:Optional Default False.
-    If true this will randomly label 50% of the documents as positive and 50% as negative.
+    If true this will randomly label documents
     randomized=True is for a proof of concept that the shows there needs to be an underlying relationship between
     A input and output. If there is not an output, theory says accuracy should always be close to 50%
     Returns:
         a list of Tuples representing (review, category) for every labeled review.
     """
     documents = []  # document is a tuple of (review, category)
+    examples = (param.PosExamples.split("\n"), param.NegExamples.split("\n"))
     if randomized:
-        for r in param.PosExamples.split('\n'):
-            documents.append((r, "placeholder"))
-        for r in param.NegExamples.split('\n'):
-            documents.append((r, "placeholder"))
-        random.shuffle(documents)
-        half = int(len(documents)/2)
-        for d in documents[:half]:
-            d[1] = "Positive"
-        for d in documents[half:]:
-            d[1] = "Negative"
+        for e in examples:
+            for r in e:
+                if bool(random.getrandbits(1)):
+                    documents.append((r, "Positive"))
+                else:
+                    documents.append((r, "Negative"))
     else:
-        for r in param.PosExamples.split('\n'):
-            documents.append((r,"Positive"))
-        for r in param.NegExamples.split('\n'):
-            documents.append((r,"Negative"))
+        for review in param.PosExamples.split('\n'):
+            documents.append((review,"Positive"))
+        for review in param.NegExamples.split('\n'):
+            documents.append((review,"Negative"))
 
     return documents
 
@@ -135,6 +132,7 @@ def assemble_word_features(all_words, param):
         # this only triggers when there are not enough Unique Words in all_words
         # This is the case for example when you are limiting by punctuation
         # and there are not enough unique punctuation symbols
+        # it is currently untested. I need to verify that it works
 
     with open("word_featuresList.txt","a+") as out:
         out.write(param.PartsOfSpeech)
@@ -158,7 +156,7 @@ def create_feature_sets(param):
     Example
     [({"great":True, "kevin": False ...}, "Positive"), ({"great":False, "kevin": False ...}, "Negative")...]
     """
-    documents = assemble_Documents(param) 
+    documents = assemble_Documents(param,randomized=True)
     all_words = assemble_all_words(param)
     word_features = assemble_word_features(all_words, param)
     feature_sets = [(find_Features(text, word_features), category) 

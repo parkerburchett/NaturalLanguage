@@ -7,8 +7,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import SGDClassifier
 from sklearn.svm import LinearSVC
 
-
-
 def createParamList():
     shortPos = open(
         "C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/OwnPrograms/short_reviews/shortPositive.txt",
@@ -17,8 +15,8 @@ def createParamList():
         "C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/OwnPrograms/short_reviews/shortNegative.txt",
         "r").read()
     paramList = []
-    for f in ("NOUN", "VERB", "ADV", "ADJ", "DET", "AUX", "PUNCT", "*"):
-        paramList.append(AlgoParams.AlgoParams(True, 1000, shortPos, shortNeg, f))
+    for N in (100,1000,2000, 3000):
+        paramList.append(AlgoParams.AlgoParams(True, N, shortPos, shortNeg, "*"))
     return paramList
 
 
