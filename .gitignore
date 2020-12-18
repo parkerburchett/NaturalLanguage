@@ -4,3 +4,4 @@
 *.pyc
 *.pyc
 LectureNotes/Twitter_Sentiment_Analysis.py
+custom_NLTK_Utils/TwitterCreds.py
