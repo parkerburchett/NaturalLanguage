@@ -37,7 +37,7 @@ def createAndTrain_Classifiers(feature_sets, split_train=True):
     Parameters:
         feature_sets: A list of dictionary , classification tuples, representing  a labeled review.
 
-        split_train: A optional Boolean if to train the Algo on the entire dataset or only on a subset.
+        split_train: A optional Boolean if to train the Algos on the entire dataset or only on a subset.
         use split_train=False when you want to use this algo on new data such as from twitter.
         Returns:
              TrainedClassifierList: A list of 5 trained binary classifiers and a custom Vote Classifier

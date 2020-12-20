@@ -27,11 +27,19 @@ access_token_secret = TwitterCreds.get_access_token_secret()
 class listener(StreamListener):
 
     def on_data(self, data):
-        all_data = json.loads(data) # I just copy and pasted this code
-        tweet = all_data["text"]
-        sentimentValue = s.determine_sentiment(tweet)
-        words_thatMatter = s.whatWordsMattered(tweet)
-        print("The Tweet: {} Based on these words:{}    is: {}".format(tweet,words_thatMatter, sentimentValue))
+        try:
+            all_data = json.loads(data) # I just copy and pasted this code
+            tweet = str(all_data["text"])
+            sentimentValue = s.determine_sentiment(tweet)
+            words_thatMatter = s.whatWordsMattered(tweet)
+
+            with open("LiveTweetResults.txt","a+") as out:
+                out.write("Tweet: {}\n".format(tweet))
+                out.write("Classification: {}\n".format(sentimentValue))
+                out.write("Based on these words: {}\n".format(words_thatMatter))
+                print('Added a Tweet')
+        except:
+            print("Failed to add Tweet")
         return True
 
     def on_error(self, status_code):
@@ -42,5 +50,4 @@ auth = OAuthHandler(consumer_key, consumer_key_secret)
 auth.set_access_token(access_token, access_token_secret)
 twitter_stream = Stream(auth, listener())
 
-# need to filter by english and by hashtag and by number of tweets do 100 to start
-twitter_stream.filter(track=["Obama"], languages=["en"])
+twitter_stream.filter(track=["movie"], languages=["en"])
