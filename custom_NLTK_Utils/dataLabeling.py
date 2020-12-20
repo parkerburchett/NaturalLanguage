@@ -50,7 +50,6 @@ def assemble_Documents(param, randomized=False):
 
     return documents
 
-
 def assemble_all_words(param):
     """
     Parameters
@@ -163,3 +162,48 @@ def create_feature_sets(param):
                     for (text, category) in documents]
     random.shuffle(feature_sets)
     return feature_sets # don't shuffle the feature_sets after this point
+
+def kaggle_create_feature_sets(documents, N):
+    all_words = []
+    for d in documents:
+        all_words.append(d[0].lower())
+    all_wordsFRQ = FreqDist(all_words)
+
+    dict(sorted(all_wordsFRQ.items(), key=lambda item: item[1]))
+    word_features = list(all_words)[:N]
+
+
+
+    feature_sets = [(find_Features(text, word_features), category)
+                    for (text, category) in documents]
+
+    random.shuffle(feature_sets)
+
+    return feature_sets
+
+
+
+def assemble_kaggle_documents(inputFile):
+    """
+    This is for converting a .csv file into the same format as the rest of the module is using.
+    and 0 = negative  4= positive
+
+    Parameters: inputFile a .csv file in the form of (4, "tweet with good sentiment") or (0, "tweet with bad sentiment")
+
+    Returns:
+        a list of Tuples representing (Tweet, category) for every labeled review.
+    """
+    lines = inputFile.readlines()
+    documents= []
+    for line in lines:
+        splitLine = line.split(',',1)
+        LabeledReview = (splitLine[1], int(splitLine[0]))
+        documents.append(LabeledReview)
+
+    inputFile.close()
+    return documents
+
+
+
+
+
