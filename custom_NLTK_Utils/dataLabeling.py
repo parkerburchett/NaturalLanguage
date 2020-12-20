@@ -172,8 +172,6 @@ def kaggle_create_feature_sets(documents, N):
     dict(sorted(all_wordsFRQ.items(), key=lambda item: item[1]))
     word_features = list(all_words)[:N]
 
-
-
     feature_sets = [(find_Features(text, word_features), category)
                     for (text, category) in documents]
 
@@ -183,6 +181,7 @@ def kaggle_create_feature_sets(documents, N):
 
 
 
+#________________________________________________#
 def assemble_kaggle_documents(inputFile):
     """
     This is for converting a .csv file into the same format as the rest of the module is using.
@@ -195,9 +194,17 @@ def assemble_kaggle_documents(inputFile):
     """
     lines = inputFile.readlines()
     documents= []
+    print('inside of assemble_kaggle_documents')
     for line in lines:
         splitLine = line.split(',',1)
-        LabeledReview = (splitLine[1], int(splitLine[0]))
+        tweet = str(splitLine[1]).lower()
+        # it is unclear if you need to word tokenize the document here
+        if int(splitLine[0]) == 0:
+            category = "Negative"
+        elif int(splitLine[0]) ==4:
+            category = "Positive"
+
+        LabeledReview = (tweet, category)
         documents.append(LabeledReview)
 
     inputFile.close()

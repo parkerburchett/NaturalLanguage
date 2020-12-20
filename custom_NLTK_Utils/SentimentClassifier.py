@@ -1,18 +1,16 @@
 import pickle
 import NaturalLanguage.custom_NLTK_Utils.dataLabeling as dl
 
-#
+# now using a subset of the labeled twitter data
 
-VoteClassifierIN = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\custom_NLTK_Utils\VoteClassifier_N2000_ADJ.pickle", "rb")
+VoteClassifierIN = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\OwnPrograms\Kaggle_LinearSupportVectorRegression.pickle", "rb")
 myClassifier = pickle.load(VoteClassifierIN)
 VoteClassifierIN.close()
 
-word_featuresIN = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\custom_NLTK_Utils\TwitterModel_word_features_N2000_ADJ.pickle", "rb")
+word_featuresIN = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\OwnPrograms\KaggleN5000_word_features.pickle", "rb")
 default_word_features = pickle.load(word_featuresIN)
 word_featuresIN.close()
 
-
-# retrain these algos for only adjectives and adverbs
 
 def determine_sentiment(text, long=False):
     features = dl.find_Features(text, default_word_features)
