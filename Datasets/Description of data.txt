@@ -1,0 +1,34 @@
+This is 1.6 million labeled tweets. 
+Source: https://www.kaggle.com/kazanova/sentiment140
+
+Note: this data is a decade old. It was gathered in 2009
+
+From source:
+"""
+Content
+It contains the following 6 fields:
+
+target: the polarity of the tweet (0 = negative, 2 = neutral, 4 = positive)
+
+ids: The id of the tweet ( 2087)
+
+date: the date of the tweet (Sat May 16 23:58:44 UTC 2009)
+
+flag: The query (lyx). If there is no query, then this value is NO_QUERY.
+
+user: the user that tweeted (robotickilldozr)
+
+text: the text of the tweet (Lyx is cool)
+
+"""
+
+You only care about "Target" if 0 or 4 and text
+
+Write a python script to write a new file like that
+
+
+You need to read this to get a better undestanding of the algorithm
+https://en.wikipedia.org/wiki/Support_vector_machine
+
+https://www.youtube.com/watch?v=efR1C6CvhmE
+
