@@ -167,10 +167,10 @@ def kaggle_create_feature_sets(documents, N):
     all_words = []
     for d in documents:
         all_words.append(d[0].lower())
+
     all_wordsFRQ = FreqDist(all_words)
 
-    dict(sorted(all_wordsFRQ.items(), key=lambda item: item[1]))
-    word_features = list(all_words)[:N]
+    word_features = all_wordsFRQ.most_common(1000) #untested
 
     feature_sets = [(find_Features(text, word_features), category)
                     for (text, category) in documents]
@@ -194,7 +194,6 @@ def assemble_kaggle_documents(inputFile):
     """
     lines = inputFile.readlines()
     documents= []
-    print('inside of assemble_kaggle_documents')
     for line in lines:
         splitLine = line.split(',',1)
         tweet = str(splitLine[1]).lower()
@@ -206,7 +205,7 @@ def assemble_kaggle_documents(inputFile):
 
         LabeledReview = (tweet, category)
         documents.append(LabeledReview)
-
+    random.shuffle(documents)
     inputFile.close()
     return documents
 

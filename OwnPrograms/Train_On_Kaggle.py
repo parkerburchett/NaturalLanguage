@@ -5,6 +5,7 @@ from NaturalLanguage.custom_NLTK_Utils import Inital_Pickle as ip
 import nltk
 import datetime
 import random
+import numpy
 
 
 # source: https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVR.html
@@ -13,46 +14,58 @@ def train_on_kaggle_data():
     print('started')
     inputFile = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\Datasets\LabeledTweets.csv", "r")
     documents = dl.assemble_kaggle_documents(inputFile)
-    print('Created documents :{}'.format(str(datetime.datetime.now() - start)))
-    all_words = []
-    docs = documents[:10000]
+    docs = documents[:10000] # for debugging only treat the first 10k as sample
+    # 10k = 14 seconds
+    # 20k = 28 seconds.
+    # 30k = 41 seconds
+    # when len(word_features) == 1000
 
+    # Time cost is linear with this equation: Total time  = (
+    all_words = []
     for d in docs:
         words = nltk.word_tokenize(d[0])
         for w in words:
             all_words.append(w.lower())
 
     all_wordsFRQ = nltk.FreqDist(all_words)
-    print('Created all_words:{}'.format(str(datetime.datetime.now() - start)))
 
-    dict(sorted(all_wordsFRQ.items(), key=lambda item: item[1]))
-    word_features = list(all_words)[:1000]
+    word_features_as_tuples = all_wordsFRQ.most_common(10) # A much better version. Make sure you replace this in main. You don't need to do any sorti
+    word_features=[]
+    for w in word_features_as_tuples:
+        word_features.append(w[0])
+
     print('Created word_features :{}'.format(str(datetime.datetime.now() - start)))
 
-    # very High Timecost. You might just want to pickle this after it runs.
+    # very High Time cost. You might just want to pickle this after it runs.
     feature_sets = [(dl.find_Features(text, word_features), category)
                     for (text, category) in docs]
-
-    ip.customPickle(feature_sets, "KaggleN5000_feature_sets_preShuffle")
     random.shuffle(feature_sets)
+    train_set = feature_sets[:9000]
+    test_set = feature_sets[9000:]
 
-    print('Created feature_sets :{}'.format(str(datetime.datetime.now() - start)))
-
-    train_set = AE.getTrainData(feature_sets)
-    LinearSupportVectorRegression = nltk.SklearnClassifier(LinearSVR())
-    LinearSupportVectorRegression.train(train_set)
-
-    print('Trained Linear SVR :{}'.format(str(datetime.datetime.now() - start)))
-    #___________________ everything above here works____________________________---
-    test_data =AE.getTestData(feature_sets)
+    my_classifier = LinearSVR()
 
 
-    #  You need to know the accuracy you are just testign this version over in testSentiment.py
+    myData = numpy.array(feature_sets)
+    vectors =[]
+    cats =[]
 
-    print('Accuracy: {}'.format(str(nltk.classify.accuracy(LinearSupportVectorRegression, test_data) * 100)))
-    ip.customPickle(LinearSupportVectorRegression, "Kaggle_LinearSupportVectorRegression")
-    ip.customPickle(word_features, "KaggleN5000_word_features")
+    for d in myData:
+        vectors.append(list((d[0].items())))
+        cats.append(d[1])
+
+    my_classifier.fit(vectors,cats)
+
+
     print('Finished :{}'.format(str(datetime.datetime.now()-start)))
+    # this is the syntax for fiting the algo: fit(Array maybe of vectors, Array maybe of proper outcomes.
+
+    # you could convert the list of (dict, String) tuples into a dataset and
+
+    # print('Accuracy: {}'.format(str(accuracy)))
+    # ip.customPickle(LinearSupportVectorRegression, "Kaggle_LinearSupportVectorRegression")
+    # ip.customPickle(word_features, "KaggleN5000_word_features")
+
 
 
 
