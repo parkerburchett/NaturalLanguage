@@ -36,3 +36,51 @@ When max_iters is 10000
 Time to create word_features :0:03:12.088612
 Time to create vectors and targets :0:16:54.223675
 Time to Train the classifier LinearSVC:0:06:08.007201
+When num_tweets is 100000
+When num_features is 1000
+When max_iters is 1000
+Time to create word_features :0:00:22.019963
+Time to created Training and Testing.  vectors and targets :0:00:50.333330
+Time to Train the classifier LinearSVC:0:00:06.075782
+--------------------
+New ModelWhen num_tweets is 100000
+When num_features is 1000
+When max_iters is 1000
+Time to create word_features :0:00:21.690610
+Time to created Training and Testing.  vectors and targets :0:00:46.266325
+Time to Train the classifier LinearSVC:0:00:06.381458
+--------------------
+New ModelWhen num_tweets is 100000
+When num_features is 1000
+When max_iters is 1000
+Time to create word_features :0:00:22.877261
+Time to created Training and Testing.  vectors and targets :0:00:53.872064
+Time to Train the classifier LinearSVC:0:00:06.219726
+--------------------
+New ModelWhen num_tweets is 100000
+When num_features is 1000
+When max_iters is 1000
+Time to create word_features :0:01:18.622535
+Time to created Training and Testing.  vectors and targets :0:02:08.302291
+Time to Train the classifier LinearSVC:0:00:06.592204
+--------------------
+New ModelWhen num_tweets is 100000
+When num_features is 1000
+When max_iters is 1000
+Time to create word_features :0:01:11.939549
+Time to created Training and Testing.  vectors and targets :0:01:58.149839
+Time to Train the classifier LinearSVC:0:00:06.638599
+--------------------
+New ModelWhen num_tweets is 50000
+When num_features is 500
+When max_iters is 1000
+Time to create word_features :0:00:33.405679
+Time to created Training and Testing.  vectors and targets :0:00:39.361797
+Time to Train the classifier LinearSVC:0:00:02.119230
+--------------------
+New ModelWhen num_tweets is 50000
+When num_features is 500
+When max_iters is 1000
+Time to create word_features :0:00:30.547650
+Time to created Training and Testing.  vectors and targets :0:00:36.444276
+Time to Train the classifier LinearSVC:0:00:02.102996

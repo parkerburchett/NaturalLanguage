@@ -64,9 +64,9 @@ def convert_float_array_to_boolean(predictions):
 
       Converts based on if it is closer to 0 or 1
     """
-    predictions_as_booleans = np.zeros(shape=predictions,dtype=bool)
-    for pred in range(predictions):
-        if predictions(pred) > .5:
+    predictions_as_booleans = np.zeros(shape=(len(predictions)),dtype=bool)
+    for pred in range(len(predictions)):
+        if predictions[pred] > .5:
             predictions_as_booleans[pred] =True
 
     return predictions_as_booleans
@@ -81,13 +81,13 @@ def train_on_kaggle_data():
     print('started')
     out = open('log_kaggle.txt','a')
     start = datetime.datetime.now()
-    num_tweets = 100000
-    num_features = 1000
+    num_tweets = 1000000
+    num_features = 10000
     iters = 1000
-    out.write('--------------------\nNew Model')
+    out.write('--------------------\n\nNew Model\n')
     out.write('When num_tweets is {}\n'.format(num_tweets))
     out.write('When num_features is {}\n'.format(num_features))
-    out.write('When max_iters is {}\n'.format(iters))
+    out.write('When max_iters is {}\n\n'.format(iters))
     inputFile = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\Datasets\LabeledTweets.csv", "r")
     documents = dl.assemble_kaggle_documents(inputFile) # this shuffles it
 
@@ -118,22 +118,19 @@ def train_on_kaggle_data():
     start = datetime.datetime.now()
 
     print('converted to vectors')
-    my_classifier = LinearSVR()
+    my_classifier = LinearSVR(max_iter=iters)
     my_classifier.fit(train_vectors,train_targets)
     out.write('Time to Train the classifier LinearSVC:{}\n'.format(str(datetime.datetime.now() - start)))
 
     # now you need to look at the accuracy
     print('trained classifier')
     predictions = my_classifier.predict(test_vectors)
-    # I don't know how to snap these values in on direction or anthter maybe if they are closer to one or closer to zero you can phrase that like minus
+    # Need to snap the predictions an array of floats into an array of booleans
 
     predictions_as_booleans = convert_float_array_to_boolean(predictions) # untested
-
-    print('stop here')
-    # prob correct_test_targets is a different type than predictison
     accuracy = accuracy_score(correct_test_targets, predictions_as_booleans)
-    # right now the predictionars are floats betwee
-    accuracy_print_out = 'TraingingSize: {} Testing size {} this model accuracy {}\n'.format(
+
+    accuracy_print_out = 'Training Size: {} Testing Size {} This model accuracy {}\n'.format(
                         len(testing_docs),len(training_docs),accuracy)
     out.write(accuracy_print_out)
     out.write("Finished Model \n--------------------\n")
@@ -141,8 +138,8 @@ def train_on_kaggle_data():
     print('got accuracy score')
     out.close()
     print('fin')
-    ip.customPickle(word_features, "small_N3000_Word_features")
-    ip.customPickle(my_classifier,"small_N3000_trained NF_100000")
+    ip.customPickle(word_features, "word_features_Feats{}_Tweets{}".format(num_features,num_tweets))
+    ip.customPickle(my_classifier,"classifier_Feats{}_Tweets{}".format(num_features,num_tweets))
 
     #https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html
     #Use this to write an accuracy method.
