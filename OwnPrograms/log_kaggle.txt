@@ -1,0 +1,95 @@
+When num_tweets is 100000
+When num_features is 3000
+Created word_features :0:00:21.716456
+Created vectors and targets :0:02:13.365528
+Trained LinearSVC:0:02:21.759844
+Finished :0:02:21.759844
+
+When num_tweets is 200000
+When num_features is 3000
+Created word_features :0:00:39.744206
+Created vectors and targets :0:04:04.692830
+Trained LinearSVC:0:04:28.446663
+Finished :0:04:28.446663
+
+When num_tweets is 200000
+When num_features is 3000
+When max_iters is 10000
+Time to create word_features :0:00:38.654171
+Time to create vectors and targets :0:03:21.584650
+Time to Train the classifier LinearSVC:0:00:25.817533
+When num_tweets is 300000
+When num_features is 3000
+When max_iters is 10000
+Time to create word_features :0:00:58.407671
+Time to create vectors and targets :0:05:09.318005
+Time to Train the classifier LinearSVC:0:00:44.521569
+When num_tweets is 400000
+When num_features is 3000
+When max_iters is 10000
+Time to create word_features :0:01:16.750964
+Time to create vectors and targets :0:06:44.908263
+Time to Train the classifier LinearSVC:0:01:08.244802
+When num_tweets is all_docs
+When num_features is 3000
+When max_iters is 10000
+Time to create word_features :0:03:12.088612
+Time to create vectors and targets :0:16:54.223675
+Time to Train the classifier LinearSVC:0:06:08.007201
+When num_tweets is 100000
+When num_features is 1000
+When max_iters is 1000
+Time to create word_features :0:00:22.019963
+Time to created Training and Testing.  vectors and targets :0:00:50.333330
+Time to Train the classifier LinearSVC:0:00:06.075782
+--------------------
+New ModelWhen num_tweets is 100000
+When num_features is 1000
+When max_iters is 1000
+Time to create word_features :0:00:21.690610
+Time to created Training and Testing.  vectors and targets :0:00:46.266325
+Time to Train the classifier LinearSVC:0:00:06.381458
+--------------------
+New ModelWhen num_tweets is 100000
+When num_features is 1000
+When max_iters is 1000
+Time to create word_features :0:00:22.877261
+Time to created Training and Testing.  vectors and targets :0:00:53.872064
+Time to Train the classifier LinearSVC:0:00:06.219726
+--------------------
+New ModelWhen num_tweets is 100000
+When num_features is 1000
+When max_iters is 1000
+Time to create word_features :0:01:18.622535
+Time to created Training and Testing.  vectors and targets :0:02:08.302291
+Time to Train the classifier LinearSVC:0:00:06.592204
+--------------------
+New ModelWhen num_tweets is 100000
+When num_features is 1000
+When max_iters is 1000
+Time to create word_features :0:01:11.939549
+Time to created Training and Testing.  vectors and targets :0:01:58.149839
+Time to Train the classifier LinearSVC:0:00:06.638599
+--------------------
+New ModelWhen num_tweets is 50000
+When num_features is 500
+When max_iters is 1000
+Time to create word_features :0:00:33.405679
+Time to created Training and Testing.  vectors and targets :0:00:39.361797
+Time to Train the classifier LinearSVC:0:00:02.119230
+--------------------
+New ModelWhen num_tweets is 50000
+When num_features is 500
+When max_iters is 1000
+Time to create word_features :0:00:30.547650
+Time to created Training and Testing.  vectors and targets :0:00:36.444276
+Time to Train the classifier LinearSVC:0:00:02.102996
+--------------------
+
+New Model
+When num_tweets is 1000000
+When num_features is 10000
+When max_iters is 1000
+
+Time to create word_features :0:04:56.216838
+Time to created Training and Testing.  vectors and targets :1:53:19.727952
