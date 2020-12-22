@@ -1,0 +1,44 @@
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 100
+PartsOfSpeech   : *
+Accuracy of Naive Bayes                   :52.95220243673852
+Accuracy of SGD Classifiers               :52.95220243673852
+Accuracy of Bernoulli Naive Bayes         :50.328022492970945
+Accuracy of Linear Support Vector Machine :52.8584817244611
+Accuracy of Logistic Regression           :50.796626054358015
+Accuracy of Vote Classifier               :50.7029053420806
+----------------------------------------------
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 1000
+PartsOfSpeech   : *
+Accuracy of Naive Bayes                   :52.29615745079662
+Accuracy of SGD Classifiers               :52.29615745079662
+Accuracy of Bernoulli Naive Bayes         :49.109653233364575
+Accuracy of Linear Support Vector Machine :52.108716026241794
+Accuracy of Logistic Regression           :51.64011246485474
+Accuracy of Vote Classifier               :50.7029053420806
+----------------------------------------------
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 1500
+PartsOfSpeech   : *
+Accuracy of Naive Bayes                   :49.48453608247423
+Accuracy of SGD Classifiers               :49.48453608247423
+Accuracy of Bernoulli Naive Bayes         :48.35988753514527
+Accuracy of Linear Support Vector Machine :49.48453608247423
+Accuracy of Logistic Regression           :49.01593252108716
+Accuracy of Vote Classifier               :48.45360824742268
+----------------------------------------------
+----------------------------------------------
+Remove StopWords: True
+N Most Frequent : 2000
+PartsOfSpeech   : *
+Accuracy of Naive Bayes                   :49.01593252108716
+Accuracy of SGD Classifiers               :49.01593252108716
+Accuracy of Bernoulli Naive Bayes         :50.42174320524836
+Accuracy of Linear Support Vector Machine :48.92221180880975
+Accuracy of Logistic Regression           :50.60918462980318
+Accuracy of Vote Classifier               :49.01593252108716
+----------------------------------------------
