@@ -1,4 +1,5 @@
 from sklearn.svm import LinearSVR
+from sklearn.metrics import accuracy_score
 from NaturalLanguage.custom_NLTK_Utils import dataLabeling as dl
 from NaturalLanguage.custom_NLTK_Utils import AlgoEvalutationUtils as AE
 from NaturalLanguage.custom_NLTK_Utils import Inital_Pickle as ip
@@ -23,7 +24,9 @@ def convert_docs_to_vectors(docs, word_features):
             The way I think about it is: each tweet is converted into a point in a num_features Dimensional space.
             Then the algos now that they have the a collection of point -> output pairs do thier best to draw a hyperplane
             A num_features -1 dimensional subspace such that the it divides the positive and negative tweets the best it can.
-        Targets: The associated Positive or Negative sentiment to with that Vector of the same index
+
+        Targets: The associated Positive or Negative sentiment to with that Vector of the same index.
+        True is Postive and False is Negative sentiment.
     """
     num_features = len(word_features) # constant
     vectors = np.zeros((len(docs), num_features), dtype=bool)  # this is where you store the results. Default is false
@@ -46,10 +49,27 @@ def convert_docs_to_vectors(docs, word_features):
         else:
             targets.append(1) # positive sentiment is a one
 
-    return vectors, targets
+    #need to make targets a boolean vector
+    # perhaps you need to scale(vectors) and scale(targets_as_numpy_matrix)
+    targets_as_numpy_matrix = np.array(targets,dtype=bool)
+    return vectors, targets_as_numpy_matrix
 
+def convert_float_array_to_boolean(predictions):
+    """
+    Parameters:
+        predictions is a np.array of floats all near 1 or 0. This is the output of  linearSVR().predict() function
 
+    Returns:
+        predictions_as_booleans: a np.array of booleans
 
+      Converts based on if it is closer to 0 or 1
+    """
+    predictions_as_booleans = np.zeros(shape=predictions,dtype=bool)
+    for pred in range(predictions):
+        if predictions(pred) > .5:
+            predictions_as_booleans[pred] =True
+
+    return predictions_as_booleans
 
 
 
@@ -61,15 +81,17 @@ def train_on_kaggle_data():
     print('started')
     out = open('log_kaggle.txt','a')
     start = datetime.datetime.now()
-    num_tweets = 'all_docs'
-    num_features = 3000
-    iters = 10000
+    num_tweets = 100000
+    num_features = 1000
+    iters = 1000
+    out.write('--------------------\nNew Model')
     out.write('When num_tweets is {}\n'.format(num_tweets))
     out.write('When num_features is {}\n'.format(num_features))
     out.write('When max_iters is {}\n'.format(iters))
     inputFile = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\Datasets\LabeledTweets.csv", "r")
     documents = dl.assemble_kaggle_documents(inputFile) # this shuffles it
-    docs = documents[:1000000] # for debugging only treat the first N as sample
+
+    docs = documents[:num_tweets] # for debugging only treat the first N as sample
     all_words = []
     for d in docs:
         words = nltk.word_tokenize(d[0])
@@ -84,21 +106,43 @@ def train_on_kaggle_data():
     out.write('Time to create word_features :{}\n'.format(str(datetime.datetime.now() - start)))
     start = datetime.datetime.now()
 
-    print('min')
+    print('created docs and word_features')
+    ninety_percent = int(.9*num_tweets)
+    training_docs = docs[:ninety_percent]
+    testing_docs = docs[ninety_percent:]
 
-    vectors, targets = convert_docs_to_vectors(docs,word_features)
-    out.write('Time to create vectors and targets :{}\n'.format(str(datetime.datetime.now() - start)))
+    train_vectors, train_targets = convert_docs_to_vectors(training_docs,word_features)
+    test_vectors, correct_test_targets = convert_docs_to_vectors(testing_docs,word_features)
+
+    out.write('Time to created Training and Testing.  vectors and targets :{}\n'.format(str(datetime.datetime.now() - start)))
     start = datetime.datetime.now()
 
-    print('min2')
-    my_classifier = LinearSVR(max_iter=iters, dual=True) # this is 10x the iterations. Still does not converge
-    my_classifier.fit(vectors,targets) # right now this trains on the entire dataset
+    print('converted to vectors')
+    my_classifier = LinearSVR()
+    my_classifier.fit(train_vectors,train_targets)
     out.write('Time to Train the classifier LinearSVC:{}\n'.format(str(datetime.datetime.now() - start)))
 
+    # now you need to look at the accuracy
+    print('trained classifier')
+    predictions = my_classifier.predict(test_vectors)
+    # I don't know how to snap these values in on direction or anthter maybe if they are closer to one or closer to zero you can phrase that like minus
+
+    predictions_as_booleans = convert_float_array_to_boolean(predictions) # untested
+
+    print('stop here')
+    # prob correct_test_targets is a different type than predictison
+    accuracy = accuracy_score(correct_test_targets, predictions_as_booleans)
+    # right now the predictionars are floats betwee
+    accuracy_print_out = 'TraingingSize: {} Testing size {} this model accuracy {}\n'.format(
+                        len(testing_docs),len(training_docs),accuracy)
+    out.write(accuracy_print_out)
+    out.write("Finished Model \n--------------------\n")
+    print(accuracy_print_out)
+    print('got accuracy score')
     out.close()
     print('fin')
-    ip.customPickle(word_features, "N3000_Word_features")
-    ip.customPickle(my_classifier,"N3000_trained on first Million examples")
+    ip.customPickle(word_features, "small_N3000_Word_features")
+    ip.customPickle(my_classifier,"small_N3000_trained NF_100000")
 
     #https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html
     #Use this to write an accuracy method.
