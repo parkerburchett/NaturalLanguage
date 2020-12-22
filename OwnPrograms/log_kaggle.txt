@@ -84,3 +84,12 @@ When max_iters is 1000
 Time to create word_features :0:00:30.547650
 Time to created Training and Testing.  vectors and targets :0:00:36.444276
 Time to Train the classifier LinearSVC:0:00:02.102996
+--------------------
+
+New Model
+When num_tweets is 1000000
+When num_features is 10000
+When max_iters is 1000
+
+Time to create word_features :0:04:56.216838
+Time to created Training and Testing.  vectors and targets :1:53:19.727952

@@ -83,6 +83,7 @@ def train_on_kaggle_data():
     start = datetime.datetime.now()
     num_tweets = 1000000
     num_features = 10000
+    # you should include sections here to print out what chunks you have done
     iters = 1000
     out.write('--------------------\n\nNew Model\n')
     out.write('When num_tweets is {}\n'.format(num_tweets))
@@ -107,25 +108,40 @@ def train_on_kaggle_data():
     start = datetime.datetime.now()
 
     print('created docs and word_features')
+    # save the docs to a pickle
     ninety_percent = int(.9*num_tweets)
     training_docs = docs[:ninety_percent]
     testing_docs = docs[ninety_percent:]
 
     train_vectors, train_targets = convert_docs_to_vectors(training_docs,word_features)
     test_vectors, correct_test_targets = convert_docs_to_vectors(testing_docs,word_features)
-
+    # save the vector: targets to a pickle.
     out.write('Time to created Training and Testing.  vectors and targets :{}\n'.format(str(datetime.datetime.now() - start)))
     start = datetime.datetime.now()
 
     print('converted to vectors')
-    my_classifier = LinearSVR(max_iter=iters)
+    # when you try and fit the algo you don't have enough memory to do that. Either use a different classifier
+    # you need to find a way to make the linear SVR not allocate as float64
+    my_classifier = LinearSVR(max_iter=iters) # you might need to reach into the algo and change the data type to not be float64
+    # inside of #fit() set dtype = bool?
     my_classifier.fit(train_vectors,train_targets)
+
+
     out.write('Time to Train the classifier LinearSVC:{}\n'.format(str(datetime.datetime.now() - start)))
 
     # now you need to look at the accuracy
     print('trained classifier')
     predictions = my_classifier.predict(test_vectors)
     # Need to snap the predictions an array of floats into an array of booleans
+    # use https://scikit-learn.org/stable/auto_examples/applications/plot_out_of_core_classification.html
+
+    # you will want ot use partial_fit()
+
+
+    # https://stackoverflow.com/questions/20643300/training-sgdregressor-on-a-dataset-in-chunks
+    
+    # idea break the Trainingset (Vector:Target) into 1 percent chunks. do partial_fit()
+    # MemoryError: Unable to allocate 67.1 GiB for an array with shape (900000, 10000) and data type float64
 
     predictions_as_booleans = convert_float_array_to_boolean(predictions) # untested
     accuracy = accuracy_score(correct_test_targets, predictions_as_booleans)
