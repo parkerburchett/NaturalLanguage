@@ -58,15 +58,18 @@ def convert_docs_to_vectors(docs, word_features):
 # Source: https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVR.html
 
 def train_on_kaggle_data():
+    print('started')
     out = open('log_kaggle.txt','a')
     start = datetime.datetime.now()
-    num_tweets =100000
-    num_features =5000
+    num_tweets = 'all_docs'
+    num_features = 3000
+    iters = 10000
     out.write('When num_tweets is {}\n'.format(num_tweets))
     out.write('When num_features is {}\n'.format(num_features))
+    out.write('When max_iters is {}\n'.format(iters))
     inputFile = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\Datasets\LabeledTweets.csv", "r")
     documents = dl.assemble_kaggle_documents(inputFile) # this shuffles it
-    docs = documents[:num_tweets] # for debugging only treat the first N as sample
+    docs = documents[:1000000] # for debugging only treat the first N as sample
     all_words = []
     for d in docs:
         words = nltk.word_tokenize(d[0])
@@ -78,21 +81,24 @@ def train_on_kaggle_data():
     word_features=[]
     for w in word_features_as_tuples:
         word_features.append(w[0])
-    out.write('Created word_features :{}\n'.format(str(datetime.datetime.now() - start)))
+    out.write('Time to create word_features :{}\n'.format(str(datetime.datetime.now() - start)))
+    start = datetime.datetime.now()
 
+    print('min')
 
     vectors, targets = convert_docs_to_vectors(docs,word_features)
-    out.write('Created vectors and targets :{}\n'.format(str(datetime.datetime.now() - start)))
+    out.write('Time to create vectors and targets :{}\n'.format(str(datetime.datetime.now() - start)))
+    start = datetime.datetime.now()
 
-
-    my_classifier = LinearSVR(max_iter=1000, dual=True) # this is 10x the iterations. Still does not converge
+    print('min2')
+    my_classifier = LinearSVR(max_iter=iters, dual=True) # this is 10x the iterations. Still does not converge
     my_classifier.fit(vectors,targets) # right now this trains on the entire dataset
-    out.write('Trained LinearSVC:{}\n'.format(str(datetime.datetime.now() - start)))
+    out.write('Time to Train the classifier LinearSVC:{}\n'.format(str(datetime.datetime.now() - start)))
 
-
-    out.write('Finished :{}\n\n'.format(str(datetime.datetime.now()-start)))
     out.close()
-
+    print('fin')
+    ip.customPickle(word_features, "N3000_Word_features")
+    ip.customPickle(my_classifier,"N3000_trained on first Million examples")
 
     #https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html
     #Use this to write an accuracy method.
