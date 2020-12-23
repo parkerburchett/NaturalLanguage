@@ -1,7 +1,7 @@
 from NaturalLanguage.custom_NLTK_Utils import dataLabeling as dl
 from NaturalLanguage.custom_NLTK_Utils import AlgoEvalutationUtils as AE
 from NaturalLanguage.custom_NLTK_Utils import AlgoParams
-from NaturalLanguage.custom_NLTK_Utils import Inital_Pickle as ip
+from NaturalLanguage.custom_NLTK_Utils import Pickle_Utils as ip
 
 def main():
     print('You have started')
@@ -19,8 +19,8 @@ def main():
     classifiers = AE.createAndTrain_Classifiers(feature_sets, split_train=False)
     my_vote_classifier = classifiers[5]
     # AE.writeAlgoEvaluation(my_param, classifiers, feature_sets, fileName="ModelResults_ToUseOnTwitter_ADJ")
-    ip.customPickle(word_features, "TwitterModel_word_features_N2000_ADJ")
-    ip.customPickle(my_vote_classifier, "VoteClassifier_N2000_ADJ")
+    ip.pickle_this(word_features, "TwitterModel_word_features_N2000_ADJ")
+    ip.pickle_this(my_vote_classifier, "VoteClassifier_N2000_ADJ")
     print('finished')
 
 main()

@@ -14,7 +14,7 @@ This is a beautiful way of looking at it.
     
 """
 import NaturalLanguage.custom_NLTK_Utils.dataLabeling as DL
-import NaturalLanguage.custom_NLTK_Utils.Inital_Pickle
+import NaturalLanguage.custom_NLTK_Utils.Pickle_Utils
 import NaturalLanguage.custom_NLTK_Utils.VoteClassifier
 import random, pickle, nltk
 import datetime

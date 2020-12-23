@@ -2,7 +2,7 @@ from sklearn.svm import LinearSVR
 from sklearn.metrics import accuracy_score
 from NaturalLanguage.custom_NLTK_Utils import dataLabeling as dl
 from NaturalLanguage.custom_NLTK_Utils import AlgoEvalutationUtils as AE
-from NaturalLanguage.custom_NLTK_Utils import Inital_Pickle as ip
+from NaturalLanguage.custom_NLTK_Utils import Pickle_Utils as ip
 import nltk
 import datetime
 import random
