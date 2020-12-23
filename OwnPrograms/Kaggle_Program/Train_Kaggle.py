@@ -32,14 +32,12 @@ import numpy as np
 import datetime
 
 
-def train_intial_classifier(vectors, targets, N=100000):
+def train_intial_classifier(vectors, targets, N=10000):
     """
     Parameters:
-
         vectors: the vectors, a NP array of Booleans
         targets: the target boolean. False = Negative | True = Positive
         N: the initial number of tweets to use on the model
-
     Returns:
         A trained SGDClassifier()
     This method takes the first N (default: N=100,000) tweet: sentiment pairs
@@ -61,19 +59,19 @@ def get_data_from_pickle():
     return vectors, targets
 
 
-def train_more(my_classifier, vectors, targets, start, new_tweets=10000):
+def train_more(my_classifier, vectors, targets, numTrained, new_tweets=10000):
     """
     Parameters:
         my_classifier: A  trained SGDClassifier()
         vectors: the vectors, a NP array of Booleans
         targets: the target boolean. False = Negative | True = Positive
-        start: the index of the number of tweets you have already trained on. This is incremented.
+        numTrained: the index of the number of tweets you have already trained on.
         new_tweets: the number of new tweets to train on.
     Returns:
         Nothing, it just trains my_classifier
     """
-    my_classifier.partial_fit(vectors[start:new_tweets], targets[start:new_tweets])
-    start = start + new_tweets  # increment to not retrain on the same data
+    end_trained = numTrained + new_tweets
+    my_classifier.partial_fit(vectors[numTrained:end_trained], targets[numTrained:end_trained])
 
 
 def log_accuracy(my_classifier, vectors, targets, num_trained, log_file,
@@ -88,36 +86,59 @@ def log_accuracy(my_classifier, vectors, targets, num_trained, log_file,
         sample_size: the number of new tweets to predict and record the accuracy of the classifier
         sections: the size of each sample to get an accuracy score on.
     """
-
     sample_indexes = [num_trained]
-
     section_size = sample_size / sections
     cur_index = num_trained
     for s in range(sections):
-        sample_indexes.append(cur_index + section_size)
-        cur_index =cur_index+section_size
+        sample_indexes.append(int(cur_index + section_size))
+        cur_index =int(cur_index+section_size)
 
     # at the end of this look sample_indexes should look like:
     # [10000, 11000, 12000 , .... , 18000, 19000, 20000]
     # you will use N and N+1 for the indexes of the sample
 
     for index in range(len(sample_indexes) - 1):
-        start_sample = sample_size[index]
-        end_sample = sample_size[index + 1]
+        start_sample = sample_indexes[index]
+        end_sample = sample_indexes[index + 1]
         accuracy = my_classifier.score(vectors[start_sample:end_sample], targets[start_sample:end_sample])
         # format to write in log file
         # ("numTweets trained on": int, "sample_section_size": int, Accuracy Score: float)
         to_write = "{},{},{}\n".format(str(num_trained), str(section_size), str(accuracy))
+        print(to_write) # debugging, remove this later
         log_file.write(to_write)
 
 
+def train_and_log(my_classifier, vectors, targets,global_start):
+    """
+        Parameters:
+        my_classifier: A trained SGDClassifier()
+        vectors: the vectors, a NP array of np boolean arrays
+        targets: np.array of target booleans.
+        global_start: the time at the start of this array. This is to have visual progress of movement
+
+
+    This stitches the train and log methods together around a for loop
+    """
+    # I don't know the upperbound for how much I can run this I am running it 10 times to check
+    log_file = open('./SGD_scores.csv', "w")
+    log_file.write('training_size, sample_size, accuracy\n')
+    num_trained = 10000
+    try:
+        for i in range(1000):
+            new_tweets = 10000
+            train_more(my_classifier, vectors, targets, num_trained, new_tweets)
+            log_accuracy(my_classifier, vectors, targets, num_trained, log_file)
+            num_trained = num_trained + new_tweets
+            print('finTrainTestSplit:{}'.format(str(datetime.datetime.now() - global_start)))
+    except:
+        print('you go an error on this run {}'.format(str(i)))
 def main():
     global_start = datetime.datetime.now()
     print('start')
     vectors, targets = get_data_from_pickle()
     my_classifier = train_intial_classifier(vectors, targets)
+    train_and_log(my_classifier,vectors,targets,global_start)
 
     print('fin:{}'.format(str(datetime.datetime.now() - global_start)))
-
 
 main()
