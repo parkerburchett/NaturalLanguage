@@ -115,8 +115,7 @@ def train_on_kaggle_data():
     print('Created and pickled Vectors and targets')
     # # when you try and fit the algo you don't have enough memory to do that. Either use a different classifier
     # # you need to find a way to make the linear SVR not allocate as float64
-    my_classifier = LinearSVR()
-    my_classifier.partial_fit([3,4],3)
+
 
 
 # you will need to use SGDClassifier
