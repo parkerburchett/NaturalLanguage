@@ -93,3 +93,21 @@ When max_iters is 1000
 
 Time to create word_features :0:04:56.216838
 Time to created Training and Testing.  vectors and targets :1:53:19.727952
+--------------------
+
+New Model
+When num_tweets is all
+When num_features is 5000
+When max_iters is 1000
+
+Time to create word_features :0:12:06.215292
+--------------------
+
+New Model
+When num_tweets is all
+When num_features is 5000
+When max_iters is 1000
+
+Time to create word_features :0:04:23.144580
+Time to created Training and Testing.  vectors and targets :0:33:54.632528
+

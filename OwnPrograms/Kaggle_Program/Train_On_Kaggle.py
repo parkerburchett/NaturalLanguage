@@ -30,29 +30,20 @@ def convert_docs_to_vectors(docs, word_features):
     """
     num_features = len(word_features) # constant
     vectors = np.zeros((len(docs), num_features), dtype=bool)  # this is where you store the results. Default is false
-    targets = [] # a list should work here it might be slower
+    targets = np.zeros(shape=len(docs),dtype=bool)
     for doc in range(len(docs)):
         words = nltk.word_tokenize(docs[doc][0])
-        # at this point you would want to limit words by things like stop words, punctuation, or Parts of Speech
-        # make sure that those words are also excluded from word_features.
-        # you can also add in (if not already existing) some words you think might have a relationship with sentiment
         sentiment = str(docs[doc][1])
         vector = np.zeros(num_features, dtype=bool)
-
         for i in range(num_features):
             if word_features[i] in words:
                 vector[i] = True
 
         vectors[doc] = vector
-        if(sentiment =='Negative'):
-            targets.append(0) #negative sentiment is a zero
-        else:
-            targets.append(1) # positive sentiment is a one
+        if sentiment == 'Positive':
+            targets[doc] = True
 
-    #need to make targets a boolean vector
-    # perhaps you need to scale(vectors) and scale(targets_as_numpy_matrix)
-    targets_as_numpy_matrix = np.array(targets,dtype=bool)
-    return vectors, targets_as_numpy_matrix
+    return vectors, targets
 
 def convert_float_array_to_boolean(predictions):
     """
@@ -81,8 +72,8 @@ def train_on_kaggle_data():
     print('started')
     out = open('log_kaggle.txt','a')
     start = datetime.datetime.now()
-    num_tweets = 1000000
-    num_features = 10000
+    num_tweets = 'all'
+    num_features = 5000
     # you should include sections here to print out what chunks you have done
     iters = 1000
     out.write('--------------------\n\nNew Model\n')
@@ -90,9 +81,9 @@ def train_on_kaggle_data():
     out.write('When num_features is {}\n'.format(num_features))
     out.write('When max_iters is {}\n\n'.format(iters))
     inputFile = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\Datasets\LabeledTweets.csv", "r")
-    documents = dl.assemble_kaggle_documents(inputFile) # this shuffles it
+    documents = dl.assemble_kaggle_documents(inputFile) # this shuffles it Very low Time cost
 
-    docs = documents[:num_tweets] # for debugging only treat the first N as sample
+    docs = documents # for debugging only treat the first N as sample
     all_words = []
     for d in docs:
         words = nltk.word_tokenize(d[0])
@@ -100,7 +91,8 @@ def train_on_kaggle_data():
             all_words.append(w.lower())
 
     all_wordsFRQ = nltk.FreqDist(all_words)
-    word_features_as_tuples = all_wordsFRQ.most_common(num_features) # A much better version. Make sure you replace this in main. You don't need to do any sorti
+    word_features_as_tuples = all_wordsFRQ.most_common(num_features) # this is so clean
+
     word_features=[]
     for w in word_features_as_tuples:
         word_features.append(w[0])
@@ -108,54 +100,59 @@ def train_on_kaggle_data():
     start = datetime.datetime.now()
 
     print('created docs and word_features')
-    # save the docs to a pickle
-    ninety_percent = int(.9*num_tweets)
-    training_docs = docs[:ninety_percent]
-    testing_docs = docs[ninety_percent:]
+    ip.customPickle(docs, "ordering_of_docs")
+    ip.customPickle(word_features, "word_features_whenN{}_and_Tweets_{}".format(num_features,num_tweets))
 
-    train_vectors, train_targets = convert_docs_to_vectors(training_docs,word_features)
-    test_vectors, correct_test_targets = convert_docs_to_vectors(testing_docs,word_features)
-    # save the vector: targets to a pickle.
+    # expensive
+    vectors, targets = convert_docs_to_vectors(docs,word_features) # takes 2 hours
+    #expensive
+    ip.customPickle(vectors,'vectors_when_N{}'.format(num_features))
+    ip.customPickle(targets, 'targets_N{}'.format(num_features))
+
+    #ninety_percent = int(.9 * len(docs))
+
     out.write('Time to created Training and Testing.  vectors and targets :{}\n'.format(str(datetime.datetime.now() - start)))
-    start = datetime.datetime.now()
-
-    print('converted to vectors')
-    # when you try and fit the algo you don't have enough memory to do that. Either use a different classifier
-    # you need to find a way to make the linear SVR not allocate as float64
-    my_classifier = LinearSVR(max_iter=iters) # you might need to reach into the algo and change the data type to not be float64
-    # inside of #fit() set dtype = bool?
-    my_classifier.fit(train_vectors,train_targets)
+    print('Created and pickled Vectors and targets')
+    # # when you try and fit the algo you don't have enough memory to do that. Either use a different classifier
+    # # you need to find a way to make the linear SVR not allocate as float64
+    my_classifier = LinearSVR()
+    my_classifier.partial_fit([3,4],3)
 
 
-    out.write('Time to Train the classifier LinearSVC:{}\n'.format(str(datetime.datetime.now() - start)))
-
-    # now you need to look at the accuracy
-    print('trained classifier')
-    predictions = my_classifier.predict(test_vectors)
-    # Need to snap the predictions an array of floats into an array of booleans
-    # use https://scikit-learn.org/stable/auto_examples/applications/plot_out_of_core_classification.html
-
-    # you will want ot use partial_fit()
-
-
-    # https://stackoverflow.com/questions/20643300/training-sgdregressor-on-a-dataset-in-chunks
-    
-    # idea break the Trainingset (Vector:Target) into 1 percent chunks. do partial_fit()
-    # MemoryError: Unable to allocate 67.1 GiB for an array with shape (900000, 10000) and data type float64
-
-    predictions_as_booleans = convert_float_array_to_boolean(predictions) # untested
-    accuracy = accuracy_score(correct_test_targets, predictions_as_booleans)
-
-    accuracy_print_out = 'Training Size: {} Testing Size {} This model accuracy {}\n'.format(
-                        len(testing_docs),len(training_docs),accuracy)
-    out.write(accuracy_print_out)
-    out.write("Finished Model \n--------------------\n")
-    print(accuracy_print_out)
-    print('got accuracy score')
-    out.close()
-    print('fin')
-    ip.customPickle(word_features, "word_features_Feats{}_Tweets{}".format(num_features,num_tweets))
-    ip.customPickle(my_classifier,"classifier_Feats{}_Tweets{}".format(num_features,num_tweets))
+# you will need to use SGDClassifier
+    # # inside of #fit() set dtype = bool?
+    # my_classifier.fit(train_vectors,train_targets)
+    #
+    #
+    # out.write('Time to Train the classifier LinearSVC:{}\n'.format(str(datetime.datetime.now() - start)))
+    #
+    # # now you need to look at the accuracy
+    # print('trained classifier')
+    # predictions = my_classifier.predict(test_vectors)
+    # # Need to snap the predictions an array of floats into an array of booleans
+    # # use https://scikit-learn.org/stable/auto_examples/applications/plot_out_of_core_classification.html
+    #
+    # # you will want ot use partial_fit()
+    #
+    #
+    # # https://stackoverflow.com/questions/20643300/training-sgdregressor-on-a-dataset-in-chunks
+    #
+    # # idea break the Trainingset (Vector:Target) into 1 percent chunks. do partial_fit()
+    # # MemoryError: Unable to allocate 67.1 GiB for an array with shape (900000, 10000) and data type float64
+    # #
+    # # predictions_as_booleans = convert_float_array_to_boolean(predictions) # untested
+    # # accuracy = accuracy_score(correct_test_targets, predictions_as_booleans)
+    # #
+    # # accuracy_print_out = 'Training Size: {} Testing Size {} This model accuracy {}\n'.format(
+    # #                     len(testing_docs),len(training_docs),accuracy)
+    # # out.write(accuracy_print_out)
+    # # out.write("Finished Model \n--------------------\n")
+    # # print(accuracy_print_out)
+    # # print('got accuracy score')
+    # # out.close()
+    # # print('fin')
+    # # ip.customPickle(word_features, "word_features_Feats{}_Tweets{}".format(num_features,num_tweets))
+    # # ip.customPickle(my_classifier,"classifier_Feats{}_Tweets{}".format(num_features,num_tweets))
 
     #https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html
     #Use this to write an accuracy method.
