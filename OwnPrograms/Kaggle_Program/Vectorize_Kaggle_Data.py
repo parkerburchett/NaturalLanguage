@@ -98,14 +98,14 @@ def train_on_kaggle_data():
     start = datetime.datetime.now()
 
     print('created docs and word_features')
-    ip.customPickle(docs, "ordering_of_docs")
-    ip.customPickle(word_features, "word_features_whenN{}_and_Tweets_{}".format(num_features,num_tweets))
+    ip.pickle_this(docs, "ordering_of_docs")
+    ip.pickle_this(word_features, "word_features_whenN{}_and_Tweets_{}".format(num_features,num_tweets))
 
     # expensive
     vectors, targets = convert_docs_to_vectors(docs,word_features) # takes 2 hours
     #expensive
-    ip.customPickle(vectors,'vectors_when_N{}'.format(num_features))
-    ip.customPickle(targets, 'targets_N{}'.format(num_features))
+    ip.pickle_this(vectors,'vectors_when_N{}'.format(num_features))
+    ip.pickle_this(targets, 'targets_N{}'.format(num_features))
 
     #ninety_percent = int(.9 * len(docs))
 

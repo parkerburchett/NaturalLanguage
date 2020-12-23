@@ -54,8 +54,8 @@ def get_data_from_pickle():
     """
     Returns the entire Tweet_as Vector : targets pair
     """
-    vectors = Pickle_Utils.unpickle_this(r"vectors_when_N5000.pickle")
-    targets = Pickle_Utils.unpickle_this(r"targets_N5000.pickle")
+    vectors = Pickle_Utils.unpickle_this(r"vectors_when_N10000.pickle")
+    targets = Pickle_Utils.unpickle_this(r"targets_N10000.pickle")
     return vectors, targets
 
 
@@ -120,7 +120,7 @@ def train_and_log(my_classifier, vectors, targets,global_start):
     This stitches the train and log methods together around a for loop
     """
     # I don't know the upperbound for how much I can run this I am running it 10 times to check
-    log_file = open('./SGD_scores.csv', "w")
+    log_file = open('./SGD_scores_N10000_max.csv', "w")
     log_file.write('training_size, sample_size, accuracy\n')
     num_trained = 10000
     try:
@@ -132,6 +132,8 @@ def train_and_log(my_classifier, vectors, targets,global_start):
             print('finTrainTestSplit:{}'.format(str(datetime.datetime.now() - global_start)))
     except:
         print('you go an error on this run {}'.format(str(i)))
+
+
 def main():
     global_start = datetime.datetime.now()
     print('start')
