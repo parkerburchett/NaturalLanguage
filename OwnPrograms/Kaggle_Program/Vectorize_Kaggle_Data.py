@@ -73,13 +73,11 @@ def train_on_kaggle_data():
     out = open('log_kaggle.txt','a')
     start = datetime.datetime.now()
     num_tweets = 'all'
-    num_features = 5000
+    num_features = 10000
     # you should include sections here to print out what chunks you have done
-    iters = 1000
     out.write('--------------------\n\nNew Model\n')
     out.write('When num_tweets is {}\n'.format(num_tweets))
     out.write('When num_features is {}\n'.format(num_features))
-    out.write('When max_iters is {}\n\n'.format(iters))
     inputFile = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\Datasets\LabeledTweets.csv", "r")
     documents = dl.assemble_kaggle_documents(inputFile) # this shuffles it Very low Time cost
 
