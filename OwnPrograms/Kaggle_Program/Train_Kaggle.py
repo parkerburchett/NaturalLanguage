@@ -52,10 +52,12 @@ def train_intial_classifier(vectors, targets, N=10000):
 
 def get_data_from_pickle():
     """
-    Returns the entire Tweet_as Vector : targets pair
+    Returns the entire Tweet_as Vector : targets  as vectors, targets
+
+    I am choosing to use num_features =5000 since it is not significantly different from num_features=10000
     """
-    vectors = Pickle_Utils.unpickle_this(r"vectors_when_N10000.pickle")
-    targets = Pickle_Utils.unpickle_this(r"targets_N10000.pickle")
+    vectors = Pickle_Utils.unpickle_this(r"vectors_when_N5000.pickle")
+    targets = Pickle_Utils.unpickle_this(r"targets_N5000.pickle")
     return vectors, targets
 
 
@@ -75,7 +77,7 @@ def train_more(my_classifier, vectors, targets, numTrained, new_tweets=10000):
 
 
 def log_accuracy(my_classifier, vectors, targets, num_trained, log_file,
-                 sample_size=10000, sections=10 ):
+                 sample_size=10000, sections=10):
     """
     Parameters:
         my_classifier: A trained SGDClassifier()
@@ -91,7 +93,7 @@ def log_accuracy(my_classifier, vectors, targets, num_trained, log_file,
     cur_index = num_trained
     for s in range(sections):
         sample_indexes.append(int(cur_index + section_size))
-        cur_index =int(cur_index+section_size)
+        cur_index = int(cur_index + section_size)
 
     # at the end of this look sample_indexes should look like:
     # [10000, 11000, 12000 , .... , 18000, 19000, 20000]
@@ -104,11 +106,11 @@ def log_accuracy(my_classifier, vectors, targets, num_trained, log_file,
         # format to write in log file
         # ("numTweets trained on": int, "sample_section_size": int, Accuracy Score: float)
         to_write = "{},{},{}\n".format(str(num_trained), str(section_size), str(accuracy))
-        print(to_write) # debugging, remove this later
+        print(to_write)  # debugging, remove this later
         log_file.write(to_write)
 
 
-def train_and_log(my_classifier, vectors, targets,global_start):
+def train_and_log(my_classifier, vectors, targets, global_start):
     """
         Parameters:
         my_classifier: A trained SGDClassifier()
@@ -124,7 +126,7 @@ def train_and_log(my_classifier, vectors, targets,global_start):
     log_file.write('training_size, sample_size, accuracy\n')
     num_trained = 10000
     try:
-        for i in range(1000):
+        for i in range(1000):  # this trains until it runs out of data
             new_tweets = 10000
             train_more(my_classifier, vectors, targets, num_trained, new_tweets)
             log_accuracy(my_classifier, vectors, targets, num_trained, log_file)
@@ -134,13 +136,67 @@ def train_and_log(my_classifier, vectors, targets,global_start):
         print('you go an error on this run {}'.format(str(i)))
 
 
-def main():
+def create_classifier_list(vectors, targets, inital_size=10000, block_size=10000):
+    """
+    Parameters:
+        inital_size: the size of the data to call the first intial training on
+        block_size: the size of the data to do each partial_fit call on.
+
+    Returns 9 instances of a fulling trained SGDClassifier each with slightly different parameters.
+    These will be use as the voters in a VoteClassifier algo
+
+    """
     global_start = datetime.datetime.now()
+
+    # create 9 classifiers, each with different params options.
+    # You will want to see the accuracy after you train them on a million tweets
+    # I am choosing the vary the loss function, and the penalty
+
+    classifier_list = [SGDClassifier(loss='hinge', penalty='l1'),
+                       SGDClassifier(loss='log', penalty='l1'),
+                       SGDClassifier(loss='modified_huber', penalty='l1'),
+                       SGDClassifier(loss='hinge', penalty='l2'),
+                       SGDClassifier(loss='log', penalty='l2'),
+                       SGDClassifier(loss='modified_huber', penalty='l2'),
+                       SGDClassifier(loss='hinge', penalty='elasticnet'),
+                       SGDClassifier(loss='log', penalty='elasticnet'),
+                       SGDClassifier(loss='modified_huber', penalty='elasticnet')]
+
+    # Initial Training:
+    for a_classifier in classifier_list:
+        a_classifier.partial_fit(vectors[:inital_size], targets[:inital_size], classes=np.unique(targets))
+
+    try:
+        num_trained = 10000
+        # each of these takes ~3 seconds.
+        for i in range(119):  # this trains until it runs out of data
+            local_start = datetime.datetime.now()
+            for a_classifier in classifier_list:
+                train_more(a_classifier, vectors, targets, num_trained, block_size)
+            # only increment this after you train every algo
+            num_trained = num_trained + block_size
+
+            print('Trained 9 classifiers in :{}'.format(str(datetime.datetime.now() - local_start)))
+
+    except:
+        print('broke on this call: {}. The total time was {}'.format(i, str(datetime.datetime.now() - global_start)))
+
+    return classifier_list
+
+
+def main():
     print('start')
     vectors, targets = get_data_from_pickle()
-    my_classifier = train_intial_classifier(vectors, targets)
-    train_and_log(my_classifier,vectors,targets,global_start)
 
-    print('fin:{}'.format(str(datetime.datetime.now() - global_start)))
+    classifier_list = create_classifier_list(vectors,targets)
+
+    Pickle_Utils.pickle_this(classifier_list, 'list_of_fully_trained_classifiers')
+
+    for a_classifier in classifier_list:
+        accuracy = a_classifier.score(vectors[(120 * 10000):], targets[(120 * 10000):])
+        print('a classifiers accuracy : {}'.format(accuracy))
+
+    Pickle_Utils.pickle_this(classifier_list, 'list_of_fully_trained_classifiers')
+
 
 main()
