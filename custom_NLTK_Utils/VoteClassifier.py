@@ -1,6 +1,6 @@
 from nltk.classify import ClassifierI
-from statistics import mode
-import nltk
+from scipy import stats
+from nltk import word_tokenize
 import numpy as np
 
 
@@ -10,11 +10,12 @@ class VoteClassifier(ClassifierI):
             _classifiers_list: a list of trained boolean classification models.
                          They are trained on the ordering in _word_features
             _word_features: a list of word_tokenized words. They are the N most frequent words in the entire dataset.
-                            this is used to vectorize a word
+                            this is used in _vectorize(self, raw_tweet)
             _num_features: how many unique words are treated as features
+
         This is a sentiment classification algorithm that classifies based on the consensus of 9 SCGClassifiers.
     """
-    def __init__(self, classifiers, classifier_list, word_features):
+    def __init__(self, classifier_list, word_features):
         self._classifiers_list = classifier_list
         self._word_features = word_features
         self._num_features = len(word_features)
@@ -31,15 +32,17 @@ class VoteClassifier(ClassifierI):
             I duplicated the method from OwnPrograms.Kaggle_Program.Vectorize_Kaggle_Data.py
             I removed the
         """
-        words = nltk.word_tokenize(raw_tweet)
+        words = word_tokenize(raw_tweet)
+        vectors = np.zeros((1, self._num_features), dtype=bool)  # this is where you store the results. Default is false
         vector = np.zeros(self._num_features, dtype=bool) # default values of a vector are False
         for i in range(self._num_features):
             if self._word_features[i] in words:
                 vector[i] = True
-        return vector
+        vectors[0] = vector # this is ugly it is just to make the datatypes work with SGDClassifier.predict(x)
+        return vectors
 
 
-    def classify(self, raw_tweet, consensus=5):
+    def classify(self, raw_tweet, consensus=5): # you might want to add a show_votes method
         """
         Parameters:
             raw_tweet: a string representation of the contents of a tweet (might need to reword
@@ -51,11 +54,13 @@ class VoteClassifier(ClassifierI):
         """
         # convert to vector
         vector_of_tweet = self._vectorize(raw_tweet)
+        # WORKS UP TO HERE as expected
+
         # get classification and num_votes.
         classification, num_votes = self._voting(vector_of_tweet)
 
-        # break in to
-        if(num_votes < consensus):
+        # return a classification
+        if num_votes < consensus:
             return 'Unsure' # you might want to relabel this
         else:
             if classification: # classification is a boolean
@@ -66,7 +71,7 @@ class VoteClassifier(ClassifierI):
 
     def _voting(self, vector):
         """
-        Unsure how this works.
+        gets the most number of algos that vote for the most common option
 
         Parameters:
             vector: a boolean vector representation of a tweet based on _word_features
@@ -78,18 +83,11 @@ class VoteClassifier(ClassifierI):
         """
         votes = []
         for c in self._classifiers_list:
-            v = c.predict(vector) #untested
+            v = c.predict(vector) # this is the thing that breaks it.
             votes.append(v)
+        classification = stats.mode(votes)
 
-        classification = mode(votes)
-        num_votes = 0
-
-        for vote in votes:
-            # untested
-            if vote == classification:
-                num_votes = num_votes +1
-
-        return classification, num_votes
+        return str(classification.mode[0]), classification.count
 
 
 

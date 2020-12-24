@@ -56,8 +56,8 @@ def get_data_from_pickle():
 
     I am choosing to use num_features =5000 since it is not significantly different from num_features=10000
     """
-    vectors = Pickle_Utils.unpickle_this(r"vectors_when_N5000.pickle")
-    targets = Pickle_Utils.unpickle_this(r"targets_N5000.pickle")
+    vectors = Pickle_Utils.unpickle_this(r"vectors_when_N10000.pickle")
+    targets = Pickle_Utils.unpickle_this(r"targets_N10000.pickle")
     return vectors, targets
 
 
@@ -176,7 +176,7 @@ def create_classifier_list(vectors, targets, inital_size=10000, block_size=10000
             # only increment this after you train every algo
             num_trained = num_trained + block_size
 
-            print('Trained 9 classifiers in :{}'.format(str(datetime.datetime.now() - local_start)))
+            print('Call {} took :{}'.format(i,str(datetime.datetime.now() - local_start)))
 
     except:
         print('broke on this call: {}. The total time was {}'.format(i, str(datetime.datetime.now() - global_start)))
@@ -190,9 +190,10 @@ def main():
 
     classifier_list = create_classifier_list(vectors,targets)
 
-    Pickle_Utils.pickle_this(classifier_list, 'list_of_fully_trained_classifiers')
+    Pickle_Utils.pickle_this(classifier_list, 'list_of_fully_trained_classifiers_n10000')
 
     for a_classifier in classifier_list:
+        # this is just a chunk needed for accuracy down the line. It is unseen by the other graphs
         accuracy = a_classifier.score(vectors[(120 * 10000):], targets[(120 * 10000):])
         print('a classifiers accuracy : {}'.format(accuracy))
 

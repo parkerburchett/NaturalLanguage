@@ -15,7 +15,7 @@ def pickle_this(thing_to_pickle, object_name):
 
 def unpickle_this(file_location):
     """
-        Parameters: file_location the absolute path of the pickled python object you want to load into memory
+        Parameters: file_location a raw string the absolute path of the pickled python object you want to load into memory
 
         Returns:
             my_object: the now unpickled python object. Note this can be any type of object.
