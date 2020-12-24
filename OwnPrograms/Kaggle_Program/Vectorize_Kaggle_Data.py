@@ -26,7 +26,7 @@ def convert_docs_to_vectors(docs, word_features):
             A num_features -1 dimensional subspace such that the it divides the positive and negative tweets the best it can.
 
         Targets: The associated Positive or Negative sentiment to with that Vector of the same index.
-        True is Postive and False is Negative sentiment.
+        True is Positive and False is Negative sentiment.
     """
     num_features = len(word_features) # constant
     vectors = np.zeros((len(docs), num_features), dtype=bool)  # this is where you store the results. Default is false
