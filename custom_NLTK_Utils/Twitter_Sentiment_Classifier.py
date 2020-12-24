@@ -19,23 +19,25 @@ word_features = Pickle_Utils.unpickle_this(r"C:\Users\parke\Documents\GitHub\Nat
 
 # load classifier_list into memory.
 classifier_list = Pickle_Utils.unpickle_this(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\OwnPrograms\Kaggle_Program\list_of_fully_trained_classifiers_n10000.pickle")
-# create the Vote_Classifier based on the 9 classifers pre trained.
+# create the Vote_Classifier based on the 9 classifoiers pre trained.
 
 # create a VoteClassifier
-
 the_vote_classifier= VoteClassifier.VoteClassifier(classifier_list, word_features)
 
-
+# problem: Every algo Cla
 def get_sentiment(raw_tweet, consensus_choice=(len(classifier_list)+1)/2):
         category = the_vote_classifier.classify(raw_tweet, consensus=consensus_choice)
         return category
 
 
+# Known problem: it is classifying things that should be negative as postive.
+for i in (5,6,7,8,9):
+    tester = "Hollis' death scene will hurt me severely to watch on film  wry is directors cut not out now?"
+    tester2 ="hate"
+    ans =get_sentiment(tester2,i)
+    print('With {} Votes it classifies as {}'.format(i,ans))
 
 
-# testign
-ans = get_sentiment("bad good")
-print(ans)
 # you would also want to see the false positve and false negative rate.
 
 
