@@ -30,12 +30,7 @@ def get_sentiment(raw_tweet, consensus_choice=(len(classifier_list)+1)/2):
         return category
 
 
-# Known problem: it is classifying things that should be negative as postive.
-for i in (5,6,7,8,9):
-    tester = "Hollis' death scene will hurt me severely to watch on film  wry is directors cut not out now?"
-    tester2 ="hate"
-    ans =get_sentiment(tester2,i)
-    print('With {} Votes it classifies as {}'.format(i,ans))
+
 
 
 # you would also want to see the false positve and false negative rate.
