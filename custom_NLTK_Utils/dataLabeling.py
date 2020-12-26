@@ -225,7 +225,7 @@ def kaggle_assemble_word_features(documents, num_features):
     return word_features
 
 
-def text_to_vector(text, word_features):
+def text_to_vector(text, word_features): #untested
     """
         Description:
             Map some text onto a boolean vector based on word_features. Uses 'Bag of Words" approach.
@@ -236,17 +236,16 @@ def text_to_vector(text, word_features):
         Returns:
             vector: a np boolean vector based on the contents and orientation of _word_features
     """
-    if word_features != sorted(word_features):
-        raise ValueError('word_features order is wrong')
+
     words = set(word_tokenize(text))  # you only care if a word occurs at least once
     vector = np.zeros(len(word_features), dtype=bool)
-    for i in word_features:
-        if i in words:
+    for i in range(len(word_features)):
+        if word_features[i] in words:
             vector[i] = True
     return vector
 
 
-def vector_to_words(vector, word_features):
+def vector_to_words(vector, word_features): # untested
     """
     Parameters:
         vector: boolean vector of some text.
@@ -255,10 +254,6 @@ def vector_to_words(vector, word_features):
         words: a list of words that is represented by the vector. Ignores duplicates
         I think of this method as decoding a vector based on the word_features.
     """
-
-    if word_features != sorted(word_features):
-        raise ValueError('word_features order is wrong')
-    sorted(word_features)  # redundant
     if len(vector) != len(word_features):
         raise ValueError('You are trying to decode a vector based on the wrong word_features'
                          '\nvector len {}, word_features len {}'.format(len(vector), len(word_features)))
