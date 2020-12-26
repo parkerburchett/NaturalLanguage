@@ -211,11 +211,12 @@ def kaggle_assemble_word_features(documents, num_features):
         for w in words:
             all_words.append(w.lower())
 
-    all_wordsFRQ = FreqDist(all_words)
-    word_features_as_tuples = all_wordsFRQ.most_common(num_features)  # this is so clean
+    all_words_frq = FreqDist(all_words)
+    word_features_as_tuples = all_words_frq.most_common(num_features)  # this is so clean
     word_features = []
     for w in word_features_as_tuples:
         word_features.append(w[0])
+
     sorted(word_features)
     # sorted is the orthogonal ordering.
     # it is very important that the word_features does not have a different anytime you would use it

@@ -124,3 +124,6 @@ When num_tweets is all
 When num_features is 10000
 Time to create word_features :0:03:52.865693
 Time to created Training and Testing.  vectors and targets :1:12:02.953898
+--------------------
+New Model
+When num_features is 2000

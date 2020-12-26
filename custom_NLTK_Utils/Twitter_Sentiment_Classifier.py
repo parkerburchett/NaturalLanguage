@@ -17,9 +17,12 @@ import numpy as np
 from NaturalLanguage.custom_NLTK_Utils import VoteClassifier
 
 # load word_features into memory.
+
+# repalce these with N6000
 word_features = Pickle_Utils.unpickle_this(
     r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\OwnPrograms\Kaggle_Program\word_features_whenN10000_and_Tweets_all.pickle")
 
+sorted(word_features) # this should do nothing but ought to make the orientation the same for the other stuff
 # load classifier_list into memory.
 classifier_list = Pickle_Utils.unpickle_this(
     r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\OwnPrograms\Kaggle_Program\list_of_fully_trained_classifiers_n10000.pickle")
@@ -31,8 +34,11 @@ the_vote_classifier = VoteClassifier.VoteClassifier(classifier_list, word_featur
 
 # problem: Every algo Cla
 def get_sentiment(raw_tweet, consensus_choice=int((len(classifier_list) + 1) / 2)):
+
+    # need to make sure that the word_features here is correct. Maybe pass it in as a parameter
     category = the_vote_classifier.classify(raw_tweet, consensus=consensus_choice)
     return category
+
 
 sample_tweet = 'sad mad bad ugly hate taxes unhappy'
 ans = get_sentiment(sample_tweet)

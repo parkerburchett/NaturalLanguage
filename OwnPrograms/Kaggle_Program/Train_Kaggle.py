@@ -2,8 +2,7 @@
 This Module  will use the partial_fit() method on the SGDClassifier() to develop a model
 for analyzing Twitter sentiment. It will also show the relationship between training size and accuracy.
 
-Initially you have 5000 words as features, without any limitations. This includes punctuation, and stopwords
-
+Initially you have N words as features, without any limitations. This includes punctuation, and stopwords
 
 When running this I already have vectorized representations of the text data and sentiment. 
 
@@ -28,6 +27,8 @@ Then after each round I will check the accuracy on a random sample of F tweets.
 
 from NaturalLanguage.custom_NLTK_Utils import Pickle_Utils
 from sklearn.linear_model import SGDClassifier
+from NaturalLanguage.custom_NLTK_Utils import VoteClassifier
+from NaturalLanguage.OwnPrograms.Kaggle_Program import Vectorize_Kaggle_Data
 import numpy as np
 import datetime
 
@@ -40,7 +41,7 @@ def train_intial_classifier(vectors, targets, N=10000):
         N: the initial number of tweets to use on the model
     Returns:
         A trained SGDClassifier()
-    This method takes the first N (default: N=100,000) tweet: sentiment pairs
+    This method takes the first N (default: N=10,000) tweet: sentiment pairs
     and uses partial fit to train a SGDClassifier
 
     """
@@ -50,14 +51,23 @@ def train_intial_classifier(vectors, targets, N=10000):
     return my_classifier
 
 
-def get_data_from_pickle():
+def get_data_from_pickle(num_features=10000):
     """
-    Returns the entire Tweet_as Vector : targets  as vectors, targets
-
-    I am choosing to use num_features =5000 since it is not significantly different from num_features=10000
+        Description:
+            Loads vectors and targets into memory
+        Parameter:
+            num_features: what vector, target pair to use.
+        Returns:
+            vectors: an array of boolean vectors
+            targets: the corresponding category the vector belongs to.
     """
-    vectors = Pickle_Utils.unpickle_this(r"vectors_when_N10000.pickle")
-    targets = Pickle_Utils.unpickle_this(r"targets_N10000.pickle")
+    if num_features == 10000:  # untested
+        vectors = Pickle_Utils.unpickle_this(r"vectors_when_N10000.pickle")
+        targets = Pickle_Utils.unpickle_this(r"targets_N10000.pickle")
+    else:
+        vectors = Pickle_Utils.unpickle_this(
+            r"vectors_when_N6000.pickle")  # these names are bad, you need to verify them
+        targets = Pickle_Utils.unpickle_this(r"targets_N6000.pickle")
     return vectors, targets
 
 
@@ -136,21 +146,21 @@ def train_and_log(my_classifier, vectors, targets, global_start):
         print('you go an error on this run {}'.format(str(i)))
 
 
-def create_classifier_list(vectors, targets, inital_size=10000, block_size=10000):
+def create_classifier_list(vectors, targets, starting_size=10000, block_size=10000):
     """
     Parameters:
-        inital_size: the size of the data to call the first intial training on
+        vectors: 2d boolean np.array
+        targets: 1d boolean np.array
+        starting_size: the size of the data to call the first intial training on
         block_size: the size of the data to do each partial_fit call on.
 
     Returns 9 instances of a fulling trained SGDClassifier each with slightly different parameters.
-    These will be use as the voters in a VoteClassifier algo
-
     """
     global_start = datetime.datetime.now()
 
     # create 9 classifiers, each with different params options.
-    # You will want to see the accuracy after you train them on a million tweets
-    # I am choosing the vary the loss function, and the penalty
+    # I am choosing the vary the loss function, and the penalty.
+    # depending on time cost and accuracy I might use a different model
 
     classifier_list = [SGDClassifier(loss='hinge', penalty='l1'),
                        SGDClassifier(loss='log', penalty='l1'),
@@ -164,10 +174,11 @@ def create_classifier_list(vectors, targets, inital_size=10000, block_size=10000
 
     # Initial Training:
     for a_classifier in classifier_list:
-        a_classifier.partial_fit(vectors[:inital_size], targets[:inital_size], classes=np.unique(targets))
+        a_classifier.partial_fit(vectors[:starting_size], targets[:starting_size], classes=np.unique(targets))
 
+    # Subsequent training
     try:
-        num_trained = 10000
+        num_trained = starting_size
         # each of these takes ~3 seconds.
         for i in range(119):  # this trains until it runs out of data
             local_start = datetime.datetime.now()
@@ -175,29 +186,46 @@ def create_classifier_list(vectors, targets, inital_size=10000, block_size=10000
                 train_more(a_classifier, vectors, targets, num_trained, block_size)
             # only increment this after you train every algo
             num_trained = num_trained + block_size
-
-            print('Call {} took :{}'.format(i,str(datetime.datetime.now() - local_start)))
-
+            print('Call {} took :{}'.format(i, str(datetime.datetime.now() - local_start)))
     except:
         print('broke on this call: {}. The total time was {}'.format(i, str(datetime.datetime.now() - global_start)))
 
     return classifier_list
 
 
-def main():
-    print('start')
-    vectors, targets = get_data_from_pickle()
+def train_create_VoteClassifier(the_num_features=5000):
 
-    classifier_list = create_classifier_list(vectors,targets)
+    print('started train_create_VoteClassifier')
+    start = datetime.datetime.now()
+    outer_start = start
+    vectors, targets = Vectorize_Kaggle_Data.create_vectors_targets(num_features=the_num_features) # untested calling here
+    word_features_local = Vectorize_Kaggle_Data.get_word_features()
 
-    Pickle_Utils.pickle_this(classifier_list, 'list_of_fully_trained_classifiers_n10000')
+    print('Time to get vectors, targets: {}'.format(str(datetime.datetime.now() -start)))
+    start = datetime.datetime.now()
 
+    classifier_list = create_classifier_list(vectors, targets) # this does not need to know the conents of word_features
+    print('Time to train_classifiers: {}'.format(str(datetime.datetime.now() - start)))
+    start = datetime.datetime.now()
+
+    accuracy_scores = []
     for a_classifier in classifier_list:
-        # this is just a chunk needed for accuracy down the line. It is unseen by the other graphs
+        # this is spot check for accuracy
         accuracy = a_classifier.score(vectors[(120 * 10000):], targets[(120 * 10000):])
+        accuracy_scores.append(accuracy)
         print('a classifiers accuracy : {}'.format(accuracy))
 
-    Pickle_Utils.pickle_this(classifier_list, 'list_of_fully_trained_classifiers')
+    average_accuracy = np.average(accuracy_scores)
+
+    finished_vote_classifier = VoteClassifier.VoteClassifier(classifier_list,
+                                                             word_features=word_features_local,
+                                                             avg_accuracy=average_accuracy)
+
+    print('Time to create VoteClassifier: {}'.format(str(datetime.datetime.now() - start)))
+    Pickle_Utils.pickle_this(finished_vote_classifier,'TrainedVoteClassifier_N{}'.format(finished_vote_classifier.get_num_features))
+
+    print('TotalTime when N={} : {}'.format(finished_vote_classifier.get_num_features(),
+                                          str(datetime.datetime.now() - outer_start)))
 
 
-main()
+train_create_VoteClassifier(the_num_features=1000)
