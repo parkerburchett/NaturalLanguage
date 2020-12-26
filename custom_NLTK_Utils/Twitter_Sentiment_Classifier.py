@@ -16,10 +16,9 @@ import nltk
 import numpy as np
 from NaturalLanguage.custom_NLTK_Utils import VoteClassifier
 
-myVoteClassifier = Pickle_Utils.unpickle_this(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\OwnPrograms\Kaggle_Program\TrainedVoteClassifier_N2500.pickle")
+myVoteClassifier = Pickle_Utils.unpickle_this(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\OwnPrograms\Kaggle_Program\TrainedVoteClassifier_N2000.pickle")
 
 def get_sentiment(raw_tweet, consensus_choice=5):
-
     category = myVoteClassifier.classify(raw_tweet, consensus=consensus_choice)
     return category
 

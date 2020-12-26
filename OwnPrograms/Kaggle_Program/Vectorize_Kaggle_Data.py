@@ -78,19 +78,30 @@ def convert_float_array_to_boolean(predictions):  # not used
     return predictions_as_booleans
 
 
-def get_word_features(num_features):
-    input_file = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\Datasets\LabeledTweets.csv", "r")
-    documents = dl.assemble_kaggle_documents(input_file)  # this shuffles and has a low time cost
-    input_file.close()
-    return dl.kaggle_assemble_word_features(documents, num_features)
+def get_word_features(num_features, default=True):
+    if default:
+        input_file = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\Datasets\LabeledTweets.csv", "r")
+        documents = dl.assemble_kaggle_documents(input_file)  # this shuffles and has a low time cost
+        input_file.close()
+        return dl.kaggle_assemble_word_features(documents, num_features)
+    else:
+        input_file = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\Datasets\tinydocs.txt",
+                          "r")
+        documents = dl.assemble_kaggle_documents(input_file)  # this shuffles and has a low time cost
+        input_file.close()
+        return dl.kaggle_assemble_word_features(documents, num_features)
 
-def create_vectors_targets(num_features):
+def create_vectors_targets(num_features, default =True):
     print('started create_vectors_targets')
     out = open('log_kaggle.txt', 'a')
     start = datetime.datetime.now()
     out.write('--------------------\nNew Model\n')
     out.write('When num_features is {}\n'.format(num_features))
-    input_file = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\Datasets\LabeledTweets.csv", "r")
+    if default:
+        input_file = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\Datasets\LabeledTweets.csv", "r")
+    else:
+        input_file = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\Datasets\tinydocs.txt",
+                            "r")
 
     documents = dl.assemble_kaggle_documents(input_file)  # this shuffles and has a low time cost
 
