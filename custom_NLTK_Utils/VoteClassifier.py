@@ -21,7 +21,7 @@ class VoteClassifier(ClassifierI):
         self._classifiers_list = classifier_list
         self._word_features = word_features
         self._num_features = len(word_features)
-        self._avg_accuracy = avg_accuracy
+        self._avg_accuracy = avg_accuracy # replace this with the list of accuracy scores increase in order
 
     def get_num_features(self):
         return self._num_features
@@ -36,7 +36,7 @@ class VoteClassifier(ClassifierI):
         Returns:
             A 'Unsure', 'Negative' or 'Positive' based on the votes of the classifiers and the consensus
         """
-        vector_of_tweet = dl.text_to_vector(raw_tweet)
+        vector_of_tweet = dl.text_to_vector(raw_tweet, self._word_features)
         # vector_for_prediction needs to be 2d to work with SGDClassifier.predict(X)
         vector_for_prediction = np.zeros((1, self._num_features), dtype=bool)
         vector_for_prediction[0] = vector_of_tweet

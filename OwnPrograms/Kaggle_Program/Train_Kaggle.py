@@ -194,17 +194,18 @@ def create_classifier_list(vectors, targets, starting_size=10000, block_size=100
 
 
 def train_create_VoteClassifier(the_num_features=5000):
-
     print('started train_create_VoteClassifier')
     start = datetime.datetime.now()
     outer_start = start
-    vectors, targets = Vectorize_Kaggle_Data.create_vectors_targets(num_features=the_num_features) # untested calling here
-    word_features_local = Vectorize_Kaggle_Data.get_word_features()
+    vectors, targets = Vectorize_Kaggle_Data.create_vectors_targets(
+        num_features=the_num_features)  # untested calling here
+    word_features_local = Vectorize_Kaggle_Data.get_word_features(num_features=the_num_features)
 
-    print('Time to get vectors, targets: {}'.format(str(datetime.datetime.now() -start)))
+    print('Time to get vectors, targets: {}'.format(str(datetime.datetime.now() - start)))
     start = datetime.datetime.now()
 
-    classifier_list = create_classifier_list(vectors, targets) # this does not need to know the conents of word_features
+    classifier_list = create_classifier_list(vectors,
+                                             targets)  # this does not need to know the conents of word_features
     print('Time to train_classifiers: {}'.format(str(datetime.datetime.now() - start)))
     start = datetime.datetime.now()
 
@@ -222,10 +223,16 @@ def train_create_VoteClassifier(the_num_features=5000):
                                                              avg_accuracy=average_accuracy)
 
     print('Time to create VoteClassifier: {}'.format(str(datetime.datetime.now() - start)))
-    Pickle_Utils.pickle_this(finished_vote_classifier,'TrainedVoteClassifier_N{}'.format(finished_vote_classifier.get_num_features))
+    try:
+        Pickle_Utils.pickle_this(finished_vote_classifier, 'TrainedVoteClassifier_N{}'.format(the_num_features))
+        print('TotalTime when N={} : {}'.format(the_num_features), str(datetime.datetime.now() - outer_start))
+    except:
+        Pickle_Utils.pickle_this(finished_vote_classifier, "TrainedVoteClassifier_N5000")
 
-    print('TotalTime when N={} : {}'.format(finished_vote_classifier.get_num_features(),
-                                          str(datetime.datetime.now() - outer_start)))
+    print(str(datetime.datetime.now() - outer_start))
 
 
-train_create_VoteClassifier(the_num_features=1000)
+def main():
+    train_create_VoteClassifier(the_num_features=2000)
+
+main()

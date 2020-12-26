@@ -43,6 +43,8 @@ def convert_docs_to_vectors(docs, word_features, num_features):
     vectors = np.zeros((len(docs), num_features), dtype=bool)  # this is where you store the results. Default is false
     targets = np.zeros(shape=len(docs), dtype=bool)
     for doc in range(len(docs)):
+        if doc % 10000 ==0:
+            print('Converted this many docs {}'.format((doc)))
         words = nltk.word_tokenize(docs[doc][0])
         sentiment = str(docs[doc][1])
         vector = np.zeros(num_features, dtype=bool)
@@ -76,11 +78,11 @@ def convert_float_array_to_boolean(predictions):  # not used
     return predictions_as_booleans
 
 
-def get_word_features():
+def get_word_features(num_features):
     input_file = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\Datasets\LabeledTweets.csv", "r")
     documents = dl.assemble_kaggle_documents(input_file)  # this shuffles and has a low time cost
     input_file.close()
-    return dl.kaggle_assemble_word_features(documents)
+    return dl.kaggle_assemble_word_features(documents, num_features)
 
 def create_vectors_targets(num_features):
     print('started create_vectors_targets')

@@ -127,3 +127,48 @@ Time to created Training and Testing.  vectors and targets :1:12:02.953898
 --------------------
 New Model
 When num_features is 2000
+--------------------
+New Model
+When num_features is 1000
+Create word_features :0:04:10.877897
+Time to create vectors and target:0:09:38.357225
+--------------------
+New Model
+When num_features is 1000
+Create word_features :0:03:49.819165
+Time to create vectors and target:0:09:40.462030
+--------------------
+New Model
+When num_features is 1000
+Create word_features :0:04:00.052945
+Time to create vectors and target:0:10:12.348670
+--------------------
+New Model
+When num_features is 0
+Create word_features :0:03:44.772815
+Time to create vectors and target:0:04:12.160401
+--------------------
+New Model
+When num_features is 500
+Create word_features :0:03:48.772342
+Time to create vectors and target:0:06:25.535396
+--------------------
+New Model
+When num_features is 1000
+Create word_features :0:03:50.359506
+Time to create vectors and target:0:09:12.830064
+--------------------
+New Model
+When num_features is 1500
+Create word_features :0:03:48.776438
+Time to create vectors and target:0:13:13.267944
+--------------------
+New Model
+When num_features is 2000
+Create word_features :0:03:49.850399
+Time to create vectors and target:0:14:58.738007
+--------------------
+New Model
+When num_features is 2500
+Create word_features :0:03:52.178211
+Time to create vectors and target:0:17:25.494794
