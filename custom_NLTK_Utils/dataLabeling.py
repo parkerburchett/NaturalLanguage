@@ -2,7 +2,9 @@ from nltk.corpus import stopwords
 from nltk.probability import FreqDist
 from nltk import word_tokenize
 from nltk import pos_tag
+import numpy as np
 import random
+
 
 def find_Features(document, word_features):
     """
@@ -17,10 +19,10 @@ def find_Features(document, word_features):
     and the value is a boolean representing if that word is present in document.
     """
     words = word_tokenize(document)
-    features = {} # empty dictionary
+    features = {}  # empty dictionary
     for w in word_features:
-        features[w] = (w in words) # this a boolean
-    return features  
+        features[w] = (w in words)  # this a boolean
+    return features
 
 
 def assemble_Documents(param, randomized=False):
@@ -44,11 +46,12 @@ def assemble_Documents(param, randomized=False):
                     documents.append((r, "Negative"))
     else:
         for review in param.PosExamples.split('\n'):
-            documents.append((review,"Positive"))
+            documents.append((review, "Positive"))
         for review in param.NegExamples.split('\n'):
-            documents.append((review,"Negative"))
+            documents.append((review, "Negative"))
 
     return documents
+
 
 def assemble_all_words(param):
     """
@@ -68,10 +71,10 @@ def assemble_all_words(param):
     short_neg_words = word_tokenize(param.NegExamples)
     all_words = []
     for w in short_pos_words:
-        all_words.append(w.lower()) 
+        all_words.append(w.lower())
     for w in short_neg_words:
         all_words.append(w.lower())
-        
+
     all_words_lessLimits = limit_features(all_words, param)
     all_wordsFRQ = FreqDist(all_words_lessLimits)
     return all_wordsFRQ
@@ -99,16 +102,16 @@ def limit_features(all_words, param):
                 temp.append(w)
         all_words = temp
         ans = temp
-    
-    if param.PartsOfSpeech != "*": # this or reduce to only NOUNS or only VERBS but not to NOUNS and VERBS
+
+    if param.PartsOfSpeech != "*":  # this or reduce to only NOUNS or only VERBS but not to NOUNS and VERBS
         temp = []
         for word in all_words:
-            pos = pos_tag(word_tokenize(word),tagset='universal')
+            pos = pos_tag(word_tokenize(word), tagset='universal')
             if pos[0][1] == param.PartsOfSpeech:
                 temp.append(pos[0][0])
         ans = temp
     return ans
-        
+
 
 def assemble_word_features(all_words, param, write=False):
     """
@@ -133,14 +136,14 @@ def assemble_word_features(all_words, param, write=False):
         # and there are not enough unique punctuation symbols
         # it is currently untested. I need to verify that it works
     if write:
-        with open("word_featuresList.txt","a+") as out:
+        with open("word_featuresList.txt", "a+") as out:
             out.write(param.PartsOfSpeech)
-            for w in range(min(100, len(word_features)-1)):
-                out.write(word_features[w]+", ")
+            for w in range(min(100, len(word_features) - 1)):
+                out.write(word_features[w] + ", ")
             out.write("\n")
     return word_features
-    
-    
+
+
 def create_feature_sets(param):
     """
     This stitches all the sub methods together.
@@ -158,30 +161,12 @@ def create_feature_sets(param):
     documents = assemble_Documents(param, randomized=True)
     all_words = assemble_all_words(param)
     word_features = assemble_word_features(all_words, param)
-    feature_sets = [(find_Features(text, word_features), category) 
-                    for (text, category) in documents]
-    random.shuffle(feature_sets)
-    return feature_sets # don't shuffle the feature_sets after this point
-
-def kaggle_create_feature_sets(documents, N):
-    all_words = []
-    for d in documents:
-        all_words.append(d[0].lower())
-
-    all_wordsFRQ = FreqDist(all_words)
-
-    word_features = all_wordsFRQ.most_common(1000) #untested
-
     feature_sets = [(find_Features(text, word_features), category)
                     for (text, category) in documents]
-
     random.shuffle(feature_sets)
-
-    return feature_sets
-
+    return feature_sets  # don't shuffle the feature_sets after this point
 
 
-#________________________________________________#
 def assemble_kaggle_documents(inputFile):
     """
     This is for converting a .csv file into the same format as the rest of the module is using.
@@ -193,14 +178,14 @@ def assemble_kaggle_documents(inputFile):
         a list of Tuples representing (Tweet, category) for every labeled review.
     """
     lines = inputFile.readlines()
-    documents= []
+    documents = []
     for line in lines:
-        splitLine = line.split(',',1)
+        splitLine = line.split(',', 1)
         tweet = str(splitLine[1]).lower()
         # it is unclear if you need to word tokenize the document here
         if int(splitLine[0]) == 0:
             category = "Negative"
-        elif int(splitLine[0]) ==4:
+        elif int(splitLine[0]) == 4:
             category = "Positive"
 
         LabeledReview = (tweet, category)
@@ -210,6 +195,76 @@ def assemble_kaggle_documents(inputFile):
     return documents
 
 
+def kaggle_assemble_word_features(documents, num_features):
+    """
+        Parameters:
+            documents:  documents[0]: a tweet as plain text.
+                        documents[1]: the label of the tweet.
+
+            num_features: an int representing how many unique words to treat as features.
+                        this sorted
+
+    """
+    all_words = []
+    for d in documents:
+        words = word_tokenize(d[0])
+        for w in words:
+            all_words.append(w.lower())
+
+    all_wordsFRQ = FreqDist(all_words)
+    word_features_as_tuples = all_wordsFRQ.most_common(num_features)  # this is so clean
+    word_features = []
+    for w in word_features_as_tuples:
+        word_features.append(w[0])
+    sorted(word_features)
+    # sorted is the orthogonal ordering.
+    # it is very important that the word_features does not have a different anytime you would use it
+    # you call sorted(word_features)
+    # this has a very small time cost O(N * log(N) where N = num_features.
+    return word_features
 
 
+def text_to_vector(text, word_features):
+    """
+        Description:
+            Map some text onto a boolean vector based on word_features. Uses 'Bag of Words" approach.
+            I think of this as a encoding a bag of words based on the word_features
+        Parameters:
+            text: a string to be converted
+            word_features: the words to be treated as vectors.
+        Returns:
+            vector: a np boolean vector based on the contents and orientation of _word_features
+    """
+    if word_features != sorted(word_features):
+        raise ValueError('word_features order is wrong')
+    words = set(word_tokenize(text))  # you only care if a word occurs at least once
+    vector = np.zeros(len(word_features), dtype=bool)
+    for i in word_features:
+        if i in words:
+            vector[i] = True
+    return vector
 
+
+def vector_to_words(vector, word_features):
+    """
+    Parameters:
+        vector: boolean vector of some text.
+        word_features: a list of words to be treated as features
+    Returns:
+        words: a list of words that is represented by the vector. Ignores duplicates
+        I think of this method as decoding a vector based on the word_features.
+    """
+
+    if word_features != sorted(word_features):
+        raise ValueError('word_features order is wrong')
+    sorted(word_features)  # redundant
+    if len(vector) != len(word_features):
+        raise ValueError('You are trying to decode a vector based on the wrong word_features'
+                         '\nvector len {}, word_features len {}'.format(len(vector), len(word_features)))
+
+    words = []
+    for value in range(len(vector)):  # untested
+        if vector[value]:
+            words.append(word_features[value])
+
+    return words
