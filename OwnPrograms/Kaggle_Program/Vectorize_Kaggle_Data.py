@@ -8,10 +8,11 @@ import datetime
 import random
 import numpy as np
 
-def convert_docs_to_vectors(docs, word_features):
+def convert_docs_to_vectors(docs, word_features, num_features):
     """
     Parameters: docs a list of (dict, category) tuples that represent a point, output pair.
                 word_features: the list of word_features to be treated as dems to classify the things
+                num_features: how many unique words are treated as features
 
     Returns:
         Vectors: An np.array of Boolean Vectors of length =len(word_features).
@@ -28,7 +29,10 @@ def convert_docs_to_vectors(docs, word_features):
         Targets: The associated Positive or Negative sentiment to with that Vector of the same index.
         True is Positive and False is Negative sentiment.
     """
-    num_features = len(word_features) # constant
+    if num_features != len(word_features):
+        raise ValueError('num_features different than the len of word_features')
+
+
     vectors = np.zeros((len(docs), num_features), dtype=bool)  # this is where you store the results. Default is false
     targets = np.zeros(shape=len(docs),dtype=bool)
     for doc in range(len(docs)):
@@ -44,8 +48,8 @@ def convert_docs_to_vectors(docs, word_features):
             targets[doc] = True
 
     return vectors, targets
-
-def convert_float_array_to_boolean(predictions):
+# not used. might want to remove
+def convert_float_array_to_boolean(predictions): # not used
     """
     Parameters:
         predictions is a np.array of floats all near 1 or 0. This is the output of  linearSVR().predict() function
@@ -73,13 +77,14 @@ def train_on_kaggle_data():
     out = open('log_kaggle.txt','a')
     start = datetime.datetime.now()
     num_tweets = 'all'
-    num_features = 10000
+    num_features = 6000
     # you should include sections here to print out what chunks you have done
     out.write('--------------------\n\nNew Model\n')
     out.write('When num_tweets is {}\n'.format(num_tweets))
     out.write('When num_features is {}\n'.format(num_features))
     inputFile = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\Datasets\LabeledTweets.csv", "r")
-    documents = dl.assemble_kaggle_documents(inputFile) # this shuffles it Very low Time cost
+
+    documents = dl.assemble_kaggle_documents(inputFile) # this shuffles and has a low time cost
 
     docs = documents # for debugging only treat the first N as sample
     all_words = []
@@ -95,19 +100,21 @@ def train_on_kaggle_data():
     for w in word_features_as_tuples:
         word_features.append(w[0])
     out.write('Time to create word_features :{}\n'.format(str(datetime.datetime.now() - start)))
+
+    sorted(word_features) # this is to assure that the the classifiers are all in the right order
+
     start = datetime.datetime.now()
 
     print('created docs and word_features')
-    ip.pickle_this(docs, "ordering_of_docs")
-    ip.pickle_this(word_features, "word_features_whenN{}_and_Tweets_{}".format(num_features,num_tweets))
+    ip.pickle_this(docs, "ordering_of_docs_when_N{}".format(num_features))
+    ip.pickle_this(word_features, "word_features_when_N{}".format(num_features))
 
     # expensive
-    vectors, targets = convert_docs_to_vectors(docs,word_features) # takes 2 hours
+    vectors, targets = convert_docs_to_vectors(docs,word_features, num_features) # takes 2 hours
     #expensive
+
     ip.pickle_this(vectors,'vectors_when_N{}'.format(num_features))
     ip.pickle_this(targets, 'targets_N{}'.format(num_features))
-
-    #ninety_percent = int(.9 * len(docs))
 
     out.write('Time to created Training and Testing.  vectors and targets :{}\n'.format(str(datetime.datetime.now() - start)))
     print('Created and pickled Vectors and targets')

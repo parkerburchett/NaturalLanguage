@@ -1,7 +1,7 @@
 import pickle
 import NaturalLanguage.custom_NLTK_Utils.dataLabeling as dl
 
-# now using a subset of the labeled twitter data
+# This is an old version. Don't use this for any uses
 
 VoteClassifierIN = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\OwnPrograms\Kaggle_LinearSupportVectorRegression.pickle", "rb")
 myClassifier = pickle.load(VoteClassifierIN)

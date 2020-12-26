@@ -21,7 +21,7 @@ class VoteClassifier(ClassifierI):
         self._num_features = len(word_features)
 
 
-    def _vectorize(self, raw_tweet):
+    def vectorize(self, raw_tweet):
         """
         Description: Convert the contents of a tweet into a boolean vector
 
@@ -33,13 +33,12 @@ class VoteClassifier(ClassifierI):
             I removed the
         """
         words = word_tokenize(raw_tweet)
-        vectors = np.zeros((1, self._num_features), dtype=bool)  # this is where you store the results. Default is false
         vector = np.zeros(self._num_features, dtype=bool) # default values of a vector are False
         for i in range(self._num_features):
             if self._word_features[i] in words:
                 vector[i] = True
-        vectors[0] = vector # this is ugly it is just to make the datatypes work with SGDClassifier.predict(x)
-        return vectors
+        # stop this and just fix in in the predict() method
+        return vector
 
 
     def classify(self, raw_tweet, consensus=5): # you might want to add a show_votes method
@@ -53,11 +52,14 @@ class VoteClassifier(ClassifierI):
             A 'Unsure', 'Negative' or 'Positive' based on the votes of the classifiers and the consensus
         """
         # convert to vector
-        vector_of_tweet = self._vectorize(raw_tweet)
+
+        vector_of_tweet = self.vectorize(raw_tweet)
+        vectors = np.zeros((1, self._num_features), dtype=bool)  # this is where you store the results. Default is false
+        vectors.append(vector_of_tweet)
         # WORKS UP TO HERE as expected
 
         # get classification and num_votes.
-        classification, num_votes = self._voting(vector_of_tweet)
+        classification, num_votes = self.voting(vectors)
 
         # return a classification
         if num_votes < consensus:
@@ -69,9 +71,9 @@ class VoteClassifier(ClassifierI):
                 return 'Negative'
 
 
-    def _voting(self, vector):
+    def voting(self, vector):
         """
-        gets the most number of algos that vote for the most common option
+        Calcuates category and the number of classifiers that voted for that category
 
         Parameters:
             vector: a boolean vector representation of a tweet based on _word_features
@@ -90,4 +92,21 @@ class VoteClassifier(ClassifierI):
         return str(classification.mode[0]), classification.count
 
 
+    def un_vectorize(self, vector):
+        """
+        Parameters:
+            vector: boolean vector of a tweet.
+        This takes a vector and returns a list of words that it represents.
+        Because of the bag of words approach, the order and frequency of words is ignored.
+        This is for debugging.
+        """
+        # you need to do vector[0] since vector is a 2d array of booelan vectors but only one row
+        if len(vector[0]) != len(self._word_features):
+            raise ValueError('vector len {}, word_features len {}'.format((len(vector[0])),len(self._word_features)))
+
+        words =[]
+        for i in range(len(vector[0])): # untested
+            if vector[0][i]: # vector is an np.array of booleans
+                words.append(self._word_features[i])
+        return words
 

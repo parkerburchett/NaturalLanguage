@@ -1,6 +1,6 @@
 import NaturalLanguage.LectureNotes.SentimentAnalysisModule as s
 
-
+# this is the old sentiment models
 print(s.sentiment("The movie was bad and awful"))
 
 print(s.sentiment("I found the movie trite and plot development lacking"))
