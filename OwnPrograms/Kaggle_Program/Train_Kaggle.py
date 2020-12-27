@@ -202,8 +202,8 @@ def train_create_VoteClassifier(the_num_features=5000):
     print('Time to get vectors, targets: {}'.format(str(datetime.datetime.now() - start)))
     start = datetime.datetime.now()
 
-    classifier_list = create_classifier_list(vectors,
-                                             targets)  # this does not need to know the conents of word_features
+    classifier_list = create_classifier_list(vectors, targets)
+
     print('Time to train_classifiers: {}'.format(str(datetime.datetime.now() - start)))
     start = datetime.datetime.now()
 
@@ -214,23 +214,23 @@ def train_create_VoteClassifier(the_num_features=5000):
         accuracy_scores.append(accuracy)
         print('a classifiers accuracy : {}'.format(accuracy))
 
-    average_accuracy = np.average(accuracy_scores)
+
 
     finished_vote_classifier = VoteClassifier.VoteClassifier(classifier_list,
                                                              word_features=word_features_local,
-                                                             avg_accuracy=average_accuracy)
+                                                             avg_accuracy=accuracy_scores)
 
     print('Time to create VoteClassifier: {}'.format(str(datetime.datetime.now() - start)))
     try:
         Pickle_Utils.pickle_this(finished_vote_classifier, 'TrainedVoteClassifier_N{}'.format(the_num_features))
         print('TotalTime when N={} : {}'.format(the_num_features), str(datetime.datetime.now() - outer_start))
     except:
-        Pickle_Utils.pickle_this(finished_vote_classifier, "TrainedVoteClassifier_N5000")
+        Pickle_Utils.pickle_this(finished_vote_classifier, "TrainedVoteClassifier_N6000")
 
     print(str(datetime.datetime.now() - outer_start))
 
 
 # def main():
-#     train_create_VoteClassifier(the_num_features=2000)
+#     train_create_VoteClassifier(the_num_features=6000)
 #
 # main()

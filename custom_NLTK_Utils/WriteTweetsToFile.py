@@ -34,7 +34,7 @@ class listener(StreamListener):
             all_data = json.loads(data) # I just copy and pasted this code
             tweet = str(all_data["text"])
             sentiment_value = str(s.get_sentiment(tweet))
-            with open("Tweet_sentiment_resultsV4.txt","a+") as out:
+            with open("Tweet_sentiment_resultsV5.txt","a+") as out:
                 out.write("{}, {}\n".format(tweet,sentiment_value))
                 print('added tweet')
         except:

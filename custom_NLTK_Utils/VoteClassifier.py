@@ -50,10 +50,10 @@ class VoteClassifier(ClassifierI):
             return 'Unsure'  # you might want to relabel this
         else:
             # the problem is that classifcation lookes like '[False]' not a boolean False
-            if classification == '[False]': # classification is a is a string because I miscoded it. Forwhatever reason this now only returns 'Positive'
-                return 'Negative'
-            else:
+            if classification: # classification is a is a string because I miscoded it. Forwhatever reason this now only returns 'Positive'
                 return 'Positive'
+            else:
+                return 'Negative'
 
     def voting(self, vector):
         """
@@ -70,5 +70,27 @@ class VoteClassifier(ClassifierI):
             v = c.predict(vector) # when I pass this the single word: 'cry' every algo predicts array([False])
             votes.append(v)
         classification = stats.mode(votes)  # this is a mode object
+        choice = classification.mode[0]
+        return choice[0], classification.count
 
-        return str(classification.mode[0]), classification.count
+    def get_category_votes(self, raw_tweet):
+        """
+            Description:
+                This gets converts a raw tweet into a category, numVotes pair.
+        """
+        vector_of_tweet = dl.text_to_vector(raw_tweet, self._word_features)
+        # vector_for_prediction needs to be 2d to work with SGDClassifier.predict(X)
+        vector_for_prediction = np.zeros((1, self._num_features), dtype=bool)
+        vector_for_prediction[0] = vector_of_tweet
+        if np.count_nonzero(vector_for_prediction) ==0:
+            return ('Unsure no known features', 9) # never seen before
+        # get classification and num_votes.
+        classification, num_votes = self.voting(vector_for_prediction)
+
+
+        if classification:  # classification is a is a string because I miscoded it. Forwhatever reason this now only returns 'Positive'
+            category = 'Positive'
+        else:
+            category = 'Negative'
+
+        return category, num_votes
