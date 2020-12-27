@@ -44,14 +44,16 @@ class VoteClassifier(ClassifierI):
         # get classification and num_votes.
         classification, num_votes = self.voting(vector_for_prediction)
 
-        # return a classification
-        if num_votes < consensus:
+        if np.count_nonzero(vector_for_prediction) ==0:
+            return 'Unsure' # no words are features it ought to default to unsure since you are training it on a vector of only False
+        if num_votes[0] < consensus:
             return 'Unsure'  # you might want to relabel this
         else:
-            if classification:  # classification is a boolean. Forwhatever reason this now only returns 'Positive'
-                return 'Positive'
-            else:
+            # the problem is that classifcation lookes like '[False]' not a boolean False
+            if classification == '[False]': # classification is a is a string because I miscoded it. Forwhatever reason this now only returns 'Positive'
                 return 'Negative'
+            else:
+                return 'Positive'
 
     def voting(self, vector):
         """
@@ -65,7 +67,7 @@ class VoteClassifier(ClassifierI):
         """
         votes = []
         for c in self._classifiers_list:
-            v = c.predict(vector)  # this is the thing that breaks it.
+            v = c.predict(vector) # when I pass this the single word: 'cry' every algo predicts array([False])
             votes.append(v)
         classification = stats.mode(votes)  # this is a mode object
         return str(classification.mode[0]), classification.count

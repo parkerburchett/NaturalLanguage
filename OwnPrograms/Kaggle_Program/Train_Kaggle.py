@@ -79,8 +79,6 @@ def train_more(my_classifier, vectors, targets, numTrained, new_tweets=10000):
         targets: the target boolean. False = Negative | True = Positive
         numTrained: the index of the number of tweets you have already trained on.
         new_tweets: the number of new tweets to train on.
-    Returns:
-        Nothing, it just trains my_classifier
     """
     end_trained = numTrained + new_tweets
     my_classifier.partial_fit(vectors[numTrained:end_trained], targets[numTrained:end_trained])
@@ -232,7 +230,7 @@ def train_create_VoteClassifier(the_num_features=5000):
     print(str(datetime.datetime.now() - outer_start))
 
 
-def main():
-    train_create_VoteClassifier(the_num_features=2000)
-
-main()
+# def main():
+#     train_create_VoteClassifier(the_num_features=2000)
+#
+# main()
