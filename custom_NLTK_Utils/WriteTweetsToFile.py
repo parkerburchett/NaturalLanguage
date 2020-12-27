@@ -31,12 +31,11 @@ class listener(StreamListener):
 
     def on_data(self, data):
         try:
-
             all_data = json.loads(data) # I just copy and pasted this code
             tweet = str(all_data["text"])
             sentiment_value = str(s.get_sentiment(tweet))
-            with open("Tweet_sentiment_results.txt","a+") as out:
-                out.write("{}\n".format(sentiment_value))
+            with open("Tweet_sentiment_resultsV4.txt","a+") as out:
+                out.write("{}, {}\n".format(tweet,sentiment_value))
                 print('added tweet')
         except:
 
@@ -51,4 +50,4 @@ auth = OAuthHandler(consumer_key, consumer_key_secret)
 auth.set_access_token(access_token, access_token_secret)
 twitter_stream = Stream(auth, listener())
 
-twitter_stream.filter(track=["hate"], languages=["en"])
+twitter_stream.filter(track=["love"], languages=["en"])

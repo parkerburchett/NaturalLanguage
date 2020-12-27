@@ -12,11 +12,8 @@ This is slightly faster, but otherwise indistinguishable,  from the accuracy of 
 """
 
 from NaturalLanguage.custom_NLTK_Utils import Pickle_Utils
-import nltk
-import numpy as np
-from NaturalLanguage.custom_NLTK_Utils import VoteClassifier
 
-myVoteClassifier = Pickle_Utils.unpickle_this(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\OwnPrograms\Kaggle_Program\TrainedVoteClassifier_N2000.pickle")
+myVoteClassifier = Pickle_Utils.unpickle_this(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\OwnPrograms\Kaggle_Program\TrainedVoteClassifier_N2500.pickle")
 
 def get_sentiment(raw_tweet, consensus_choice=5):
     category = myVoteClassifier.classify(raw_tweet, consensus=consensus_choice)
@@ -25,8 +22,11 @@ def get_sentiment(raw_tweet, consensus_choice=5):
 
 sample_tweet = 'sad mad bad ugly hate taxes unhappy'
 ans = get_sentiment(sample_tweet)
-
 print(ans)
+sample_tweet = ''
+ans = get_sentiment(sample_tweet)
+print(ans)
+
 
 
 # you would also want to see the false positve and false negative rate.

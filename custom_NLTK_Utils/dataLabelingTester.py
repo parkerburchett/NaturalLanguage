@@ -30,18 +30,18 @@ def Main():
 
     myVote_Classifier = VoteClassifier.VoteClassifier(a_list_of_classifier,word_features,.5)
 
-    pred = myVote_Classifier.classify("jokes")
-    print('my should be Unclear prediction is: {}'.format(pred))
+    pred = myVote_Classifier.classify("silly happy man was funny")
+    print('my should be pos prediction is: {}'.format(pred))
     pred = myVote_Classifier.classify("cry")
     print('my should be neg prediction is: {}'.format(pred))
-    pred = myVote_Classifier.classify("happy")
-    print('my should be POS prediction is: {}'.format(pred))
     # at this point you are certain that you can get the most frequent words (ignore the punctuation problems)
     # you can convert any string into a vector and back into a bag of words
     # you can correctly create word_features, vectors and targets.
 
-    # next step is to train a single SGD classifier
 
+
+
+    # I figured out what was going wrong.
     print('fin')
 
 

@@ -70,4 +70,5 @@ class VoteClassifier(ClassifierI):
             v = c.predict(vector) # when I pass this the single word: 'cry' every algo predicts array([False])
             votes.append(v)
         classification = stats.mode(votes)  # this is a mode object
+
         return str(classification.mode[0]), classification.count
