@@ -16,34 +16,13 @@ from NaturalLanguage.custom_NLTK_Utils import VoteClassifier
 import matplotlib.pyplot as plt
 import numpy as np
 
-def create_feature_coef_list(word_features, coef):
-    """
-    This method returns the word_feature, coef pair
-
-    It shows the coeffeicnt assigned to each word_feature
-    """
-    pairs = []
-    for i in range(len(word_features)):
-        a_pair = (word_features[i],coef[0][i])
-        pairs.append(a_pair)  # might be better as a dictionary. It will be better as a dictionary. Change later
-    return pairs
-
 my_voteClassifier = Pickle_Utils.unpickle_this(r'C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/OwnPrograms/Kaggle_Program/TrainedVoteClassifier_N6000.pickle')
 
-a_classifier = my_voteClassifier.get_classifier_list()[0]
-weights1 = a_classifier.coef_[0]
-a_classifier = my_voteClassifier.get_classifier_list()[1]
-weights2 = a_classifier.coef_[0]
-r_value = pearsonr(weights1,weights2)[0]
-
-print(my_voteClassifier.get_relevent_words('the cow was walking down the street gibberish'))
-
-weights_list = []
 
 
+print(my_voteClassifier.get_relevant_words_weights(''))
 
-for a_classifier in my_voteClassifier.get_classifier_list():
-    weights_list.append(a_classifier.coef_[0])
+
 
 
 # this should give you 9*8 or 72 r values.

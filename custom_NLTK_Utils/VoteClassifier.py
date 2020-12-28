@@ -26,11 +26,14 @@ class VoteClassifier(ClassifierI):
     def get_classifier_list(self):
         return self._classifiers_list
 
+
     def get_num_features(self):
         return self._num_features
 
+
     def get_word_features(self):
         return self._word_features
+
 
     def get_avg_accuracy(self):
         return self._avg_accuracy
@@ -64,6 +67,7 @@ class VoteClassifier(ClassifierI):
             else:
                 return 'Negative'
 
+
     def voting(self, vector):
         """
         Calculates category and the number of classifiers that voted for that category
@@ -81,6 +85,7 @@ class VoteClassifier(ClassifierI):
         classification = stats.mode(votes)  # this is a mode object
         choice = classification.mode[0]
         return choice[0], classification.count
+
 
     def get_category_votes(self, raw_tweet):
         """
@@ -107,14 +112,58 @@ class VoteClassifier(ClassifierI):
         return category, num_votes
 
 
-    def get_relevent_words(self, raw_tweet):
+    def get_relevant_words(self, raw_tweet):
         """
-        Descriptions: This returns a list of words that are treated as features.
+        Description:
+            Determines what words that are treated as features
+        Parameters:
+            raw_tweet: a String for the body of a tweet
+        Returns:
+            relevant_words: A list of Strings. Every word that is treated as a feature
         """
         vector_of_tweet = dl.text_to_vector(raw_tweet, self._word_features)
-        words = dl.vector_to_words(vector_of_tweet,self._word_features)
-        return words
+        relevant_words = dl.vector_to_words(vector_of_tweet,self._word_features)
+        return relevant_words
 
-    # add method to determine what features the classifcation is based on.
 
-    # add method to see the weights of different words
+    def get_relevant_words_weights(self,raw_tweet):
+        """
+        Description:
+            Determines the relevant words and the average weight for each word.
+        Parameters:
+            raw_tweet:  a String for the body of a tweet
+        Returns:
+            words_weights: a list of Word, average_weight tuples.
+        """
+
+        relevant_words = self.get_relevant_words(raw_tweet)
+        weight_dictionary = self.get_avg_weight_dictionary()
+
+        words_weights =[]
+        for w in relevant_words:
+            word_weight_pair = (w,weight_dictionary[w])
+            words_weights.append(word_weight_pair)
+
+        return words_weights
+
+
+    def get_avg_weight_dictionary(self):
+        """
+        Description:
+            This method returns a dictionary object for each word: avg weight.
+        """
+        weights_list = []
+        for a_classifier in self._classifiers_list:
+            weights_list.append(a_classifier.coef_[0])
+
+        avg_word_weights = {}
+
+        for word_index in range(len(self._word_features)):
+            all_weights_for_word = []
+            for weight in weights_list:
+                all_weights_for_word.append(weight[word_index])
+
+            avg_word_weights[self._word_features[word_index]] = np.average(all_weights_for_word)
+
+
+        return avg_word_weights
