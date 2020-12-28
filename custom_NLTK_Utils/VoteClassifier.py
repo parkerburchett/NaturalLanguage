@@ -21,7 +21,7 @@ class VoteClassifier(ClassifierI):
         self._classifiers_list = classifier_list
         self._word_features = word_features
         self._num_features = len(word_features)
-        self._avg_accuracy = avg_accuracy # replace this with the list of accuracy scores increase in order
+        self._avg_accuracy = avg_accuracy
 
     def get_classifier_list(self):
         return self._classifiers_list
@@ -31,6 +31,11 @@ class VoteClassifier(ClassifierI):
 
     def get_word_features(self):
         return self._word_features
+
+    def get_avg_accuracy(self):
+        return self._avg_accuracy
+
+
     def classify(self, raw_tweet, consensus=5):  # you might want to add a show_votes method
         """
         Parameters:
@@ -46,7 +51,6 @@ class VoteClassifier(ClassifierI):
         vector_for_prediction = np.zeros((1, self._num_features), dtype=bool)
         vector_for_prediction[0] = vector_of_tweet
 
-        # get classification and num_votes.
         classification, num_votes = self.voting(vector_for_prediction)
 
         if np.count_nonzero(vector_for_prediction) ==0:
@@ -81,19 +85,21 @@ class VoteClassifier(ClassifierI):
     def get_category_votes(self, raw_tweet):
         """
             Description:
-                This gets converts a raw tweet into a category, numVotes pair.
+                This method takes a raw tweet and returns what the the majority choice and number of votes
+            Parameters:
+                raw_tweet: a String for the body of a tweet
         """
         vector_of_tweet = dl.text_to_vector(raw_tweet, self._word_features)
         # vector_for_prediction needs to be 2d to work with SGDClassifier.predict(X)
         vector_for_prediction = np.zeros((1, self._num_features), dtype=bool)
         vector_for_prediction[0] = vector_of_tweet
-        if np.count_nonzero(vector_for_prediction) ==0:
-            return ('Unsure no known features', 9) # never seen before
-        # get classification and num_votes.
+        if np.count_nonzero(vector_for_prediction) == 0:
+            # This returns if the tweet has no words  the classifiers have been trained on
+            return ('Unsure no known features', 9)
+
         classification, num_votes = self.voting(vector_for_prediction)
 
-
-        if classification:  # classification is a is a string because I miscoded it. Forwhatever reason this now only returns 'Positive'
+        if classification:
             category = 'Positive'
         else:
             category = 'Negative'
@@ -101,6 +107,14 @@ class VoteClassifier(ClassifierI):
         return category, num_votes
 
 
+    def get_relevent_words(self, raw_tweet):
+        """
+        Descriptions: This returns a list of words that are treated as features.
+        """
+        vector_of_tweet = dl.text_to_vector(raw_tweet, self._word_features)
+        words = dl.vector_to_words(vector_of_tweet,self._word_features)
+        return words
+
     # add method to determine what features the classifcation is based on.
 
-    # add method to see the weights of differnt words. it might be get_params().
+    # add method to see the weights of different words
