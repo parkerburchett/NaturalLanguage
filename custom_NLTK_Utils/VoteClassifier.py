@@ -23,9 +23,14 @@ class VoteClassifier(ClassifierI):
         self._num_features = len(word_features)
         self._avg_accuracy = avg_accuracy # replace this with the list of accuracy scores increase in order
 
+    def get_classifier_list(self):
+        return self._classifiers_list
+
     def get_num_features(self):
         return self._num_features
 
+    def get_word_features(self):
+        return self._word_features
     def classify(self, raw_tweet, consensus=5):  # you might want to add a show_votes method
         """
         Parameters:
@@ -94,3 +99,8 @@ class VoteClassifier(ClassifierI):
             category = 'Negative'
 
         return category, num_votes
+
+
+    # add method to determine what features the classifcation is based on.
+
+    # add method to see the weights of differnt words. it might be get_params().

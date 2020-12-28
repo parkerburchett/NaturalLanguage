@@ -50,4 +50,4 @@ auth = OAuthHandler(consumer_key, consumer_key_secret)
 auth.set_access_token(access_token, access_token_secret)
 twitter_stream = Stream(auth, listener())
 
-twitter_stream.filter(track=["love"], languages=["en"])
+twitter_stream.filter(track=["hate"], languages=["en"])

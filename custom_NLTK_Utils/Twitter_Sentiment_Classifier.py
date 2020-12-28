@@ -13,7 +13,7 @@ This is slightly faster, but otherwise indistinguishable,  from the accuracy of 
 
 from NaturalLanguage.custom_NLTK_Utils import Pickle_Utils
 
-myVoteClassifier = Pickle_Utils.unpickle_this(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\OwnPrograms\Kaggle_Program\TrainedVoteClassifier_N6000.pickle")
+myVoteClassifier = Pickle_Utils.unpickle_this(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\OwnPrograms\Kaggle_Program\TrainedVoteClassifier_N10000.pickle")
 
 def get_sentiment(raw_tweet, consensus_choice=5):
     category = myVoteClassifier.classify(raw_tweet, consensus=consensus_choice)
@@ -23,13 +23,7 @@ def get_votes(raw_tweet):
     return myVoteClassifier.get_category_votes(raw_tweet)
 
 
-sample_tweet = 'sad mad bad ugly hate taxes unhappy'
-ans = get_votes(sample_tweet)
-print(ans)
-sample_tweet = ''
-ans = get_votes(sample_tweet)
-print(ans)
-sample_tweet = 'Love hate'
+sample_tweet = "I just hit 35,000 followers! I can't wait for all the content on machine learning I'll be producing in 2021!Your support keeps me going, thank you so much!"
 ans = get_votes(sample_tweet)
 print(ans)
 

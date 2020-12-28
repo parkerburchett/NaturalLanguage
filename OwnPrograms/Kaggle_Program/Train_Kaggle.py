@@ -229,8 +229,3 @@ def train_create_VoteClassifier(the_num_features=5000):
 
     print(str(datetime.datetime.now() - outer_start))
 
-
-# def main():
-#     train_create_VoteClassifier(the_num_features=6000)
-#
-# main()
