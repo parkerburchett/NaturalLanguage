@@ -17,7 +17,7 @@ class VoteClassifier(ClassifierI):
         This is a sentiment classification algorithm that classifies based on the consensus of 9 SCGClassifiers.
     """
 
-    def __init__(self, classifier_list, word_features,avg_accuracy):
+    def __init__(self, classifier_list, word_features, avg_accuracy):
         self._classifiers_list = classifier_list
         self._word_features = word_features
         self._num_features = len(word_features)
@@ -26,18 +26,14 @@ class VoteClassifier(ClassifierI):
     def get_classifier_list(self):
         return self._classifiers_list
 
-
     def get_num_features(self):
         return self._num_features
-
 
     def get_word_features(self):
         return self._word_features
 
-
     def get_avg_accuracy(self):
         return self._avg_accuracy
-
 
     def classify(self, raw_tweet, consensus=5):  # you might want to add a show_votes method
         """
@@ -56,17 +52,16 @@ class VoteClassifier(ClassifierI):
 
         classification, num_votes = self.voting(vector_for_prediction)
 
-        if np.count_nonzero(vector_for_prediction) ==0:
-            return 'Unsure' # no words are features it ought to default to unsure since you are training it on a vector of only False
+        if np.count_nonzero(vector_for_prediction) == 0:
+            return 'Unsure'  # no words are features it ought to default to unsure since you are training it on a vector of only False
         if num_votes[0] < consensus:
             return 'Unsure'  # you might want to relabel this
         else:
             # the problem is that classifcation lookes like '[False]' not a boolean False
-            if classification: # classification is a is a string because I miscoded it. Forwhatever reason this now only returns 'Positive'
+            if classification:  # classification is a is a string because I miscoded it. Forwhatever reason this now only returns 'Positive'
                 return 'Positive'
             else:
                 return 'Negative'
-
 
     def voting(self, vector):
         """
@@ -80,12 +75,11 @@ class VoteClassifier(ClassifierI):
         """
         votes = []
         for c in self._classifiers_list:
-            v = c.predict(vector) # when I pass this the single word: 'cry' every algo predicts array([False])
+            v = c.predict(vector)  # when I pass this the single word: 'cry' every algo predicts array([False])
             votes.append(v)
         classification = stats.mode(votes)  # this is a mode object
         choice = classification.mode[0]
         return choice[0], classification.count
-
 
     def get_category_votes(self, raw_tweet):
         """
@@ -111,7 +105,6 @@ class VoteClassifier(ClassifierI):
 
         return category, num_votes
 
-
     def get_relevant_words(self, raw_tweet):
         """
         Description:
@@ -122,11 +115,10 @@ class VoteClassifier(ClassifierI):
             relevant_words: A list of Strings. Every word that is treated as a feature
         """
         vector_of_tweet = dl.text_to_vector(raw_tweet, self._word_features)
-        relevant_words = dl.vector_to_words(vector_of_tweet,self._word_features)
+        relevant_words = dl.vector_to_words(vector_of_tweet, self._word_features)
         return relevant_words
 
-
-    def get_relevant_words_weights(self,raw_tweet):
+    def get_relevant_words_weights(self, raw_tweet):
         """
         Description:
             Determines the relevant words and the average weight for each word.
@@ -139,13 +131,12 @@ class VoteClassifier(ClassifierI):
         relevant_words = self.get_relevant_words(raw_tweet)
         weight_dictionary = self.get_avg_weight_dictionary()
 
-        words_weights =[]
+        words_weights = []
         for w in relevant_words:
-            word_weight_pair = (w,weight_dictionary[w])
+            word_weight_pair = (w, weight_dictionary[w])
             words_weights.append(word_weight_pair)
 
         return words_weights
-
 
     def get_avg_weight_dictionary(self):
         """
@@ -164,6 +155,27 @@ class VoteClassifier(ClassifierI):
                 all_weights_for_word.append(weight[word_index])
 
             avg_word_weights[self._word_features[word_index]] = np.average(all_weights_for_word)
-
-
         return avg_word_weights
+
+    def get_scores(self, raw_tweet):
+        """
+        Description:
+            This method takes in a string and returns a list scores that each classifiers computes using
+            SGDClassifier.decision_function(x)
+            1 corresponds to Positive
+            0 corresponds to Negative
+
+        Parameter:
+            raw_tweet: A string
+        Returns:
+            scores: a list of scores from each of the classifiers.
+        """
+        scores = []
+        vector_of_tweet = dl.text_to_vector(raw_tweet, self._word_features)
+        # vector_for_prediction needs to be 2d to work with SGDClassifier.predict(X)
+        vector_for_prediction = np.zeros((1, self._num_features), dtype=bool)
+        vector_for_prediction[0] = vector_of_tweet
+        for c in self._classifiers_list:
+            scores.append(c.decision_function(vector_for_prediction)[0])
+
+        return scores

@@ -18,9 +18,11 @@ import numpy as np
 
 my_voteClassifier = Pickle_Utils.unpickle_this(r'C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/OwnPrograms/Kaggle_Program/TrainedVoteClassifier_N6000.pickle')
 
+test_tweet = 'I am happy'
+
+print(my_voteClassifier.get_scores(test_tweet))
 
 
-print(my_voteClassifier.get_relevant_words_weights(''))
 
 
 
