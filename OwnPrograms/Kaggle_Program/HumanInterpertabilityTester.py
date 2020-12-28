@@ -18,9 +18,9 @@ import numpy as np
 
 my_voteClassifier = Pickle_Utils.unpickle_this(r'C:/Users/parke/Documents/GitHub/NaturalLanguage/NaturalLanguage/OwnPrograms/Kaggle_Program/TrainedVoteClassifier_N6000.pickle')
 
-test_tweet = 'I am happy'
+test_tweet = 'Warnock camp victim comes forward with church child abuse details, AJC covered up'
 
-print(my_voteClassifier.get_scores(test_tweet))
+print(my_voteClassifier.explain_choice(test_tweet))
 
 
 

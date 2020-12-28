@@ -179,3 +179,38 @@ class VoteClassifier(ClassifierI):
             scores.append(c.decision_function(vector_for_prediction)[0])
 
         return scores
+
+    def explain_choice(self, raw_tweet):
+        """
+        Description:
+            Stitches together the reasoning and stats that made for why the raw_tweet was classified as it was
+        Parameters:
+            raw_tweet: a String. Designed to work with twitter
+        Returns
+            write_up: a long String that explains why it made that choice.
+        """
+
+
+        category_choice = self.classify(raw_tweet)
+        avg_score = np.average(self.get_scores(raw_tweet))
+        write_up = 'The tweet:\n{}\nIs:\n{}\nAverage score:\n{}\n'.format(raw_tweet,category_choice,round(avg_score,4))
+        words_that_matter = self.get_relevant_words(raw_tweet)
+        write_up = write_up + 'This decision was based on these {} words:\n{}\n'.format(len(words_that_matter),words_that_matter)
+
+
+        word_weights = self.get_relevant_words_weights(raw_tweet)
+        word_weights = sorted(word_weights, key=lambda x: abs(x[1]),reverse=True)
+        # sort word_weights by the absolute value of their weights
+
+
+        word_weights_to_write =[]
+        try: # this is for when there are less than 5 words as features.
+            for w in range(5):
+                pair = word_weights[w][0],round(word_weights[w][1],4)
+                word_weights_to_write.append(pair)
+        except:
+            print('you did not have 5 features')
+
+        write_up = write_up + 'These were the {} words with the most influence on the outcome:\n{}\n'.format(len(word_weights_to_write),word_weights_to_write)
+
+        return write_up
