@@ -1,0 +1,23 @@
+Steps needed to create a website that has the following functionally.
+
+
+1. create a git repository using a virtual env with only the files you need it to.
+This is things like numpy, scipy, nltk, VoteClassifier, NaturalLanguage.custom_nltk_utils.
+
+2. Build a very simple website where you can pass in a string and it will write out to the website
+ time to setup
+ VoteClassifer.explain_choice(user_sentence)
+ You pass in a string. It prints out an answer.
+
+ You then write the answer to that above it.
+
+
+ You might also want down the line, a way to query twitter live.
+
+ eg
+
+ end user looks up X
+
+ We looked up 1,000 recent tweets about that and found that Y% of them were postive Z were negative and neutral.
+
+

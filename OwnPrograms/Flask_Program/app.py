@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
+# watch from minute 42 after to put this on heroku
 
 app = Flask(__name__) # this just references this file
 # /// is a relative path
