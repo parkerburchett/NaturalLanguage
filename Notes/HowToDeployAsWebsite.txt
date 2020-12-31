@@ -6,8 +6,8 @@ This is things like numpy, scipy, nltk, VoteClassifier, NaturalLanguage.custom_n
 
 2. Build a very simple website where you can pass in a string and it will write out to the website
  time to setup
- VoteClassifer.explain_choice(user_sentence)
- You pass in a string. It prints out an answer.
+ VoteClassifier.explain_choice(user_sentence)
+ You pass in a string. It returns the answer as a string.
 
  You then write the answer to that above it.
 
@@ -16,7 +16,7 @@ This is things like numpy, scipy, nltk, VoteClassifier, NaturalLanguage.custom_n
 
  eg
 
- end user looks up X
+ end user looks up word "X"
 
  We looked up 1,000 recent tweets about that and found that Y% of them were postive Z were negative and neutral.
 
