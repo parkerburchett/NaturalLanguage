@@ -182,3 +182,14 @@ New Model
 When num_features is 10000
 Create word_features :0:04:00.447079
 Time to create vectors and target:1:49:42.676834
+--------------------
+New Model
+When num_features is 1000
+--------------------
+New Model
+When num_features is 1000
+--------------------
+New Model
+When num_features is 1000
+Create word_features :0:28:19.483881
+Time to create vectors and target:0:09:26.243871

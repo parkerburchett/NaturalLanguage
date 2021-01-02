@@ -23,9 +23,15 @@ def get_votes(raw_tweet):
     return myVoteClassifier.get_category_votes(raw_tweet)
 
 
-sample_tweet = "I just hit 35,000 followers! I can't wait for all the content on machine learning I'll be producing in 2021!Your support keeps me going, thank you so much!"
-ans = get_votes(sample_tweet)
-print(ans)
+def explain_choice(raw_tweet):
+    return myVoteClassifier.explain_choice(raw_tweet)
+
+
+sample_tweet = 'I hate my life, i just want to leave'
+
+explained = explain_choice(sample_tweet)
+
+print(explained)
 
 
 

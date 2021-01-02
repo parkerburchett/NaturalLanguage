@@ -191,13 +191,16 @@ def create_classifier_list(vectors, targets, starting_size=10000, block_size=100
     return classifier_list
 
 
-def train_create_VoteClassifier(the_num_features=5000):
+def train_create_VoteClassifier(the_num_features=5000, remove_stopwords=False):
     print('started train_create_VoteClassifier')
     start = datetime.datetime.now()
     outer_start = start
     vectors, targets = Vectorize_Kaggle_Data.create_vectors_targets(
-        num_features=the_num_features)  # untested calling here
-    word_features_local = Vectorize_Kaggle_Data.get_word_features(num_features=the_num_features)
+        num_features=the_num_features,
+        remove_stopwords1=remove_stopwords)
+
+    word_features_local = Vectorize_Kaggle_Data.get_word_features(num_features=the_num_features,
+                                                                  remove_stopwords=remove_stopwords)
 
     print('Time to get vectors, targets: {}'.format(str(datetime.datetime.now() - start)))
     start = datetime.datetime.now()
@@ -222,10 +225,14 @@ def train_create_VoteClassifier(the_num_features=5000):
 
     print('Time to create VoteClassifier: {}'.format(str(datetime.datetime.now() - start)))
     try:
-        Pickle_Utils.pickle_this(finished_vote_classifier, 'TrainedVoteClassifier_N{}'.format(the_num_features))
+        Pickle_Utils.pickle_this(finished_vote_classifier, 'remove_stopwords_TrainedVoteClassifier_N{}'.format(the_num_features))
         print('TotalTime when N={} : {}'.format(the_num_features), str(datetime.datetime.now() - outer_start))
     except:
-        Pickle_Utils.pickle_this(finished_vote_classifier, "TrainedVoteClassifier_N6000")
+        print('broke on pickling the VoteClassifiers')
 
     print(str(datetime.datetime.now() - outer_start))
 
+def main():
+    train_create_VoteClassifier(the_num_features=1000, remove_stopwords=True)
+
+main()

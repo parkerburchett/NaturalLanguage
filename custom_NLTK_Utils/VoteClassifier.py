@@ -13,6 +13,7 @@ class VoteClassifier(ClassifierI):
             _word_features: a list of the words treated as features in this model
             _num_features: how many unique words are treated as features
             _avg_accuracy: the average accuracy of the 9 classifiers
+            _word_weight_dict: dynamic programming, stores the weights assigned to each word
 
         This is a sentiment classification algorithm that classifies based on the consensus of 9 SCGClassifiers.
     """
@@ -22,6 +23,7 @@ class VoteClassifier(ClassifierI):
         self._word_features = word_features
         self._num_features = len(word_features)
         self._avg_accuracy = avg_accuracy
+        # self._word_weight_dict = None
 
     def get_classifier_list(self):
         return self._classifiers_list
@@ -142,6 +144,7 @@ class VoteClassifier(ClassifierI):
         """
         Description:
             This method returns a dictionary object for each word: avg weight.
+            if it does not exist it stores it in a self_word_weightdict
         """
         weights_list = []
         for a_classifier in self._classifiers_list:
@@ -153,8 +156,8 @@ class VoteClassifier(ClassifierI):
             all_weights_for_word = []
             for weight in weights_list:
                 all_weights_for_word.append(weight[word_index])
-
             avg_word_weights[self._word_features[word_index]] = np.average(all_weights_for_word)
+
         return avg_word_weights
 
     def get_scores(self, raw_tweet):

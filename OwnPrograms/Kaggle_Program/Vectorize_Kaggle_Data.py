@@ -78,20 +78,20 @@ def convert_float_array_to_boolean(predictions):  # not used
     return predictions_as_booleans
 
 
-def get_word_features(num_features, default=True):
+def get_word_features(num_features, default=True, remove_stopwords=False):
     if default:
         input_file = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\Datasets\LabeledTweets.csv", "r")
         documents = dl.assemble_kaggle_documents(input_file)  # this shuffles and has a low time cost
         input_file.close()
-        return dl.kaggle_assemble_word_features(documents, num_features)
+        return dl.kaggle_assemble_word_features(documents, num_features,remove_stopwords)
     else:
         input_file = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\Datasets\tinydocs.txt",
                           "r")
         documents = dl.assemble_kaggle_documents(input_file)  # this shuffles and has a low time cost
         input_file.close()
-        return dl.kaggle_assemble_word_features(documents, num_features)
+        return dl.kaggle_assemble_word_features(documents, num_features,remove_stopwords)
 
-def create_vectors_targets(num_features, default =True):
+def create_vectors_targets(num_features, default =True, remove_stopwords1=False):
     print('started create_vectors_targets')
     out = open('log_kaggle.txt', 'a')
     start = datetime.datetime.now()
@@ -105,20 +105,20 @@ def create_vectors_targets(num_features, default =True):
 
     documents = dl.assemble_kaggle_documents(input_file)  # this shuffles and has a low time cost
 
-    word_features = dl.kaggle_assemble_word_features(documents,num_features)
+    word_features = dl.kaggle_assemble_word_features(documents, num_features, remove_stopwords=remove_stopwords1)
 
     out.write('Create word_features :{}\n'.format(str(datetime.datetime.now() - start)))
 
     start = datetime.datetime.now()
 
     print('created docs and word_features')
-    ip.pickle_this(word_features, "word_features_when_N{}".format(num_features))
+    #ip.pickle_this(word_features, "word_features_when_N{}".format(num_features))
 
     # expensive
     vectors, targets = convert_docs_to_vectors(documents, word_features, num_features)  # takes 2 hours
 
-    ip.pickle_this(vectors, 'vectors_when_N{}'.format(num_features))
-    ip.pickle_this(targets, 'targets_N{}'.format(num_features))
+   # ip.pickle_this(vectors, 'vectors_when_N{}'.format(num_features))
+   # ip.pickle_this(targets, 'targets_N{}'.format(num_features))
     out.write(
         'Time to create vectors and target:{}\n'.format(str(datetime.datetime.now() - start)))
     print('Created and pickled vectors and targets when N = {}'.format(num_features))

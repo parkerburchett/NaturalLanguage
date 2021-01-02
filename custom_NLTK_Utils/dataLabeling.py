@@ -2,7 +2,10 @@ from nltk.corpus import stopwords
 from nltk.probability import FreqDist
 from nltk import word_tokenize
 from nltk import pos_tag
+from nltk.corpus import stopwords
 import numpy as np
+import string
+
 import random
 
 
@@ -195,7 +198,22 @@ def assemble_kaggle_documents(inputFile):
     return documents
 
 
-def kaggle_assemble_word_features(documents, num_features):
+def create_my_stop_words():
+    """
+        Param: None
+        Returns:
+            A list of words to be considered stopwords
+    """
+    my_stop_words = stopwords.words()
+    puncts = string.punctuation
+    # add punctuation to stopwords.
+    # you might want to remove ! since it has a positive association
+    for p in puncts:
+        my_stop_words.append(p)
+    return my_stop_words
+
+
+def kaggle_assemble_word_features(documents, num_features, remove_stopwords=False):
     """
         Parameters:
             documents:  documents[0]: a tweet as plain text.
@@ -204,12 +222,24 @@ def kaggle_assemble_word_features(documents, num_features):
             num_features: an int representing how many unique words to treat as features.
                         this sorted
 
+            remove_stopwords: boolean for removing stopwords
+
+        Returns:
+            a list of words to be treated as features in it orthagonal order
+
     """
+    if remove_stopwords:
+        my_stop_words = create_my_stop_words()
+    else:
+        my_stop_words =[] # empty list
+
+
     all_words = []
     for d in documents:
         words = word_tokenize(d[0])
         for w in words:
-            all_words.append(w.lower())
+            if w not in my_stop_words:
+                all_words.append(w.lower())
 
     all_words_frq = FreqDist(all_words)
     word_features_as_tuples = all_words_frq.most_common(num_features)  # this is so clean
