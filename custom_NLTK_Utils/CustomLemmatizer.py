@@ -2,18 +2,27 @@ from nltk import word_tokenize, pos_tag
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 
+
 class CustomLemmatizer():
     """
         Class that keeps the lemmas into its own object for efficiency.
         use determine_lemmas(text) to get a list of lemmas of a String.
+
+        This is very fast. Before rewriting as list comprehension:
+
+        determine_lemmas(20 word string) * 100 times takes 2 seconds.
+        determine_lemmas(20 word string) * 1,000 times takes 7 seconds.
+        determine_lemmas(20 word string) * 10,000 times takes 63 seconds.
+
+        When you deploy this for a naive bayes you need to rewrite the things as list comphension.
+        
     """
 
     def __init__(self):
         self._lemmatizer = WordNetLemmatizer()
         # you only want to fetch the wordnet lemmatizer once. This will make it more efficient.
 
-
-    def _tag_speech(self,text):
+    def _tag_speech(self, text):
         """
         Parameters:
             text: a string
@@ -21,16 +30,13 @@ class CustomLemmatizer():
             tagged: list of (word, part of speech) tuples
         """
         tok = word_tokenize(text)
-        tagged = pos_tag(tok, tagset='universal') # this is smart enough to realize context influences part of speech
-        return tagged
+        tagged = pos_tag(tok, tagset='universal')  # this is smart enough to realize context influences part of speech
+        return tagged  # works
 
-
-    def _limit_parts_of_speech(self,tagged, default_parts_of_speech=True, custom_parts_of_speech=None):
+    def _limit_parts_of_speech(self, tagged):
         """
         Parameters:
             tagged: list of (word, part of speech) tuples
-            source: https://universaldependencies.org/u/pos/
-            default_parts_of_speech: Boolean, use the default or not.
             The default is No
                          determiners,
                          punctuation,
@@ -38,22 +44,13 @@ class CustomLemmatizer():
                          pronouns,
                          proper nouns
                          coordinating conjunctions,
-                         numerals,
-
-            custom_parts_of_speech: a list of parts of speech, using the universal tagset.
-                                    Include the tags for Parts of speech to exclude.
-                                    If you don't want to exclude anything call this as
-                                    default_parts_of_speech=False, custom_parts_of_speech=[]
-
+                         numerals
         Returns:
             limited_words: word, pos tuple if not excluded
         """
+        # this is the default. I don't have a good warrant for this list. It is intuition.
+        to_exclude = ['DET', 'PUNCT', 'SYMB', 'PRON', 'PROPN', 'CCONJ', 'NUM']
 
-        if default_parts_of_speech:
-            # this is the default. I don't have a good warrant for this list. It is intuition.
-            to_exclude = ['DET','PUNCT','SYMB','PRON','PROPN','CCONJ','NUM']
-        else:
-            to_exclude = custom_parts_of_speech
         # numpy might make this faster depending on the speed of this process
         limited_words = []
         for word in tagged:
@@ -62,8 +59,7 @@ class CustomLemmatizer():
 
         return limited_words
 
-
-    def _convert_to_lemma(self,words):
+    def _convert_to_lemma(self, words):
         """
             Parameters:
                 words: a list of strings of where each string is a word that is not used as an excluded part of speech
@@ -88,20 +84,19 @@ class CustomLemmatizer():
             elif w[1] == 'VERB':
                 new_tagged = (w[0], 'v')
             else:
-                new_tagged = (w[0], None) # if you cannot map it into wordnet then just don't use a POS tag.
-                                          # This means less accurate lemmatizing than if you could label with POS
+                new_tagged = (w[0], None)  # if you cannot map it into wordnet then just don't use a POS tag.
+                # This means less accurate lemmatizing than if you could label with POS
             words_wordnet_tags.append(new_tagged)
 
         lemmas = []
         for w in words_wordnet_tags:
             if w[1] != None:
-                lemmas.append(self._lemmatizerlemmatize(w[0].lower(),pos=w[1]))
+                lemmas.append(self._lemmatizer.lemmatize(w[0].lower(), pos=w[1]))
             else:
                 lemmas.append(self._lemmatizer.lemmatize(w[0].lower()))
         return lemmas
 
-
-    def determine_lemmas(self,text):
+    def determine_lemmas(self, text):
         """
         Description:
             returns the lemmas of the words in text .
@@ -111,8 +106,9 @@ class CustomLemmatizer():
         Returns:
             lemmas: a list of lemmas of the contents of text.
         """
+        if len(text) == 0:
+            raise ValueError('text is an empty string')
         tagged = self._tag_speech(text)
-        after_limiting  =self._tag_speech(self,tagged)
-        lemmas = self._convert_to_lemma(self,after_limiting)
+        after_limiting = self._limit_parts_of_speech(tagged)
+        lemmas = self._convert_to_lemma(after_limiting)
         return lemmas
-
