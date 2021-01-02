@@ -2,14 +2,13 @@
 import CustomLemmatizer
 import datetime
 
-
+start = datetime.datetime.now()
 my_lemmatizer = CustomLemmatizer.CustomLemmatizer()
 
-sent = 'Within this article we’ll explore the ImportError and ModuleNotFoundError in a bit more detail, beginning with where they sit in the overall Python Exception Class Hierarchy. '
+sent = 'Here in a bit more detail, beginning with where they sit in the overall Python Exception Class Hierarchy. '
 
-start = datetime.datetime.now()
 
-for i in range(10000):
+for i in range(100000):
     a = my_lemmatizer.determine_lemmas(sent)
 
 end = datetime.datetime.now()
