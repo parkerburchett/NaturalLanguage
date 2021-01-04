@@ -34,7 +34,7 @@ SOURCE:  https://www.youtube.com/watch?v=O2L2Uv9pdDA
 
     This is my notes from the youtube lecture above. It walks through the terms
     and the math for what the multinomial Naive Bayes does. 
-    In short the multinomial Naive Bayes looks at the frequency distribution of Positive Reviews
+    In smaller_data_size the multinomial Naive Bayes looks at the frequency distribution of Positive Reviews
     and negative Reviews then it says, based on the bag of words in the Unknown Reviews. 
     Then it looks at each word add does Bayes Theorem on it to decide if the word is more likly in Positive or Negative
 

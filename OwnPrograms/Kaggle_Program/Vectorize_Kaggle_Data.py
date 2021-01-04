@@ -129,8 +129,38 @@ def create_lemma_vectors_targets(num_features=2000):
     documents = dl.assemble_lemma_documents(input_file)
     word_features = dl.assemble_lemma_word_features(input_file)
     vectors, targets = convert_docs_to_vectors(documents,word_features,num_features)
-    return vectors, targets # might be redundent
+    input_file.close()
+    return vectors, targets # might be redundant
 
+def create_lemma_feature_sets(num_features=2000, smaller_data_size=True):
+    """
+
+    smaller_data_size is to speed up the process for debugging. I am using a much smaller sample size on it.
+
+    Create features_sets for nltk naive Bayes based on the lemmatized version of the tweets.
+    """
+    input_file = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\Datasets\LabeledTweets.csv",
+                      "r")
+    documents = dl.assemble_lemma_documents(input_file,short=True)
+
+    word_features = dl.assemble_lemma_word_features(documents)
+    print('made word_features')
+    if smaller_data_size:
+        #feature_sets = [(dl.find_Features(doc[0],word_features), doc[1]) for doc in documents[:1000]]
+
+
+        print('did it get here')
+        feature_sets = []
+        for doc in documents[:1000]:
+            print('in creating short, feature_sets')
+            this_features = dl.find_Features(doc[0],word_features)
+            this_category = doc[1]
+            mydict = {this_features:this_category}
+            feature_sets.append(mydict)
+    else:
+        feature_sets = [(dl.find_Features(doc[0], word_features), doc[1]) for doc in documents]
+    input_file.close()
+    return feature_sets
 # you will need to use SGDClassifier
 # # inside of #fit() set dtype = bool?
 # my_classifier.fit(train_vectors,train_targets)
@@ -168,5 +198,7 @@ def create_lemma_vectors_targets(num_features=2000):
 
 # https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html
 # Use this to write an accuracy method.
+
+
 
 

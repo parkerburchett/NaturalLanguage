@@ -30,13 +30,14 @@ class CustomLemmatizer():
         determine_lemmas(20 word string) * 10,000 times takes 13 seconds.
         determine_lemmas(20 word string) * 100,000 times takes 137 seconds.
 
+        2 minutes for 100k is fast enough my  purposes.
     """
 
     def __init__(self):
         self._lemmatizer = WordNetLemmatizer()
-
-        stops = [',', '\'', '.']  # this I wrote by hand to get rid of known troublesome characters
-        stops.append(stopwords.words('english'))
+        # add something to parse out urls if they cause problems. It would need to be regex
+        stops = [',', '\'', '.', '@']  # this I wrote by hand to get rid of known troublesome characters
+        stops.extend(stopwords.words('english'))
         self._stopwords = stops
         # you only want to fetch the wordnet lemmatizer once. This will make it more efficient.
 

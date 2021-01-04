@@ -24,11 +24,13 @@ Then after each round I will check the accuracy on a random sample of F tweets.
 
 
 """
-
 from NaturalLanguage.custom_NLTK_Utils import Pickle_Utils
 from sklearn.linear_model import SGDClassifier
 from NaturalLanguage.custom_NLTK_Utils import VoteClassifier
 from NaturalLanguage.OwnPrograms.Kaggle_Program import Vectorize_Kaggle_Data
+from NaturalLanguage.custom_NLTK_Utils import dataLabeling as dl
+from nltk.classify import NaiveBayesClassifier
+
 import numpy as np
 import datetime
 
@@ -190,7 +192,7 @@ def create_classifier_list(vectors, targets, starting_size=10000, block_size=100
 
     return classifier_list
 
-
+# this works to train SCG classifiers.
 def train_create_VoteClassifier(the_num_features=5000, remove_stopwords=False):
     print('started train_create_VoteClassifier')
     start = datetime.datetime.now()
@@ -232,7 +234,22 @@ def train_create_VoteClassifier(the_num_features=5000, remove_stopwords=False):
 
     print(str(datetime.datetime.now() - outer_start))
 
+def train_lemma_naive_bayes():
+    """
+    This is training a naive bayes on the lemma version of the tweets.
+    """
+    print('')
+    feature_sets = Vectorize_Kaggle_Data.create_lemma_feature_sets()
+    my_naive_bayes = NaiveBayesClassifier.train(feature_sets)
+    my_naive_bayes.show_most_informative_features(10)
+    return my_naive_bayes
+
+
+
 def main():
-    train_create_VoteClassifier(the_num_features=1000, remove_stopwords=True)
+    #train_create_VoteClassifier(the_num_features=1000, remove_stopwords=True)
+
+    my_naive_bayes = train_lemma_naive_bayes()
+    Pickle_Utils.pickle_this(my_naive_bayes,'lemma_naive_bayes_v1')
 
 main()

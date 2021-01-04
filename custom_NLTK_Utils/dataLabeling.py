@@ -5,9 +5,9 @@ from nltk import pos_tag
 from nltk.corpus import stopwords
 import numpy as np
 import string
-import CustomLemmatizer
-
 import random
+
+from NaturalLanguage.custom_NLTK_Utils.CustomLemmatizer import CustomLemmatizer
 
 
 def find_Features(document, word_features):
@@ -22,8 +22,14 @@ def find_Features(document, word_features):
     features : A dictionary that is the length of the word_features where the key is the word
     and the value is a boolean representing if that word is present in document.
     """
+    print('at start of find_Features')
+
+    # for an unknown reason it break when you call word_tokenize(document)
+    print(document)
     words = word_tokenize(document)
+    print('evidence at broke at word_tokenize(document)')
     features = {}  # empty dictionary
+    print('in find_Features')
     for w in word_features:
         features[w] = (w in words)  # this a boolean
     return features
@@ -296,7 +302,7 @@ def vector_to_words(vector, word_features):  # untested
     return words
 
 
-def assemble_lemma_documents(input_file):
+def assemble_lemma_documents(input_file, short=False):
     """
     Convert the labeled tweets into
     lemmas: category tuples.
@@ -305,23 +311,37 @@ def assemble_lemma_documents(input_file):
     """
 
     lines = input_file.readlines()
-    my_lemmatizer = CustomLemmatizer.CustomLemmatizer()
 
+    split_lines =[]
+    for line in lines:
+        split_lines.append(line.split(',', 1))
+
+
+    my_lemmatizer = CustomLemmatizer()
+    print('before creating documents')
     # this should be significantly faster than .append() version
-    documents = [(my_lemmatizer.determine_lemmas(line[1]),
-                 numeral_to_category(line[0]))
-                 for line
-                 in lines]
+    if short == False:
+        documents = [(my_lemmatizer.determine_lemmas(line[1]),
+                     numeral_to_category(line[0]))
+                     for line
+                     in split_lines]
+    else:
+        cur_line = split_lines[0]
 
+        documents = [(my_lemmatizer.determine_lemmas(line[1]),
+                      numeral_to_category(line[0]))
+                     for line
+                     in split_lines[:1000]]
+    print('after creating documents')
     random.shuffle(documents)
     return documents
 
 
-def assemble_lemma_word_features(input_file, num_features=2000):
+def assemble_lemma_word_features(documents, num_features=2000):
     """
     this assemble word_feature based on the lemmatized version of a tweet.
     """
-    documents = assemble_lemma_documents(input_file)
+
 
     all_words =[]
     for d in documents:
