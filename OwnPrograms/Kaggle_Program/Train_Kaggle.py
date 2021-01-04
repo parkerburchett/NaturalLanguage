@@ -30,6 +30,7 @@ from NaturalLanguage.custom_NLTK_Utils import VoteClassifier
 from NaturalLanguage.OwnPrograms.Kaggle_Program import Vectorize_Kaggle_Data
 from NaturalLanguage.custom_NLTK_Utils import dataLabeling as dl
 from nltk.classify import NaiveBayesClassifier
+import nltk
 
 import numpy as np
 import datetime
@@ -238,10 +239,13 @@ def train_lemma_naive_bayes():
     """
     This is training a naive bayes on the lemma version of the tweets.
     """
-    print('')
+    print('start')
     feature_sets = Vectorize_Kaggle_Data.create_lemma_feature_sets()
-    my_naive_bayes = NaiveBayesClassifier.train(feature_sets)
-    my_naive_bayes.show_most_informative_features(10)
+    print('created feature sets')
+    my_naive_bayes = NaiveBayesClassifier.train(feature_sets[:900])
+    print( "Classifier accuracy percent:" ,(nltk.classify.accuracy(my_naive_bayes, feature_sets[900:])) *100 )
+    print(my_naive_bayes.most_informative_features(10))
+    print('fin')
     return my_naive_bayes
 
 
@@ -251,5 +255,6 @@ def main():
 
     my_naive_bayes = train_lemma_naive_bayes()
     Pickle_Utils.pickle_this(my_naive_bayes,'lemma_naive_bayes_v1')
+    print('you have picked the lemmatized version of the NB')
 
 main()

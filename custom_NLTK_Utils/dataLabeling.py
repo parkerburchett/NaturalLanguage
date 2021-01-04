@@ -9,6 +9,21 @@ import random
 
 from NaturalLanguage.custom_NLTK_Utils.CustomLemmatizer import CustomLemmatizer
 
+def find_features_lemma(list_of_words, word_features):
+    """
+    Parameters:
+        list_of_words: a list of the lemmatized words found in a tweet.
+        word_features: the list of words to be treated as features in the model
+
+    returns:
+        features: A dictionary of word: Boolean pairs.
+            Represents the presence of absences of a word in a tweet that is also in the word_features.
+    """
+    features = {}
+    print('in find_Features')
+    for w in word_features:
+        features[w] = (w in list_of_words)  # this a boolean
+    return features
 
 def find_Features(document, word_features):
     """
@@ -26,6 +41,8 @@ def find_Features(document, word_features):
 
     # for an unknown reason it break when you call word_tokenize(document)
     print(document)
+
+    # document i think is already a list of words. you are breaking it by calling word_tokenize on it
     words = word_tokenize(document)
     print('evidence at broke at word_tokenize(document)')
     features = {}  # empty dictionary
@@ -302,20 +319,17 @@ def vector_to_words(vector, word_features):  # untested
     return words
 
 
-def assemble_lemma_documents(input_file, short=False):
+def assemble_lemma_documents(input_file, short=True):
     """
     Convert the labeled tweets into
     lemmas: category tuples.
 
     This should be significantly faster since it uses list comprehension
     """
-
     lines = input_file.readlines()
-
     split_lines =[]
     for line in lines:
         split_lines.append(line.split(',', 1))
-
 
     my_lemmatizer = CustomLemmatizer()
     print('before creating documents')
@@ -326,10 +340,8 @@ def assemble_lemma_documents(input_file, short=False):
                      for line
                      in split_lines]
     else:
-        cur_line = split_lines[0]
-
         documents = [(my_lemmatizer.determine_lemmas(line[1]),
-                      numeral_to_category(line[0]))
+                    numeral_to_category(line[0]))
                      for line
                      in split_lines[:1000]]
     print('after creating documents')

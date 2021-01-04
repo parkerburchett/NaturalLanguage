@@ -132,7 +132,7 @@ def create_lemma_vectors_targets(num_features=2000):
     input_file.close()
     return vectors, targets # might be redundant
 
-def create_lemma_feature_sets(num_features=2000, smaller_data_size=True):
+def create_lemma_feature_sets(num_features=2000, smaller_data_size=False):
     """
 
     smaller_data_size is to speed up the process for debugging. I am using a much smaller sample size on it.
@@ -142,23 +142,20 @@ def create_lemma_feature_sets(num_features=2000, smaller_data_size=True):
     input_file = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\Datasets\LabeledTweets.csv",
                       "r")
     documents = dl.assemble_lemma_documents(input_file,short=True)
-
-    word_features = dl.assemble_lemma_word_features(documents)
+    print('created documents')
+    word_features = dl.assemble_lemma_word_features(documents,num_features)
     print('made word_features')
     if smaller_data_size:
         #feature_sets = [(dl.find_Features(doc[0],word_features), doc[1]) for doc in documents[:1000]]
 
-
-        print('did it get here')
         feature_sets = []
         for doc in documents[:1000]:
-            print('in creating short, feature_sets')
-            this_features = dl.find_Features(doc[0],word_features)
+            this_features = dl.find_features_lemma(doc[0],word_features)
             this_category = doc[1]
-            mydict = {this_features:this_category}
-            feature_sets.append(mydict)
+            a_feature_set_category_tuple = this_features,this_category
+            feature_sets.append(a_feature_set_category_tuple)
     else:
-        feature_sets = [(dl.find_Features(doc[0], word_features), doc[1]) for doc in documents]
+        feature_sets = [(dl.find_features_lemma(doc[0], word_features), doc[1]) for doc in documents]
     input_file.close()
     return feature_sets
 # you will need to use SGDClassifier
