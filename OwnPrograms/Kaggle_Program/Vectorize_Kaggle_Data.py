@@ -12,8 +12,6 @@ import nltk
 import datetime
 import numpy as np
 
-
-
 def convert_docs_to_vectors(docs, word_features, num_features):
     """
     Parameters: docs a list of (dict, category) tuples that represent a point, output pair.
@@ -44,7 +42,7 @@ def convert_docs_to_vectors(docs, word_features, num_features):
     targets = np.zeros(shape=len(docs), dtype=bool)
     for doc in range(len(docs)):
         if doc % 10000 ==0:
-            print('Converted this many docs {}'.format((doc)))
+            print('Converted this many docs {}'.format((doc)))# this is just to get a output that progress is begin made
         words = nltk.word_tokenize(docs[doc][0])
         sentiment = str(docs[doc][1])
         vector = np.zeros(num_features, dtype=bool)
@@ -125,6 +123,13 @@ def create_vectors_targets(num_features, default =True, remove_stopwords1=False)
 
     return vectors, targets
 
+def create_lemma_vectors_targets(num_features=2000):
+    input_file = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\Datasets\LabeledTweets.csv",
+                      "r")
+    documents = dl.assemble_lemma_documents(input_file)
+    word_features = dl.assemble_lemma_word_features(input_file)
+    vectors, targets = convert_docs_to_vectors(documents,word_features,num_features)
+    return vectors, targets # might be redundent
 
 # you will need to use SGDClassifier
 # # inside of #fit() set dtype = bool?

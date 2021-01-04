@@ -5,6 +5,7 @@ from nltk import pos_tag
 from nltk.corpus import stopwords
 import numpy as np
 import string
+import CustomLemmatizer
 
 import random
 
@@ -231,8 +232,7 @@ def kaggle_assemble_word_features(documents, num_features, remove_stopwords=Fals
     if remove_stopwords:
         my_stop_words = create_my_stop_words()
     else:
-        my_stop_words =[] # empty list
-
+        my_stop_words = []  # empty list
 
     all_words = []
     for d in documents:
@@ -255,7 +255,7 @@ def kaggle_assemble_word_features(documents, num_features, remove_stopwords=Fals
     return word_features
 
 
-def text_to_vector(text, word_features): #untested
+def text_to_vector(text, word_features):  # untested
     """
         Description:
             Map some text onto a boolean vector based on word_features. Uses 'Bag of Words" approach.
@@ -275,7 +275,7 @@ def text_to_vector(text, word_features): #untested
     return vector
 
 
-def vector_to_words(vector, word_features): # untested
+def vector_to_words(vector, word_features):  # untested
     """
     Parameters:
         vector: boolean vector of some text.
@@ -294,3 +294,51 @@ def vector_to_words(vector, word_features): # untested
             words.append(word_features[value])
 
     return words
+
+
+def assemble_lemma_documents(input_file):
+    """
+    Convert the labeled tweets into
+    lemmas: category tuples.
+
+    This should be significantly faster since it uses list comprehension
+    """
+
+    lines = input_file.readlines()
+    my_lemmatizer = CustomLemmatizer.CustomLemmatizer()
+
+    # this should be significantly faster than .append() version
+    documents = [(my_lemmatizer.determine_lemmas(line[1]),
+                 numeral_to_category(line[0]))
+                 for line
+                 in lines]
+
+    random.shuffle(documents)
+    return documents
+
+
+def assemble_lemma_word_features(input_file, num_features=2000):
+    """
+    this assemble word_feature based on the lemmatized version of a tweet.
+    """
+    documents = assemble_lemma_documents(input_file)
+
+    all_words =[]
+    for d in documents:
+        all_words.extend(d[0])
+
+    # all words here should only be lemmas
+    all_words_frq = FreqDist(all_words)
+    word_features_as_tuples = all_words_frq.most_common(num_features)  # this is so clean
+    word_features = [w[0] for w in word_features_as_tuples]
+
+    sorted(word_features) # might not do anything
+
+    return word_features
+
+
+def numeral_to_category(numeral):
+    if int(numeral) == 0:
+        return "Negative"
+    else:
+        return "Positive"
