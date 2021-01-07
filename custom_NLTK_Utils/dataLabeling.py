@@ -333,12 +333,19 @@ def assemble_lemma_documents(input_file, short=True):
 
     my_lemmatizer = CustomLemmatizer()
     print('before creating documents')
-    # this should be significantly faster than .append() version
+
+
+    num_lines = len(split_lines)
+    documents = []
     if short == False:
-        documents = [(my_lemmatizer.determine_lemmas(line[1]),
-                     numeral_to_category(line[0]))
-                     for line
-                     in split_lines]
+        for i in range(100000): # untested
+            lemmas = my_lemmatizer.determine_lemmas(split_lines[i][1])
+            category = numeral_to_category(split_lines[i][0])
+            a_doc = np.array((lemmas, category))
+            documents.append(a_doc)
+            if i % 1000 == 0:
+                print(i)
+
     else:
         documents = [(my_lemmatizer.determine_lemmas(line[1]),
                     numeral_to_category(line[0]))
@@ -346,7 +353,9 @@ def assemble_lemma_documents(input_file, short=True):
                      in split_lines[:1000]]
     print('after creating documents')
     random.shuffle(documents)
-    return documents
+    docs_as_np =np.array(documents)
+
+    return docs_as_np
 
 
 def assemble_lemma_word_features(documents, num_features=2000):
@@ -371,6 +380,6 @@ def assemble_lemma_word_features(documents, num_features=2000):
 
 def numeral_to_category(numeral):
     if int(numeral) == 0:
-        return "Negative"
+        return False
     else:
-        return "Positive"
+        return True

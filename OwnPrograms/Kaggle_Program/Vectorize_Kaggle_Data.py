@@ -3,9 +3,7 @@ This is the model I am using to the tweet:sentiment pairs into boolean vector re
 
 
 """
-
-
-
+import random
 from NaturalLanguage.custom_NLTK_Utils import dataLabeling as dl
 from NaturalLanguage.custom_NLTK_Utils import Pickle_Utils as ip
 import nltk
@@ -134,30 +132,34 @@ def create_lemma_vectors_targets(num_features=2000):
 
 def create_lemma_feature_sets(num_features=2000, smaller_data_size=False):
     """
-
-    smaller_data_size is to speed up the process for debugging. I am using a much smaller sample size on it.
-
-    Create features_sets for nltk naive Bayes based on the lemmatized version of the tweets.
+    Parameters:
+        smaller_data_size: boolean for deburrgin. if true it will run faster.
+        num_featuers: how mnay words to treat as features.
     """
     input_file = open(r"C:\Users\parke\Documents\GitHub\NaturalLanguage\NaturalLanguage\Datasets\LabeledTweets.csv",
                       "r")
-    documents = dl.assemble_lemma_documents(input_file,short=True)
-    print('created documents')
+
+    # this is where I am struggling now.
+    documents = dl.assemble_lemma_documents(input_file,short=False)
+    print('created lemma documents')
     word_features = dl.assemble_lemma_word_features(documents,num_features)
-    print('made word_features')
+    print('created lemma word_features')
     if smaller_data_size:
         #feature_sets = [(dl.find_Features(doc[0],word_features), doc[1]) for doc in documents[:1000]]
-
-        feature_sets = []
+        feature_sets = np.array()
         for doc in documents[:1000]:
             this_features = dl.find_features_lemma(doc[0],word_features)
             this_category = doc[1]
             a_feature_set_category_tuple = this_features,this_category
             feature_sets.append(a_feature_set_category_tuple)
     else:
+        # untested.
         feature_sets = [(dl.find_features_lemma(doc[0], word_features), doc[1]) for doc in documents]
     input_file.close()
+    import random
+    random.shuffle(feature_sets)
     return feature_sets
+
 # you will need to use SGDClassifier
 # # inside of #fit() set dtype = bool?
 # my_classifier.fit(train_vectors,train_targets)

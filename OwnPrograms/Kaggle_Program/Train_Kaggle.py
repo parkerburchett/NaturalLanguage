@@ -240,12 +240,19 @@ def train_lemma_naive_bayes():
     This is training a naive bayes on the lemma version of the tweets.
     """
     print('start')
-    feature_sets = Vectorize_Kaggle_Data.create_lemma_feature_sets()
-    print('created feature sets')
-    my_naive_bayes = NaiveBayesClassifier.train(feature_sets[:900])
-    print( "Classifier accuracy percent:" ,(nltk.classify.accuracy(my_naive_bayes, feature_sets[900:])) *100 )
+    start = datetime.datetime.now()
+    feature_sets = Vectorize_Kaggle_Data.create_lemma_feature_sets(num_features=2000, smaller_data_size=False)
+
+
+    print('created feature sets {}'.format(str(datetime.datetime.now() -start)))
+    N =int(len(feature_sets)*.9)
+
+    my_naive_bayes = NaiveBayesClassifier.train(feature_sets[:N])
+    print( "Classifier accuracy percent:" ,(nltk.classify.accuracy(my_naive_bayes, feature_sets[N:])) *100 )
     print(my_naive_bayes.most_informative_features(10))
+    print('Trained NB Classifier {}'.format(str(datetime.datetime.now() - start)))
     print('fin')
+
     return my_naive_bayes
 
 
@@ -254,7 +261,7 @@ def main():
     #train_create_VoteClassifier(the_num_features=1000, remove_stopwords=True)
 
     my_naive_bayes = train_lemma_naive_bayes()
-    Pickle_Utils.pickle_this(my_naive_bayes,'lemma_naive_bayes_v1')
+    Pickle_Utils.pickle_this(my_naive_bayes,'lemma_naive_bayes_N_2000')
     print('you have picked the lemmatized version of the NB')
 
 main()

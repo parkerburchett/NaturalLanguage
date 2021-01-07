@@ -1,6 +1,7 @@
 from nltk import word_tokenize, pos_tag
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+import numpy as np
 
 
 class CustomLemmatizer():
@@ -83,7 +84,7 @@ class CustomLemmatizer():
             limited_words: word, pos tuple if not excluded
         """
         # this is the default. I don't have a good warrant for this list. It is intuition.
-        to_exclude = ['DET', 'PUNCT', 'SYMB', 'PRON', 'PROPN', 'CCONJ', 'NUM']
+        to_exclude = ['DET', 'PUNCT', 'SYMB', 'PRON', 'PROPN', 'CCONJ', 'NUM','.']
 
 
         # These are two ways of writing the same thing. I am keeping it to make the code more understandable.
@@ -140,7 +141,7 @@ class CustomLemmatizer():
 
         # faster for loop
         lemmas = [self._lemmatizer.lemmatize(w[0].lower(), pos=w[1]) for w in wordnet_tags]
-        return lemmas
+        return np.array(lemmas)
 
     def determine_lemmas(self, text):
         """
